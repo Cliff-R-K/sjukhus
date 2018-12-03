@@ -34,4 +34,6 @@ public class Main_method {
 			s.print();
 		}
 	}
+	
+	
 }
