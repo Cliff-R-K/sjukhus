@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import db.DbConnectionManager;
+import model.Substance;
 import model.User;
 import model.User;
 
@@ -24,23 +25,23 @@ import model.User;
  */
 public class UserDao implements IDao<User> {
 
-	DbConnectionManager dbConManagerSingleton = null;
+	DbConnectionManager conn = null;
 
 	public UserDao() {
-		dbConManagerSingleton = DbConnectionManager.getInstance();
+		conn = DbConnectionManager.getInstance();
 	}
 
 	@Override
 	public User get(int id) throws NoSuchElementException {
 		User user = null;
 		try {
-			ResultSet resultSet = dbConManagerSingleton.excecuteQuery("SELECT * FROM users WHERE idUser=" + id);
+			ResultSet resultSet = conn.excecuteQuery("SELECT * FROM users WHERE idUser=" + id);
 			if (!resultSet.next())
 				throw new NoSuchElementException("The user with id " + id + " doesen't exist in database");
 			else
 				user = new User(resultSet.getInt(1), resultSet.getString(2));
 
-			dbConManagerSingleton.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -54,12 +55,12 @@ public class UserDao implements IDao<User> {
 		ArrayList<User> list = new ArrayList<>();
 
 		try {
-			ResultSet resultSet = dbConManagerSingleton.excecuteQuery("SELECT * FROM users");
+			ResultSet resultSet = conn.excecuteQuery("SELECT * FROM users");
 			while (resultSet.next()) {
 				list.add(new User(resultSet.getInt(1), resultSet.getString(2)));
 
 			}
-			dbConManagerSingleton.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -67,55 +68,19 @@ public class UserDao implements IDao<User> {
 	}
 
 	@Override
-	/*
 	 	public boolean save(User t) {
 		PreparedStatement ps = null;
 		boolean saveSucess = false;
 		try {
-			String queryString;
-			// *******This is the main 'save' operation ***************************
-			queryString = "INSERT INTO users (signature) " + "VALUES (?)";
-			ps = dbConManagerSingleton.prepareStatement(queryString);
+			String queryString = "INSERT INTO users (signature) " + "VALUES (?)";
+			ps = conn.prepareStatement(queryString);
 			ps.setString(1, t.getSignature());
-			ps.executeUpdate();
-			// ********************************************************************
-			if(ps.executeUpdate() == 1) {
-				System.out.println("Save Sucess");
+			if(ps.executeUpdate() == 1)
 				saveSucess = true;
-			}
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				System.err.println("Could not save");
 		}
-		return saveSucess;
-	}
-	 */
-	public boolean save(User t) {
-		PreparedStatement ps = null;
-		ResultSet resultSet = null;
-		int rowCount = 0;
-		boolean saveSucess = false;
-		try {
-			resultSet = dbConManagerSingleton.excecuteQuery("SELECT COUNT(idUser) FROM users");
-			resultSet.next();
-			rowCount = resultSet.getInt(1);
-			System.out.println(rowCount);
-
-			// *******This is the main 'save' operation ***************************
-			ps = dbConManagerSingleton.prepareStatement("INSERT INTO users (signature) " + "VALUES (?)");
-			ps.setString(1, t.getSignature());
-
-			ps.executeUpdate();
-			// ********************************************************************
-
-			resultSet = dbConManagerSingleton.excecuteQuery("SELECT COUNT(idUser) FROM users");
-			resultSet.next();
-			int newRowCount = resultSet.getInt(1);
-			if (newRowCount == (rowCount + 1)) // Check if table is one more row after 'save'
-				saveSucess = true;
-			System.out.format("Previous row count: %d    Current row count: %d", rowCount, newRowCount);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		System.out.println("Save Sucess");
 		return saveSucess;
 	}
 
@@ -145,7 +110,7 @@ public class UserDao implements IDao<User> {
 			if (p.equals("signature"))
 				s.setSignature(t.getSignature());
 			try {
-				preparedStatement = dbConManagerSingleton
+				preparedStatement = conn
 						.prepareStatement("UPDATE users SET signature=? WHERE idUser=?");
 				preparedStatement.setString(1, s.getSignature());
 				preparedStatement.setInt(2, s.getId());
@@ -160,31 +125,16 @@ public class UserDao implements IDao<User> {
 	@Override
 	public void delete(User t) {
 		PreparedStatement preparedStatement = null;
-		User s = get(t.getId());
-		if (s != null) {
-
-			ResultSet resultSet = null;
-			int rowCount = 0;
-			try {
-				resultSet = dbConManagerSingleton.excecuteQuery("SELECT COUNT(idUser) FROM users");
-				resultSet.next();
-				rowCount = resultSet.getInt(1);
-				System.out.println(rowCount);
-
-				preparedStatement = dbConManagerSingleton.prepareStatement("DELETE FROM users WHERE idUser=?");
-				preparedStatement.setInt(1, s.getId());
-				preparedStatement.executeUpdate();
-
-				resultSet = dbConManagerSingleton.excecuteQuery("SELECT COUNT(idUser) FROM users");
-				resultSet.next();
-				int newRowCount = resultSet.getInt(1);
-				if (newRowCount == (rowCount - 1))
-					System.out.format("Previous row count: %d    Current row count: %d", rowCount, newRowCount);
-				System.out.println("Deleteion Success!");
-			} catch (SQLException e) {
-				e.printStackTrace();
+		String sqlString = "DELETE FROM users WHERE idUser=?";
+		try {
+			preparedStatement = conn.prepareStatement(sqlString);
+			preparedStatement.setInt(1, t.getId());
+			if (preparedStatement.executeUpdate() == 1) {
+			System.out.println("Deletion success");
+			preparedStatement.close();
 			}
-
+		} catch (SQLException e) {
+			System.err.println("Delete failed");
 		}
 
 	}
