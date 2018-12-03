@@ -34,6 +34,6 @@ public class Supplier {
 		this.supplierName = supplierName;
 	}
 	public void print() {
-		System.out.println(getSupplierId() + ", name: " + getSupplierName());
+		System.out.println("ID: " + getSupplierId() + "\tgetSupplierName(): " + getSupplierName());
 	}
 }

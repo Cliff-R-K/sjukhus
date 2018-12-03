@@ -12,9 +12,6 @@ public class User {
 	
 	public User(String signature) {
 		super();
-		//this.id = id;
-		//this.f_namn = f_namn;
-		//this.e_namn = e_namn;
 		this.signature = signature;
 	}
 
@@ -44,6 +41,6 @@ public class User {
 	}
 
 	public void print() {
-		System.out.println(getSignature());
+		System.out.println("ID: " + getId() + "\tUser: " + getSignature());
 	}
 }
