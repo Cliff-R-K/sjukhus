@@ -9,12 +9,13 @@ public class Supplier {
 
 	public Supplier (int id,String name)
 	{
+		super();
 		this.supplierId=id;
 		this.supplierName=name;
 	}
 	public Supplier (String name)
 	{
-	
+	super();
 		this.supplierName=name;
 	}
 
