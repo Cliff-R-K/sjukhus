@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Radiopharmaceutical {
 
@@ -15,12 +15,15 @@ public class Radiopharmaceutical {
 	private Calibration calibration;
 	private Room room;
 	private Supplier supplier;
+	private int id;
+	private User user;
+	private Double startActivity;
 
-	public Radiopharmaceutical(String name, Date start,Date end,String form,Date arrivalDate, String batchNumber, String conControll,Substance substance,User user,Calibration calibration,Room room, Supplier supplier) {
+	public Radiopharmaceutical(String name, double startActivity, Date start,String form,Date arrivalDate, String batchNumber, String conControll,Substance substance,User user,Calibration calibration,Room room, Supplier supplier) {
 		super();
 		radiopharmaceuticalName = name;
 		startDate = start;
-		endDate = end;
+		endDate = null;
 		this.form = form;
 		this.arrivalDate = arrivalDate;
 		this.batchNumber = batchNumber;
@@ -29,14 +32,17 @@ public class Radiopharmaceutical {
 		this.calibration = calibration;
 		this.room = room;
 		this.supplier = supplier;
+		this.user = user;
+		this.startActivity = startActivity;
 		
 		
 	}
-	public Radiopharmaceutical(int id,String name, Date start,Date end,String form,Date arrivalDate, String batchNumber, String conControll,Substance substance,User user,Calibration calibration,Room room, Supplier supplier) {
+	public Radiopharmaceutical(int id,String name, double startActivity, Date start ,String form,Date arrivalDate, String batchNumber, String conControll,Substance substance,User user,Calibration calibration,Room room, Supplier supplier) {
 		super();
+		this.id = id;
 		radiopharmaceuticalName = name;
 		startDate = start;
-		endDate = end;
+		endDate = null;
 		this.form = form;
 		this.arrivalDate = arrivalDate;
 		this.batchNumber = batchNumber;
@@ -45,6 +51,26 @@ public class Radiopharmaceutical {
 		this.calibration = calibration;
 		this.room = room;
 		this.supplier = supplier;
+		this.user = user;
+		this.startActivity = startActivity;
+	}
+	public User getUser() {
+		return user;
+	}
+	public double getStartActivity() {
+		return startActivity;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public void setStartActivity(double startActivity) {
+		this.startActivity = startActivity;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getRadiopharmaceuticalName() {
 		return radiopharmaceuticalName;
@@ -112,6 +138,8 @@ public class Radiopharmaceutical {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
-	
-
+	public void print() {
+		System.out.println("ID:	" + getId() + "\tName:	" + getRadiopharmaceuticalName() + "\tSign: " + getUser().getSignature());
+		
+	}
 }
