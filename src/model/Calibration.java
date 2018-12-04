@@ -46,6 +46,10 @@ public Double getMbq() {
 public void setMbq(Double mbq) {
 	this.mbq = mbq;
 }
+public void print() {
+	System.out.println("ID:	" + getId() + "\tDate:	" + getDate() + "\tMbq:	"  +  getMbq());
+	
+}
  
  
 }

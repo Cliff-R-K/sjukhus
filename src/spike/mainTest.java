@@ -1,31 +1,30 @@
 package spike;
 
-import model.User;
-import model.Substance;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import dao.CalibrationDao;
+import dao.RoomDao;
+import dao.SubstanceDao;
+import dao.SupplierDao;
+import dao.UserDao;
 import view.Main_method;
 
 public class mainTest {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 
 		Main_method mm = new Main_method();
-		//mm.addUser("TS");
-		// mm.addStudent("Anders", "Bagge", "asdsad", "dsadsa", "63564364");
-
-		// mm.getAllStudents();
-		// mm.addKurs("DVG555", "Ocaml", 12345, "hel", 7.5, "www.snus.se",
-		// "www.knark.se", "2018-09-09", "B");
-		// mm.addKursToProgramByName("Databasteknik", "Dataingenjörsprogrammet");
-		//mm.deleteUser(9);
-
-//	mm.getKursensLärare("Envariabel");
-//	mm.getLärarensKurser("Mikael Forslund");
-		// mm.getAllGroups();
-		// mm.updateLaboration(new Laboration(4, null, new BetygDao().get(14)),
-		// "betyg");
-		// mm.updateProjekt(new Projekt(11, "KartAPP", new BetygDao().get(4)), "betyg",
-		// "projektNamn");
-		// mm.deleteProgram(1);
-		//mm.addSubstance("Co-57", 6501.1);
-		mm.getAllSubstance();
+		String pattern = "yyyy-MM-dd HH:mm";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		Date startdate = simpleDateFormat.parse("2018-10-30 20:26");
+		Date enddate = simpleDateFormat.parse("2019-10-30 20:26");
+		Date arrivalDate = simpleDateFormat.parse("2019-11-02 10:26"); 
+		/*mm.addRadiopharmaceutical("Ultra-Technekow (Tc-99m Generator", 68.0, startdate, enddate, "övrigt", 
+				arrivalDate, "12345", "OK", new SubstanceDao().get(9), new UserDao().get(1), new CalibrationDao().get(2), 
+				new RoomDao().get(1), new SupplierDao().get(1));*/
+		mm.getRadiopharmaceutical(1);
+		//mm.getCalibration(1);
+		//mm.getRoom(1);
 	}
 }
