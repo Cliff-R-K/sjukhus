@@ -69,15 +69,15 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 			String sqlQuary = "SELECT * FROM radiopharmaceuticals";
 			ResultSet rs = conn.excecuteQuery(sqlQuary);
 			while (rs.next()) {
-				Substance substance = new SubstanceDao().get(rs.getInt(10));
-				User user = new UserDao().get(rs.getInt(11));
+				Substance substance = new SubstanceDao().get(rs.getInt(9));
+				User user = new UserDao().get(rs.getInt(10));
 				Calibration calibration = null;
-				int calibrationId = rs.getInt(12);
+				int calibrationId = rs.getInt(11);
 				if(!rs.wasNull()) {
 					calibration = new CalibrationDao().get(calibrationId);
 				}
-				Room room = new RoomDao().get(rs.getInt(13));
-				Supplier supplier = new SupplierDao().get(rs.getShort(14));
+				Room room = new RoomDao().get(rs.getInt(12));
+				Supplier supplier = new SupplierDao().get(rs.getShort(13));
 				list.add(new Radiopharmaceutical(rs.getInt(1),rs.getString(2), rs.getDouble(3), rs.getDate(4),
 						rs.getString(5),rs.getDate(6), rs.getString(7), rs.getString(8),
 						substance, user, calibration, room, supplier));
@@ -114,7 +114,7 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 			if (t.getCalibration() != null) {
 				ps.setInt(10, t.getCalibration().getId());
 			}
-			ps.setString(11, t.getRoom().getId());
+			ps.setInt(11, t.getRoom().getId());
 			ps.setInt(12,  t.getSupplier().getSupplierId());
 			
 			if(ps.executeUpdate() == 1) {

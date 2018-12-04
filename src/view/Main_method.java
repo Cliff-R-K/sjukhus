@@ -120,6 +120,12 @@ public class Main_method {
 		radiodao.save(new Radiopharmaceutical(name, startActivity, start, form, arrivalDate, batchNumber, conControll, substance, user, calibration, room, supplier));
 	}
 	public void getRadiopharmaceutical(int id) {
-		radiodao.get(id).print();
+		radiodao.get(id).print2();
+	}
+	public void getAllRadiopharmaceutical() {
+		System.out.println("\nAlla Radiopharmaceuticals i databasen:\n");
+		for (Radiopharmaceutical s : radiodao.getAll()) {
+			s.print();
+		}
 	}
 }
