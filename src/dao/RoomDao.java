@@ -19,18 +19,18 @@ public RoomDao() {
 	@Override
 	public Room get(int id) {
 		Room room = null;
+		
 		try {
-			ResultSet rs = conn.excecuteQuery("SELECT * FROM rooms WHERE idroom = " +id);
+			ResultSet rs = conn.excecuteQuery("SELECT * FROM rooms WHERE id = " +id);
 			if(!rs.next())
 				throw new NoSuchElementException();
 			else {
-				room = new Room(rs.getString(1), rs.getString(1));
+				room = new Room(rs.getString(1), rs.getString(2));
 			}
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// TODO Auto-generated method stub
 		return room;
 	}
 
@@ -41,7 +41,7 @@ public RoomDao() {
 		try {
 			ResultSet rs = conn.excecuteQuery("SELECT * FROM rooms");
 			while(rs.next()) {
-				list.add(new Room(rs.getString(1), rs.getString(1)));
+				list.add(new Room(rs.getString(1), rs.getString(2)));
 			}
 			conn.close();
 		} catch (Exception e) {
