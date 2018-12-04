@@ -20,8 +20,10 @@ public class Radiopharmaceutical {
 	private Double startActivity;
 
 	public Radiopharmaceutical(String name, double startActivity, Date start,String form,Date arrivalDate, String batchNumber, String conControll,Substance substance,User user,Calibration calibration,Room room, Supplier supplier) {
+
 		super();
 		radiopharmaceuticalName = name;
+		this.startActivity = startActivity;
 		startDate = start;
 		endDate = null;
 		this.form = form;
@@ -29,18 +31,20 @@ public class Radiopharmaceutical {
 		this.batchNumber = batchNumber;
 		contaminationControll = conControll;
 		this.substance = substance;
+		this.user=user;
 		this.calibration = calibration;
 		this.room = room;
 		this.supplier = supplier;
 		this.user = user;
-		this.startActivity = startActivity;
-		
-		
+		this.startActivity = startActivity;		
 	}
-	public Radiopharmaceutical(int id,String name, double startActivity, Date start ,String form,Date arrivalDate, String batchNumber, String conControll,Substance substance,User user,Calibration calibration,Room room, Supplier supplier) {
+  
+	public Radiopharmaceutical(int id,String name, Double startActivity, Date start,Date end,String form,Date arrivalDate, String batchNumber, String conControll,Substance substance,User user,Calibration calibration,Room room, Supplier supplier) {
 		super();
-		this.id = id;
+		this.id=id;
+
 		radiopharmaceuticalName = name;
+		this.startActivity = startActivity;
 		startDate = start;
 		endDate = null;
 		this.form = form;
@@ -48,23 +52,11 @@ public class Radiopharmaceutical {
 		this.batchNumber = batchNumber;
 		contaminationControll = conControll;
 		this.substance = substance;
+		this.user=user;
 		this.calibration = calibration;
 		this.room = room;
 		this.supplier = supplier;
-		this.user = user;
-		this.startActivity = startActivity;
-	}
-	public User getUser() {
-		return user;
-	}
-	public double getStartActivity() {
-		return startActivity;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public void setStartActivity(double startActivity) {
-		this.startActivity = startActivity;
+
 	}
 	public int getId() {
 		return id;
@@ -138,8 +130,28 @@ public class Radiopharmaceutical {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
+	public Double getStartActivity() {
+		return startActivity;
+	}
+	public void setStartActivity(Double startActivity) {
+		this.startActivity = startActivity;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public void print2() {
+		
+		System.out.println("ID: " + getId() + "\t Name: " + getRadiopharmaceuticalName()+ "\t start activity: "+ getStartActivity()
+		+ "\t start date: " + getStartDate()+ "\t form: " +getForm()+ "\t arrival date: " + getArrivalDate()
+		+ "\t batchnumber: " +getBatchNumber()+ "\t con controll: " + getContaminationControll()
+		+ "\t substance: " + getSubstance()+ "\t user: " + getUser()+ "\t calibration: " +getCalibration()
+		+ "\t room: " + getRoom()+ "\t supplier: " +getSupplier());
+
 	public void print() {
 		System.out.println("ID:	" + getId() + "\tName:	" + getRadiopharmaceuticalName() + "\tSign: " + getUser().getSignature());
-		
+
 	}
 }
