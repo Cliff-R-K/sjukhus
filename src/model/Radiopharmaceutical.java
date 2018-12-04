@@ -19,7 +19,8 @@ public class Radiopharmaceutical {
 	private User user;
 	private Double startActivity;
 
-	public Radiopharmaceutical(String name, double startActivity, Date start,String form,Date arrivalDate, String batchNumber, String conControll,Substance substance,User user,Calibration calibration,Room room, Supplier supplier) {
+	public Radiopharmaceutical(String name, double startActivity, Date start,String form,Date arrivalDate, String batchNumber, 
+			String conControll,Substance substance,User user,Calibration calibration,Room room, Supplier supplier) {
 
 		super();
 		radiopharmaceuticalName = name;
@@ -39,7 +40,8 @@ public class Radiopharmaceutical {
 		this.startActivity = startActivity;		
 	}
   
-	public Radiopharmaceutical(int id,String name, Double startActivity, Date start,Date end,String form,Date arrivalDate, String batchNumber, String conControll,Substance substance,User user,Calibration calibration,Room room, Supplier supplier) {
+	public Radiopharmaceutical(int id,String name, Double startActivity, Date start,String form,Date arrivalDate, String batchNumber, 
+			String conControll,Substance substance,User user,Calibration calibration,Room room, Supplier supplier) {
 		super();
 		this.id=id;
 
@@ -149,7 +151,7 @@ public class Radiopharmaceutical {
 		+ "\t batchnumber: " +getBatchNumber()+ "\t con controll: " + getContaminationControll()
 		+ "\t substance: " + getSubstance()+ "\t user: " + getUser()+ "\t calibration: " +getCalibration()
 		+ "\t room: " + getRoom()+ "\t supplier: " +getSupplier());
-
+	}
 	public void print() {
 		System.out.println("ID:	" + getId() + "\tName:	" + getRadiopharmaceuticalName() + "\tSign: " + getUser().getSignature());
 

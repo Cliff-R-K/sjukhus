@@ -21,11 +21,11 @@ public RoomDao() {
 		Room room = null;
 		
 		try {
-			ResultSet rs = conn.excecuteQuery("SELECT * FROM rooms WHERE id = " +id);
+			ResultSet rs = conn.excecuteQuery("SELECT * FROM rooms WHERE idroom = " +id);
 			if(!rs.next())
 				throw new NoSuchElementException();
 			else {
-				room = new Room(rs.getString(1), rs.getString(2));
+				room = new Room(rs.getInt(1), rs.getString(2), rs.getString(3));
 			}
 			conn.close();
 		} catch (Exception e) {
@@ -41,7 +41,7 @@ public RoomDao() {
 		try {
 			ResultSet rs = conn.excecuteQuery("SELECT * FROM rooms");
 			while(rs.next()) {
-				list.add(new Room(rs.getString(1), rs.getString(2)));
+				list.add(new Room(rs.getInt(1), rs.getString(2), rs.getString(3)));
 			}
 			conn.close();
 		} catch (Exception e) {
@@ -56,9 +56,9 @@ public RoomDao() {
 		boolean saveSuccess = false;
 		
 		try {
-			String queryString = "INSERT INTO rooms (idroom, description) VALUES(?,?)";
+			String queryString = "INSERT INTO rooms (room_code, description) VALUES(?,?)";
 			ps = conn.prepareStatement(queryString);
-			ps.setString(1, t.getId());
+			ps.setString(1, t.getRoomId());
 			ps.setString(2, t.getDescription());
 			if(ps.executeUpdate() == 1)
 				saveSuccess = true;
