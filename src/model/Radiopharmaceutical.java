@@ -39,6 +39,7 @@ public class Radiopharmaceutical {
 		this.supplier = supplier;
 		
 		
+		
 	}
 
 
@@ -59,6 +60,7 @@ public class Radiopharmaceutical {
 		this.calibration = calibration;
 		this.room = room;
 		this.supplier = supplier;
+		
 	}
 	public int getId() {
 		return id;
