@@ -9,11 +9,13 @@ import java.util.stream.Collectors;
 
 import dao.CalibrationDao;
 import dao.RadiopharmaceuticalDao;
+import dao.RegRadioDao;
 import dao.RoomDao;
 import dao.SubstanceDao;
 import dao.UserDao;
 import model.Calibration;
 import model.Radiopharmaceutical;
+import model.RegRadio;
 import model.Room;
 import model.Substance;
 import model.Supplier;
@@ -23,6 +25,7 @@ public class Main_method {
 	UserDao userdao = new UserDao();
 	SubstanceDao substancedao = new SubstanceDao();
 	RadiopharmaceuticalDao radiodao = new RadiopharmaceuticalDao();
+	RegRadioDao regradiodao = new RegRadioDao();
 	CalibrationDao calibrationdao = new CalibrationDao();
 	RoomDao roomdao = new RoomDao();
 
@@ -115,12 +118,11 @@ public class Main_method {
 		}
 	}
 //------------------------------Radiopharmaceutical-------------------------------------------------------------------------	
-	public void addRadiopharmaceutical(String name, double startActivity, Date start, String form, Date arrivalDate, String batchNumber, 
-			String conControll,Substance substance,User user,Calibration calibration,Room room, Supplier supplier) {
-		radiodao.save(new Radiopharmaceutical(name, startActivity, start, form, arrivalDate, batchNumber, conControll, substance, user, calibration, room, supplier));
+	public void addRadiopharmaceutical(String name, String form, Substance substance, Supplier supplier) {
+		radiodao.save(new Radiopharmaceutical(name, form, substance, supplier));
 	}
 	public void getRadiopharmaceutical(int id) {
-		radiodao.get(id).print2();
+		radiodao.get(id).print();
 	}
 	public void getAllRadiopharmaceutical() {
 		System.out.println("\nAlla Radiopharmaceuticals i databasen:\n");
@@ -128,4 +130,21 @@ public class Main_method {
 			s.print();
 		}
 	}
+
+// ------------------------------RegRadio-------------------------------------------------------------------------
+	public void addRegRadio(double startActivity, Date start, Date arrivalDate, String batchNumber, 
+			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration) {
+		regradiodao.save(new RegRadio(startActivity, start, arrivalDate, batchNumber, conControll, radiopharmaceutical, room, user, calibration));
+	}
+
+	public void getRegRadio(int id) {
+		regradiodao.get(id).print();
+	}
+
+	public void getAllRegRadio() {
+		System.out.println("\nAlla Registrerade Produkter i databasen:\n");
+		for (RegRadio s : regradiodao.getAll()) {
+			s.print();
+		}
+	}	
 }
