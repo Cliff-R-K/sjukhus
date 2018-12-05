@@ -156,4 +156,9 @@ public class Radiopharmaceutical {
 		System.out.println("ID:	" + getId() + "\tName:	" + getRadiopharmaceuticalName() + "\tSign: " + getUser().getSignature());
 
 	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.radiopharmaceuticalName;
+	}
 }

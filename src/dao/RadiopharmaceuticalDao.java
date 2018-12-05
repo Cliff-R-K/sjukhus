@@ -35,6 +35,46 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 		conn = DbConnectionManager.getInstance();
 	}
 
+	public ArrayList<Radiopharmaceutical> getRadiopharmaceuticalsBySupplierName(String name) {
+		Radiopharmaceutical rp = null;
+		ArrayList<Radiopharmaceutical> radioList = new ArrayList<>();
+		try {
+
+			String sqlString = "SELECT * FROM radiopharmaceuticals "
+					+ "JOIN suppliers ON radiopharmaceuticals.suppliers_idsupplier = suppliers.idsupplier "
+					+ "JOIN substances ON radiopharmaceuticals.substances_idsubstance = substances.idsubstance "
+					+ "WHERE suppliers.name=\"" + name + "\"";
+			ResultSet rs = conn.excecuteQuery(sqlString);
+//			if (!rs.next())
+//				throw new NoSuchElementException("The supplier with name " + name + " doesen't exist in database");
+//			else {
+				while(rs.next()) {
+				Substance substance = new SubstanceDao().get(rs.getInt(9));
+				User user = new UserDao().get(rs.getInt(10));
+				Calibration calibration = new CalibrationDao().get(rs.getInt(11));
+				Room room = new RoomDao().get(rs.getInt(12));
+				Supplier supplier = new SupplierDao().get(rs.getInt(13));	
+				rp = new Radiopharmaceutical(rs.getInt(1),rs.getString(2), rs.getDouble(3), rs.getDate(4),
+						rs.getString(5),rs.getDate(6), rs.getString(7), rs.getString(8),
+						substance, user, calibration, room, supplier);		
+				radioList.add(rp);
+				}
+//			}
+			conn.close();
+		} catch (SQLException e) {
+			System.err.println("Ingen Läkemedel med namn " + name + " hittades!");
+		}
+		return radioList;
+		
+		
+//		SELECT * FROM nucleardb.radiopharmaceuticals
+//		join nucleardb.suppliers on nucleardb.radiopharmaceuticals.suppliers_idsupplier = nucleardb.suppliers.idsupplier
+//		join nucleardb.substances on nucleardb.radiopharmaceuticals.substances_idsubstance = nucleardb.substances.idsubstance
+//		where nucleardb.suppliers.idsupplier = 1
+		
+	}
+	
+	
 	@Override
 
 	public Radiopharmaceutical get(int id) throws NoSuchElementException {
