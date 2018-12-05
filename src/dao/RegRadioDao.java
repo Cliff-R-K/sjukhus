@@ -1,15 +1,22 @@
 package dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+
 import db.DbConnectionManager;
+import model.Calibration;
 import model.Radiopharmaceutical;
+import model.RegRadio;
+import model.RegRadio;
+import model.Room;
 import model.Substance;
 import model.Supplier;
+import model.User;
 
 /**
  * DAO for the persistent handling of a Student object. It manages all CRUD
@@ -22,31 +29,35 @@ import model.Supplier;
  * @author kristersundlof
  *
  */
-public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
+public class RegRadioDao implements IDao<RegRadio> {
 
 	DbConnectionManager conn = null;
 
-	public RadiopharmaceuticalDao() {
+	public RegRadioDao() {
 		conn = DbConnectionManager.getInstance();
 	}
 
-	public ArrayList<Radiopharmaceutical> getRadiopharmaceuticalsBySupplierName(String name) {
-		Radiopharmaceutical rp = null;
-		ArrayList<Radiopharmaceutical> radioList = new ArrayList<>();
+	public ArrayList<RegRadio> getRegRadiosBySupplierName(String name) {
+		RegRadio rp = null;
+		ArrayList<RegRadio> radioList = new ArrayList<>();
 		try {
 
-			String sqlString = "SELECT * FROM radiopharmaceuticals "
-					+ "JOIN suppliers ON radiopharmaceuticals.suppliers_idsupplier = suppliers.idsupplier "
-					+ "JOIN substances ON radiopharmaceuticals.substances_idsubstance = substances.idsubstance "
+			String sqlString = "SELECT * FROM regradios "
+					+ "JOIN suppliers ON regradios.suppliers_idsupplier = suppliers.idsupplier "
+					+ "JOIN substances ON regradios.substances_idsubstance = substances.idsubstance "
 					+ "WHERE suppliers.name=\"" + name + "\"";
 			ResultSet rs = conn.excecuteQuery(sqlString);
 //			if (!rs.next())
 //				throw new NoSuchElementException("The supplier with name " + name + " doesen't exist in database");
 //			else {
 				while(rs.next()) {
-				Substance substance = new SubstanceDao().get(rs.getInt(4));
-				Supplier supplier = new SupplierDao().get(rs.getInt(5));	
-				rp = new Radiopharmaceutical(rs.getInt(1),rs.getString(2), rs.getString(3),substance, supplier);		
+				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
+				Room room = new RoomDao().get(rs.getInt(8));
+				User user = new UserDao().get(rs.getInt(9));
+				Calibration calibration = new CalibrationDao().get(rs.getInt(10));
+				rp = new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getDate(3), rs.getDate(4),
+						rs.getString(5), rs.getString(6), radiopharmaceutical,
+						room, user, calibration);		
 				radioList.add(rp);
 				}
 //			}
@@ -57,9 +68,9 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 		return radioList;
 		
 		
-//		SELECT * FROM nucleardb.radiopharmaceuticals
-//		join nucleardb.suppliers on nucleardb.radiopharmaceuticals.suppliers_idsupplier = nucleardb.suppliers.idsupplier
-//		join nucleardb.substances on nucleardb.radiopharmaceuticals.substances_idsubstance = nucleardb.substances.idsubstance
+//		SELECT * FROM nucleardb.regradios
+//		join nucleardb.suppliers on nucleardb.regradios.suppliers_idsupplier = nucleardb.suppliers.idsupplier
+//		join nucleardb.substances on nucleardb.regradios.substances_idsubstance = nucleardb.substances.idsubstance
 //		where nucleardb.suppliers.idsupplier = 1
 		
 	}
@@ -67,36 +78,44 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 	
 	@Override
 
-	public Radiopharmaceutical get(int id) throws NoSuchElementException {
-		Radiopharmaceutical radiopharmaceutical = null;
+	public RegRadio get(int id) throws NoSuchElementException {
+		RegRadio regRadio = null;
 		try {
-			String sqlString = "SELECT * FROM radiopharmaceuticals WHERE idradio=" + id;
+			String sqlString = "SELECT * FROM regradios WHERE idregradio=" + id;
 			ResultSet rs = conn.excecuteQuery(sqlString);
 			if (!rs.next())
 				throw new NoSuchElementException("The radiopharmaceutical with id " + id + " doesen't exist in database");
 			else {
-				Substance substance = new SubstanceDao().get(rs.getInt(4));
-				Supplier supplier = new SupplierDao().get(rs.getInt(5));	
-				radiopharmaceutical = new Radiopharmaceutical(rs.getInt(1),rs.getString(2), rs.getString(3),substance, supplier);						
+				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
+				Room room = new RoomDao().get(rs.getInt(8));
+				User user = new UserDao().get(rs.getInt(9));
+				Calibration calibration = new CalibrationDao().get(rs.getInt(10));	
+				regRadio = new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getDate(3), rs.getDate(4),
+						rs.getString(5), rs.getString(6), radiopharmaceutical,
+						room, user, calibration);						
 			}
 			conn.close();
 		} catch (SQLException e) {
 			System.err.println("Ingen Läkemedel med " + id + " hittades!");
 		}
-		return radiopharmaceutical;
+		return regRadio;
 	}
 
 	@Override
-	public List<Radiopharmaceutical> getAll() {
-		ArrayList<Radiopharmaceutical> list = new ArrayList<>();
+	public List<RegRadio> getAll() {
+		ArrayList<RegRadio> list = new ArrayList<>();
 
 		try {
-			String sqlQuary = "SELECT * FROM radiopharmaceuticals";
+			String sqlQuary = "SELECT * FROM regradios";
 			ResultSet rs = conn.excecuteQuery(sqlQuary);
 			while (rs.next()) {
-				Substance substance = new SubstanceDao().get(rs.getInt(4));
-				Supplier supplier = new SupplierDao().get(rs.getInt(5));
-				list.add(new Radiopharmaceutical(rs.getInt(1),rs.getString(2), rs.getString(3),substance, supplier));
+				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
+				Room room = new RoomDao().get(rs.getInt(8));
+				User user = new UserDao().get(rs.getInt(9));
+				Calibration calibration = new CalibrationDao().get(rs.getInt(10));
+				list.add(new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getDate(3), rs.getDate(4),
+						rs.getString(5), rs.getString(6), radiopharmaceutical,
+						room, user, calibration));
 
 			}
 			conn.close();
@@ -107,17 +126,22 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 	}
 
 	@Override
-	public boolean save(Radiopharmaceutical t) {
+	public boolean save(RegRadio t) {
 		PreparedStatement ps = null;
 		boolean saveSucess = false;
 		try {
 			String queryString;
-				queryString = "INSERT INTO radiopharmaceuticals (name, form, substances_idsubstance, suppliers_idsupplier) VALUES (?, ?, ?, ?)";
+				queryString = "INSERT INTO regradios (start_activity, start_date, arrival_date, batchnumber, con_controll, radiopharmaceuticals_idradio, rooms_idroom, users_iduser, calibrations_idcalibration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(queryString);
-			ps.setString(1, t.getRadiopharmaceuticalName());
-			ps.setString(2, t.getForm());
-			ps.setInt(3, t.getSubstance().getId());
-			ps.setInt(4,  t.getSupplier().getSupplierId());			
+			ps.setDouble(1, t.getStartActivity());
+			ps.setDate(2, new java.sql.Date(t.getStartDate().getTime()));
+			ps.setDate(3, new java.sql.Date(t.getArrivalDate().getTime()));
+			ps.setString(4, t.getBatchNumber());
+			ps.setString(5, t.getContaminationControll());
+			ps.setInt(6, t.getRadiopharmaceutical().getId());
+			ps.setInt(7, t.getRoom().getId());
+			ps.setInt(8, t.getUser().getId());
+			ps.setInt(9, t.getCalibration().getId());			
 			if(ps.executeUpdate() == 1) {
 				System.out.println("Save Success");
 				saveSucess = true;
@@ -147,26 +171,26 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 	 */
 
 	@Override
-	public void update(Radiopharmaceutical t, String[] params) {
+	public void update(RegRadio t, String[] params) {
 		/*PreparedStatement ps = null;
-		Radiopharmaceutical k = get(t.getId());
+		RegRadio k = get(t.getId());
 
 		for (String p : params) {
 
-			if (p.equals("RadiopharmaceuticalKod")) {
-				k.setRadiopharmaceuticalKod(t.getRadiopharmaceuticalKod());
-			} else if (p.equals("RadiopharmaceuticalNamn")) {
-				k.setRadiopharmaceuticalNamn(t.getRadiopharmaceuticalNamn());
+			if (p.equals("RegRadioKod")) {
+				k.setRegRadioKod(t.getRegRadioKod());
+			} else if (p.equals("RegRadioNamn")) {
+				k.setRegRadioNamn(t.getRegRadioNamn());
 			} else if (p.equals("anmälningskod")) {
 				k.setAnmälningsKod(t.getAnmälningsKod());
 			} else if (p.equals("fart")) {
 				k.setFart(t.getFart());
 			} else if (p.equals("hp")) {
 				k.setHp(t.getHp());
-			} else if (p.equals("Radiopharmaceuticalschema")) {
-				k.setRadiopharmaceuticalschema(t.getRadiopharmaceuticalschema());
-			} else if (p.equals("Radiopharmaceuticalplan")) {
-				k.setRadiopharmaceuticalPlan(t.getRadiopharmaceuticalPlan());
+			} else if (p.equals("RegRadioschema")) {
+				k.setRegRadioschema(t.getRegRadioschema());
+			} else if (p.equals("RegRadioplan")) {
+				k.setRegRadioPlan(t.getRegRadioPlan());
 			} else if (p.equals("anmälningsDatum")) {
 				k.setAnmälningsDatum(t.getAnmälningsDatum());
 			} else if (p.equals("betyg")) {
@@ -175,17 +199,17 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 		}
 
 		try {
-			String sqlQuery = "UPDATE radiopharmaceuticals SET Radiopharmaceuticalkod=?, Radiopharmaceuticalnamn=?, anmälningskod=?, fart=?, hp=?, Radiopharmaceuticalschema=?, "
-					+ "Radiopharmaceuticalplan=?, anmälningsdatum=?, betyg=? WHERE idStudent=?";
+			String sqlQuery = "UPDATE regradios SET RegRadiokod=?, RegRadionamn=?, anmälningskod=?, fart=?, hp=?, RegRadioschema=?, "
+					+ "RegRadioplan=?, anmälningsdatum=?, betyg=? WHERE idStudent=?";
 			ps = conn.prepareStatement(sqlQuery);
 					
-			ps.setString(1, k.getRadiopharmaceuticalKod());
-			ps.setString(2, k.getRadiopharmaceuticalNamn());
+			ps.setString(1, k.getRegRadioKod());
+			ps.setString(2, k.getRegRadioNamn());
 			ps.setInt(3, k.getAnmälningsKod());
 			ps.setString(4, k.getFart());
 			ps.setDouble(5, k.getHp());
-			ps.setString(6, k.getRadiopharmaceuticalschema());
-			ps.setString(7, k.getRadiopharmaceuticalPlan());
+			ps.setString(6, k.getRegRadioschema());
+			ps.setString(7, k.getRegRadioPlan());
 			ps.setString(8, k.getAnmälningsDatum());
 			ps.setInt(9, k.getBetyg().getId());
 			ps.executeUpdate();
@@ -200,8 +224,8 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 	}
 
 	@Override
-	public void delete(Radiopharmaceutical t) {
-		String sqlString = "DELETE FROM radiopharmaceuticals WHERE idradio=?";
+	public void delete(RegRadio t) {
+		String sqlString = "DELETE FROM regradios WHERE idregradio=?";
 		PreparedStatement ps = null;
 			try {
 				ps = conn.prepareStatement(sqlString);
