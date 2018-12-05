@@ -37,4 +37,8 @@ public class Supplier {
 	public void print() {
 		System.out.println("ID: " + getSupplierId() + "\tgetSupplierName(): " + getSupplierName());
 	}
+	@Override
+	public String toString() {
+		return this.supplierName;
+	}
 }
