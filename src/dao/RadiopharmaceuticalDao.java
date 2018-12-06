@@ -47,6 +47,7 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 				Substance substance = new SubstanceDao().get(rs.getInt(4));
 				Supplier supplier = new SupplierDao().get(rs.getInt(5));	
 				rp = new Radiopharmaceutical(rs.getInt(1),rs.getString(2), rs.getString(3),substance, supplier);		
+				
 				radioList.add(rp);
 				}
 //			}

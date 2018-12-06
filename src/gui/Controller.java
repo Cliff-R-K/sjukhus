@@ -66,8 +66,11 @@ public class Controller implements Initializable {
 		radioList.addAll(new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(combobox_suppliers.getValue().toString()));
 		combobox_radio.getItems().clear();
 		combobox_radio.getItems().addAll(radioList);
-		combobox_radio.getSelectionModel().selectFirst();
-		
+		//combobox_radio.getSelectionModel().selectFirst();
+		setSubstanceInfo();
+	}
+	
+	public void setSubstanceInfo() {
 		label_rad_substance.setText(combobox_radio.getValue().getSubstance().getName());
 		label_halftime.setText(combobox_radio.getValue().getSubstance().getHalfLife()+"");
 	}

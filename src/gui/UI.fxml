@@ -11,7 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1040.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1040.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
 
   <tabs>
     <Tab text="Ankomstregistrering">
@@ -22,7 +22,7 @@
                   <Label layoutX="49.0" layoutY="44.0" text="Ankomstdatum" />
                   <ComboBox fx:id="combobox_suppliers" layoutX="179.0" layoutY="75.0" onAction="#addProducts" prefWidth="150.0" />
                   <Label layoutX="207.0" layoutY="44.0" text="Leverantör" />
-                  <ComboBox fx:id="combobox_radio" layoutX="370.0" layoutY="75.0" prefWidth="150.0" />
+                  <ComboBox fx:id="combobox_radio" layoutX="370.0" layoutY="75.0" onAction="#setSubstanceInfo" prefWidth="150.0" />
                   <Label layoutX="417.0" layoutY="44.0" text="Produkt" />
                   <ListView fx:id="listView" layoutX="4.0" layoutY="354.0" prefHeight="326.0" prefWidth="1033.0" />
                   <Button fx:id="button" layoutX="777.0" layoutY="260.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="Spara" />
@@ -44,7 +44,7 @@
                   <Label layoutX="49.0" layoutY="245.0" text="Förvaringsrum" />
                   <ComboBox fx:id="combobox_room" layoutX="21.0" layoutY="273.0" prefWidth="150.0" />
                   <TextField layoutX="228.0" layoutY="273.0" />
-                  <Label layoutX="253.0" layoutY="245.0" text="Streckkod" />
+                  <Label layoutX="278.0" layoutY="245.0" text="Streckkod" />
                </children></AnchorPane>
       </content>
     </Tab>

@@ -54,4 +54,9 @@ public class Substance {
 	public void print() {
 		System.out.println("ID:	" + getId() + "\tSubstance:	" + getName() + "\tHalt life:	"  +  getHalfLife());
 	}
+	@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return this.name;
+		}
 }
