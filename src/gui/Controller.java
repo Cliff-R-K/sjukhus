@@ -4,11 +4,14 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import dao.RadiopharmaceuticalDao;
+import dao.RoomDao;
 import dao.SupplierDao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,33 +53,17 @@ public class Controller implements Initializable {
 	
 
 	
-	
-	
-	
-	
-	
-	public void addSuppliers() {
+	public void addSuppliersToComboBox() {
 		supplierList.addAll(new SupplierDao().getAll());
 		combobox_suppliers.getItems().addAll(supplierList);
 	}
 	
-	public void addProducts() {
-		combobox_radio.setDisable(false);
-		radioList.clear();
-		radioList.addAll(new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(combobox_suppliers.getValue().toString()));
-		combobox_radio.getItems().clear();
-		combobox_radio.getItems().addAll(radioList);
-		//combobox_radio.getSelectionModel().selectFirst();
-		setSubstanceInfo();
-	}
 	
-	public void setSubstanceInfo() {
-		label_rad_substance.setText(combobox_radio.getValue().getSubstance().getName());
-		label_halftime.setText(combobox_radio.getValue().getSubstance().getHalfLife()+"");
+	public void addRooms() {
+		combobox_room.getItems().addAll(FXCollections.observableArrayList(new RoomDao().getAll()));
 	}
 	
 	public void ContaminationCheck(){
-		
 	}
 	
 	public void disableElements() {
@@ -91,9 +78,41 @@ public class Controller implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		addSuppliers();
+		addSuppliersToComboBox();
+		addRooms();
 		ankomstdatum.setValue(LocalDate.now());
 		combobox_radio.setDisable(true);
+		
+		combobox_suppliers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
+			combobox_radio.getItems().clear();
+			combobox_radio.getItems().addAll(FXCollections.observableArrayList(new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(newValue.toString())));
+			combobox_radio.setDisable(false);
+			combobox_radio.getSelectionModel().selectFirst();
+		});
+		
+		combobox_radio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
+			System.out.println(newValue.toString());
+			System.out.println(newValue.getSubstance());
+			label_rad_substance.setText(newValue.getSubstance().getName());
+			label_halftime.setText(newValue.getSubstance().getHalfLife()+"");
+		});
+		text_kalibreringstid.focusedProperty().addListener((observable, oldText, newText)->{
+			if(!newText) {
+				if(!text_kalibreringstid.getText().matches("^(0[0-9]|1[0-9]|2[0-3]):?[0-5][0-9]$")) {
+					text_kalibreringstid.setText("");
+					text_kalibreringstid.setPromptText("Felaktig tid");
+				}
+			}
+		});
+		check_kontamineringskontroll.selectedProperty().addListener((obs, oldValue, newValue)->{
+			if(newValue)
+				text_kommentar.setDisable(true);
+			else {
+				text_kommentar.setDisable(false);
+			}
+		});
+		
+		
 	}
 	
 
