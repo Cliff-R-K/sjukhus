@@ -34,6 +34,7 @@ public class LogInController implements Initializable {
 	public TextField text_password = new TextField();
 	DbConnectionManager conn = DbConnectionManager.getInstance();
 	ActionEvent event;
+	private String signature;
 	
 	public void handleButtonAction(ActionEvent event) throws Exception {
 		this.event = event;
@@ -53,7 +54,8 @@ public class LogInController implements Initializable {
 				if (rs.next()) {
 					// in this case enter when at least one result comes it means user is valid
 					System.out.println("LOGIN SUCCESS");
-					User user = new UserDao().get(rs.getInt(1));
+					signature = new UserDao().deleteCurrentUser();
+					signature = new UserDao().updateCurrentUser(user);
 					Node source = (Node) event.getSource();
 					Stage stage = (Stage) source.getScene().getWindow();
 					stage.close();
@@ -84,7 +86,6 @@ public class LogInController implements Initializable {
 	    }
 
 	}
-
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

@@ -1,4 +1,3 @@
-
 package gui;
 
 import java.net.URL;
@@ -139,7 +138,9 @@ public class NuclearAppController implements Initializable {
 		combobox_radio.getSelectionModel().selectFirst();
 	}
 	
-
+  public void addUser() {
+		user = new UserDao().getCurrent(1);
+	}
 	
 	public void ContaminationCheck(){
 		
@@ -159,6 +160,7 @@ public class NuclearAppController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		addSuppliers();
 		addRooms();
+    addUser();
 		ankomstdatum.setValue(LocalDate.now());
 		combobox_radio.setDisable(true);
 		
@@ -194,7 +196,7 @@ public class NuclearAppController implements Initializable {
 		
 		saveButton.setOnAction((event)->{
 			RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(), text_batchnr.getText(), 
-					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), new User("CK"), 
+					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), user, 
 					new Calibration(getCalibrationDate(), 66.6), combobox_suppliers.getValue(), getTime(), getContaminationControlComment());
 			
 			columnAnkomstdatum.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
