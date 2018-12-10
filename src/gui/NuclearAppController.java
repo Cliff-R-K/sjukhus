@@ -76,7 +76,7 @@ public class NuclearAppController implements Initializable {
 	public TableColumn contaminationControllCol = new TableColumn();
 	public TableColumn supplierCol = new TableColumn();
 
-
+	//Test
 
 	@FXML
 	TableColumn<RegRadio, Radiopharmaceutical> radiopharmaceuticalCol;
