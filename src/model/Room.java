@@ -8,6 +8,7 @@ public class Room {
  public Room(String roomCode, String info) {
 	this.roomCode = roomCode;
 	this.description = info;
+	
 }
  
 public Room(int id, String roomCode, String info) {
