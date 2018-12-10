@@ -10,6 +10,7 @@ public class RegRadio {
 	private Date arrivalDate;
 	private String batchNumber;
 	private String contaminationControll;
+	private String contaminationControlComment;
 	private Calibration calibration;
 	private Room room;
 	private User user;
@@ -21,7 +22,7 @@ public class RegRadio {
 	
 
 	public RegRadio(double startActivity, Date start, Date arrivalDate, String batchNumber, 
-			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration, Supplier supplier, String time) {
+			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration, Supplier supplier, String time, String comment) {
 
 		super();
 		this.startActivity = startActivity;
@@ -37,6 +38,8 @@ public class RegRadio {
 		this.startActivity = startActivity;		
 		this.radiopharmaceutical = radiopharmaceutical;
 		this.setSupplier(supplier);
+		this.setTime(time);
+		this.setContaminationControlComment(comment);
 	}
 	
 
@@ -160,6 +163,16 @@ public class RegRadio {
 
 	public void setTime(String time) {
 		this.time = time;
+	}
+
+
+	public String getContaminationControlComment() {
+		return contaminationControlComment;
+	}
+
+
+	public void setContaminationControlComment(String contaminationControlComment) {
+		this.contaminationControlComment = contaminationControlComment;
 	}
 
 

@@ -39,7 +39,7 @@ import model.User;
 public class Controller implements Initializable {
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
-	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
+	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();
 	
 	public DatePicker ankomstdatum = new DatePicker();
 	public DatePicker kalibreringsdatum = new DatePicker();
@@ -72,7 +72,14 @@ public class Controller implements Initializable {
 	TableColumn<RegRadio, Date> columnCalibrationdate;
 	@FXML
 	TableColumn<RegRadio, String> columnTime;
-	
+	@FXML
+	TableColumn<RegRadio, String> columnBatchNumber;
+	@FXML
+	TableColumn<RegRadio, String> columnContaminationControl;
+	@FXML
+	TableColumn<RegRadio, String> columnContaminationControlComment;
+	@FXML
+	TableColumn<RegRadio, Room> columnRoom;
 	
 	public void addSuppliersToComboBox() {
 		supplierList.addAll(new SupplierDao().getAll());
@@ -84,9 +91,7 @@ public class Controller implements Initializable {
 		combobox_room.getItems().addAll(FXCollections.observableArrayList(new RoomDao().getAll()));
 	}
 	
-	public void ContaminationCheck(){
-	}
-	
+
 
 	public String getCurrentDate() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -134,7 +139,7 @@ public class Controller implements Initializable {
 		saveButton.setOnAction((event)->{
 			RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(), text_batchnr.getText(), 
 					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), new User("CK"), 
-					new Calibration(getCalibrationDate(), 66.6), combobox_suppliers.getValue(), getTime());
+					new Calibration(getCalibrationDate(), 66.6), combobox_suppliers.getValue(), getTime(), getContaminationControlComment());
 			
 			columnAnkomstdatum.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
 			columnSupplier.setCellValueFactory(new PropertyValueFactory<>("supplier"));
@@ -142,8 +147,14 @@ public class Controller implements Initializable {
 			columnActivity.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
 			columnCalibrationdate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 			columnTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+			columnBatchNumber.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
+			columnContaminationControl.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
+			columnContaminationControlComment.setCellValueFactory(new PropertyValueFactory<>("contaminationControlComment"));
+			columnRoom.setCellValueFactory(new PropertyValueFactory<>("room"));
 			
-			tableview.setItems(FXCollections.observableArrayList(rr));
+			regRadioList.add(0,rr);
+			
+			tableview.setItems(regRadioList);
 		});
 		
 	
@@ -163,7 +174,11 @@ public class Controller implements Initializable {
 		return java.sql.Date.valueOf(ankomstdatum.getValue());
 	}
 	public String getContaminationControl() {
-		return check_kontamineringskontroll.isSelected() ? "OK":"";
+		return check_kontamineringskontroll.isSelected() ? "OK":"Ej OK";
+	}
+	public String getContaminationControlComment() {
+		String comment = text_kommentar.getText();
+		return comment.isEmpty()?"":comment;
 	}
 	public String getTime() {
 		String time = text_kalibreringstid.getText();

@@ -60,10 +60,10 @@
                                     <TableColumn fx:id="columnActivity" prefWidth="75.0" text="Aktivitet" />
                                     <TableColumn fx:id="columnCalibrationdate" prefWidth="75.0" text="Kalibreringsdatum" />
                                     <TableColumn fx:id="columnTime" prefWidth="75.0" text="Kalibreringstid" />
-                                    <TableColumn prefWidth="75.0" text="Batchnr" />
-                                    <TableColumn prefWidth="75.0" text="Kontamineringskontroll" />
-                                    <TableColumn prefWidth="75.0" text="Kommentar" />
-                                    <TableColumn prefWidth="75.0" text="Rum" />
+                                    <TableColumn fx:id="columnBatchNumber" prefWidth="75.0" text="Batchnr" />
+                                    <TableColumn fx:id="columnContaminationControl" prefWidth="75.0" text="Kontamineringskontroll" />
+                                    <TableColumn fx:id="columnContaminationControlComment" prefWidth="75.0" text="Kommentar" />
+                                    <TableColumn fx:id="columnRoom" prefWidth="75.0" text="Rum" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
