@@ -48,6 +48,8 @@ public class LogInController implements Initializable {
 				if (rs.next()) {
 					// in this case enter when at least one result comes it means user is valid
 					System.out.println("LOGIN SUCCESS");
+					System.out.println("LOGIN SUCCESS");
+					User user = new UserDao().get(rs.getInt(1));
 					Node source = (Node) event.getSource();
 					Stage stage = (Stage) source.getScene().getWindow();
 					stage.close();
