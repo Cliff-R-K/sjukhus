@@ -4,24 +4,23 @@ import java.util.Date;
 
 public class Calibration {
 
-	private int id;
-	private Date date;
-	private Double mbq;
 
-	public Calibration(int id, Date date, Double mbq) {
-		this.id = id;
-		this.date = date;
-		this.mbq = mbq;
-	}
-	public Calibration(Date date, Double mbq) {
-		this.date = date;
-		this.mbq = mbq;
-	}
-	public Calibration(int id) {
-		this.id = id;
-
-	}
-
+ private int id;
+ private Date date;
+ private Double mbq;
+ 
+public Calibration(int id, Date date, Double mbq) {
+	this.id = id;
+	this.date = date;
+	this.mbq = mbq;
+}
+public Calibration(Date date, Double mbq) {
+	this.date = date;
+	this.mbq = mbq;
+}
+public Calibration(int id) {
+	this.id = id;
+}
 
 	public int getId() {
 		return id;
@@ -46,9 +45,10 @@ public class Calibration {
 	public void setMbq(Double mbq) {
 		this.mbq = mbq;
 	}
-	
+
 	public void print() {
-		System.out.println("ID:	" + getId() + "\tDate:	" + getDate() + "\tMbq:	"  +  getMbq());
+		System.out.println("ID:	" + getId() + "\tDate:	" + getDate() + "\tMbq:	" + getMbq());
+
 
 	}
 }
