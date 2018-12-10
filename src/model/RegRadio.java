@@ -10,11 +10,38 @@ public class RegRadio {
 	private Date arrivalDate;
 	private String batchNumber;
 	private String contaminationControll;
+	private String contaminationControlComment;
 	private Calibration calibration;
 	private Room room;
 	private User user;
 	private Radiopharmaceutical radiopharmaceutical;
 	private Double startActivity;
+	private Supplier supplier;
+	private String time;
+	
+	
+
+	public RegRadio(double startActivity, Date start, Date arrivalDate, String batchNumber, 
+			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration, Supplier supplier, String time, String comment) {
+
+		super();
+		this.startActivity = startActivity;
+		startDate = start;
+		endDate = null;
+		this.arrivalDate = arrivalDate;
+		this.batchNumber = batchNumber;
+		contaminationControll = conControll;
+		this.user=user;
+		this.calibration = calibration;
+		this.room = room;
+		this.user = user;
+		this.startActivity = startActivity;		
+		this.radiopharmaceutical = radiopharmaceutical;
+		this.setSupplier(supplier);
+		this.setTime(time);
+		this.setContaminationControlComment(comment);
+	}
+	
 
 	public RegRadio(double startActivity, Date start, Date arrivalDate, String batchNumber, 
 			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration) {
@@ -120,6 +147,34 @@ public class RegRadio {
 	public Radiopharmaceutical getRadiopharmaceutical() {
 		return radiopharmaceutical;
 	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+
+	public String getContaminationControlComment() {
+		return contaminationControlComment;
+	}
+
+
+	public void setContaminationControlComment(String contaminationControlComment) {
+		this.contaminationControlComment = contaminationControlComment;
+	}
+
 
 	/*public void print2() {
 		

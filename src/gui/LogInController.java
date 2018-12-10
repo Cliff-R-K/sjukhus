@@ -54,7 +54,6 @@ public class LogInController implements Initializable {
 					// in this case enter when at least one result comes it means user is valid
 					System.out.println("LOGIN SUCCESS");
 					User user = new UserDao().get(rs.getInt(1));
-					//LÄGGA IN I REGRADIO-CONTROLLERN
 					Node source = (Node) event.getSource();
 					Stage stage = (Stage) source.getScene().getWindow();
 					stage.close();
