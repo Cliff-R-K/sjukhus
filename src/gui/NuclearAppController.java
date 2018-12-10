@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import dao.RadiopharmaceuticalDao;
+import dao.RegRadioDao;
 import dao.RoomDao;
 import dao.SupplierDao;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -41,30 +42,13 @@ import model.User;
 
 public class NuclearAppController implements Initializable {
 
-	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
-	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();
-	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
-	
-	public DatePicker ankomstdatum = new DatePicker();
-	public DatePicker kalibreringsdatum = new DatePicker();
-	
-	public ComboBox<Supplier> combobox_suppliers = new ComboBox<>();
-	public ComboBox<Radiopharmaceutical> combobox_radio = new ComboBox<>();
-	public ComboBox<Room> combobox_room = new ComboBox<>();
-	
-	public Label label_rad_substance = new Label();
-	public Label label_halftime = new Label();
-	
-	public TextField text_kalibreringsaktivitet = new TextField();
-	public TextField text_kalibreringstid = new TextField();
-	public TextField text_batchnr = new TextField();
-	public TextField text_kommentar = new TextField();
+
 	public TableView<RegRadio> tableview = new TableView<>();
 	
-	public CheckBox check_kontamineringskontroll = new CheckBox();
+
 	public Button saveButton = new Button();
   
-  /////*************
+
   private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();

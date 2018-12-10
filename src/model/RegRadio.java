@@ -83,13 +83,7 @@ public class RegRadio {
 		this.supplier=radiopharmaceutical.getSupplier();
 	}
 	
-	public Supplier getSupplier() {
-		return supplier;
-	}
 
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
 
 	public int getId() {
 		return id;
