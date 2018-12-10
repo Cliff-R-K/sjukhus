@@ -39,6 +39,9 @@ public void setDescription(String beskrivning) {
 public void print() {
 	System.out.println("ID: " + getId() + "\tRoomCode: " + getRoomId() + "\tDescriptions: " + getDescription());
 }
-
+@Override
+	public String toString() {
+		return this.description;
+	}
  	
 }
