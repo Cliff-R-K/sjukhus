@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 import java.util.regex.Pattern;
@@ -27,7 +28,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -46,17 +50,13 @@ import model.Substance;
 import model.Supplier;
 import model.User;
 
-
 public class NuclearAppController implements Initializable {
 
-
 	public TableView<RegRadio> tableview = new TableView<>();
-
 
 	public Button saveButton = new Button();
 	public Button button = new Button();
 	public Button logOutButton = new Button();
-
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
@@ -99,16 +99,15 @@ public class NuclearAppController implements Initializable {
 	public TableColumn endDateCol = new TableColumn();;
 	public TableColumn contaminationControllCol = new TableColumn();
 	public TableColumn supplierCol = new TableColumn();
-	
+
 	private ActionEvent event;
 
-	//Test
+	// Test
 
 	@FXML
 	TableColumn<RegRadio, Radiopharmaceutical> radiopharmaceuticalCol;
 
-
-	/////*************
+	///// *************
 
 	@FXML
 	TableColumn<RegRadio, Date> columnAnkomstdatum;
@@ -136,30 +135,36 @@ public class NuclearAppController implements Initializable {
 		combobox_suppliers.getItems().addAll(supplierList);
 	}
 
-
 	public void addRooms() {
 		combobox_room.getItems().addAll(FXCollections.observableArrayList(new RoomDao().getAll()));
 	}
 
-
 	public void addProducts() {
 		combobox_radio.setDisable(false);
 		radioList.clear();
-		radioList.addAll(new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(combobox_suppliers.getValue().toString()));
+		radioList.addAll(new RadiopharmaceuticalDao()
+				.getRadiopharmaceuticalsBySupplierName(combobox_suppliers.getValue().toString()));
 		combobox_radio.getItems().clear();
 		combobox_radio.getItems().addAll(radioList);
 		combobox_radio.getSelectionModel().selectFirst();
 	}
-  
-  public void addUser() {
+
+	public void addUser() {
 		user = new UserDao().getCurrent(1);
 	}
-	
+
 	public void logOutButtonAction(ActionEvent logout) throws Exception {
 		this.event = logout;
-		logOut();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setHeaderText("Logga ut");
+		alert.setContentText("Vill du fortsätta?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			logOut();
+		}
 	}
-  
+
 	public void logOut() throws IOException {
 		Node source = (Node) event.getSource();
 		Stage stage = (Stage) source.getScene().getWindow();
@@ -171,7 +176,7 @@ public class NuclearAppController implements Initializable {
 		primaryStage.show();
 	}
 
-	public void ContaminationCheck(){
+	public void ContaminationCheck() {
 
 	}
 
@@ -189,13 +194,13 @@ public class NuclearAppController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		addSuppliers();
 		addRooms();
-    addUser();
-    signatur.setText(user.getSignature());
-    ankomstdatum.setValue(LocalDate.now());
+		addUser();
+		signatur.setText(user.getSignature());
+		ankomstdatum.setValue(LocalDate.now());
 		combobox_radio.setDisable(true);
-		
+
 		////////////////////////////////////////////////
-		
+
 		startActivityCol.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
 		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
 		radiopharmaceuticalCol.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
@@ -211,46 +216,45 @@ public class NuclearAppController implements Initializable {
 		searchRegRadioList.clear();
 		searchRegRadioList.addAll(new RegRadioDao().getAll());
 		radioView.setItems(searchRegRadioList);
-		
+
 		///////////////////////////////////////////////////
 
-		combobox_suppliers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
+		combobox_suppliers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			combobox_radio.getItems().clear();
-			combobox_radio.getItems().addAll(FXCollections.observableArrayList(new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(newValue.toString())));
+			combobox_radio.getItems().addAll(FXCollections.observableArrayList(
+					new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(newValue.toString())));
 			combobox_radio.setDisable(false);
 			combobox_radio.getSelectionModel().selectFirst();
 		});
 
-		combobox_radio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
-			if(newValue != null) {
+		combobox_radio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null) {
 				label_rad_substance.setText(newValue.getSubstance().getName());
-				label_halftime.setText(newValue.getSubstance().getHalfLife()+"");
+				label_halftime.setText(newValue.getSubstance().getHalfLife() + "");
 			}
 		});
 
-		text_kalibreringstid.focusedProperty().addListener((observable, oldText, newText)->{
-			if(!newText) {
-				if(!text_kalibreringstid.getText().matches("^(0[0-9]|1[0-9]|2[0-3]):?[0-5][0-9]$")) {
+		text_kalibreringstid.focusedProperty().addListener((observable, oldText, newText) -> {
+			if (!newText) {
+				if (!text_kalibreringstid.getText().matches("^(0[0-9]|1[0-9]|2[0-3]):?[0-5][0-9]$")) {
 					text_kalibreringstid.setText("");
 					text_kalibreringstid.setPromptText("Felaktig tid");
 				}
 			}
 		});
-		check_kontamineringskontroll.selectedProperty().addListener((obs, oldValue, newValue)->{
-			if(newValue) {
+		check_kontamineringskontroll.selectedProperty().addListener((obs, oldValue, newValue) -> {
+			if (newValue) {
 				text_kommentar.setDisable(true);
 				text_kommentar.clear();
-				}
-			else {
+			} else {
 				text_kommentar.setDisable(false);
 			}
 		});
 
-		saveButton.setOnAction((event)->{
-			RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(), text_batchnr.getText(), 
-					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), new UserDao().get(6), 
-					null, combobox_suppliers.getValue(), getTime());
-			
+		saveButton.setOnAction((event) -> {
+			RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(), text_batchnr.getText(),
+					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), user, null,
+					combobox_suppliers.getValue(), getTime());
 
 			columnAnkomstdatum.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
 			columnSupplier.setCellValueFactory(new PropertyValueFactory<>("supplier"));
@@ -261,29 +265,32 @@ public class NuclearAppController implements Initializable {
 			columnBatchNumber.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
 			columnContaminationControl.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
 			columnRoom.setCellValueFactory(new PropertyValueFactory<>("room"));
-			
-			
-			regRadioList.add(0,rr);
+
+			regRadioList.add(0, rr);
 			tableview.setItems(regRadioList);
 			new RegRadioDao().save(rr);
 
 		});
 
 	}
+	
 
 	public double getActivity() {
 		return Double.parseDouble(text_kalibreringsaktivitet.getText());
 	}
+
 	public Date getCalibrationDate() {
 		return java.sql.Date.valueOf(kalibreringsdatum.getValue());
 	}
+
 	public Date getArrivalDate() {
 		return java.sql.Date.valueOf(ankomstdatum.getValue());
 	}
+
 	public String getContaminationControl() {
-		return check_kontamineringskontroll.isSelected() ? "OK":text_kommentar.getText();
+		return check_kontamineringskontroll.isSelected() ? "OK" : text_kommentar.getText();
 	}
-	
+
 	public String getTime() {
 		String time = text_kalibreringstid.getText();
 		return time.replace(":", "");
