@@ -18,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.RegRadio;
@@ -34,6 +35,7 @@ public class LogInController implements Initializable {
 	DbConnectionManager conn = DbConnectionManager.getInstance();
 	ActionEvent event;
 	private String signature;
+	public ProgressBar progressBar = new ProgressBar();
 	
 	public void handleButtonAction(ActionEvent event) throws Exception {
 		this.event = event;
@@ -65,10 +67,8 @@ public class LogInController implements Initializable {
 	            } else {
 	            	System.out.println("LOGIN FAIL");
 	                //in this case enter when  result size is zero  it means user is invalid
-	            	Alert alert = new Alert(AlertType.INFORMATION);
-	    	        alert.setTitle("TITLE else");
-	    	        alert.setHeaderText("Header else");
-	    	        alert.setContentText("INFO else");
+	            	Alert alert = new Alert(AlertType.ERROR);
+	    	        alert.setContentText("Fel användare eller lösenord...");
 	    	        alert.showAndWait();
 	            }
 	        }

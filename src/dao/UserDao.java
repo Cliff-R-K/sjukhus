@@ -196,7 +196,7 @@ public class UserDao implements IDao<User> {
 	public User getCurrent(int id) throws NoSuchElementException {
 		User user = null;
 		try {
-			ResultSet resultSet = conn.excecuteQuery("SELECT * FROM users WHERE current=" + id);
+			ResultSet resultSet = conn.excecuteQuery("SELECT * FROM users WHERE current='" + id+"'");
 			if (!resultSet.next())
 				throw new NoSuchElementException("The user with id " + id + " doesen't exist in database");
 			else
