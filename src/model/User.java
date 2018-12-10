@@ -43,4 +43,8 @@ public class User {
 	public void print() {
 		System.out.println("ID: " + getId() + "\tUser: " + getSignature());
 	}
+	@Override
+	public String toString() {
+		return this.signature;
+	}
 }
