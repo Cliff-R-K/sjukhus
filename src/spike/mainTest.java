@@ -30,7 +30,5 @@ public class mainTest {
 		//mm.getRadiopharmaceutical(8);
 		//mm.getCalibration(1);
 		//mm.getRoom(1);
-		mm.addRegRadio(1000.0, startdate, arrivalDate, "hittat", "OK", new RadiopharmaceuticalDao().get(1), 
-				new RoomDao().get(1), new UserDao().get(1), new CalibrationDao().get(1));
 	}
 }

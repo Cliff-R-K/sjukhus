@@ -136,7 +136,51 @@ public class UserDao implements IDao<User> {
 		} catch (SQLException e) {
 			System.err.println("Delete failed");
 		}
-
 	}
+	public String deleteCurrentUser() {
+		PreparedStatement preparedStatement = null;
+		String sqlString = "UPDATE users SET current=0 Where current=1";
+		try {
+			preparedStatement = conn.prepareStatement(sqlString);
+			if (preparedStatement.executeUpdate() == 1) {
+				System.out.println("Current User Deletion success");
+				preparedStatement.close();
+			}
+		} catch (SQLException e) {
+			System.err.println("Current User Delete failed");
+		}
+		return sqlString;	
+	}
+	
+	public String updateCurrentUser(String t) {
+		PreparedStatement preparedStatement = null;
+		String sqlString = "UPDATE users SET current=1 Where signature='"+t+"'";
+		try {
+			preparedStatement = conn.prepareStatement(sqlString);
+			if (preparedStatement.executeUpdate() == 1) {
+				System.out.println("Current User Deletion success");
+				preparedStatement.close();
+			}
+		} catch (SQLException e) {
+			System.err.println("Current User Delete failed");
+		}
+		return t;	
+	}
+	
+	public User getCurrent(int id) throws NoSuchElementException {
+		User user = null;
+		try {
+			ResultSet resultSet = conn.excecuteQuery("SELECT * FROM users WHERE current=" + id);
+			if (!resultSet.next())
+				throw new NoSuchElementException("The user with id " + id + " doesen't exist in database");
+			else
+				user = new User(resultSet.getInt(1), resultSet.getString(2));
 
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return user;
+	}
 }

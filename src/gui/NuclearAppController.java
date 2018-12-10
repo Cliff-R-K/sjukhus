@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
 import dao.RadiopharmaceuticalDao;
 import dao.RoomDao;
 import dao.SupplierDao;
+import dao.UserDao;
+import db.DbConnectionManager;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,6 +41,7 @@ import model.User;
 
 
 public class NuclearAppController implements Initializable {
+	private User user;
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();
@@ -62,7 +65,7 @@ public class NuclearAppController implements Initializable {
 	
 	public CheckBox check_kontamineringskontroll = new CheckBox();
 	public Button saveButton = new Button();
-	
+
 	@FXML
 	TableColumn<RegRadio, Date> columnAnkomstdatum;
 	@FXML
@@ -83,8 +86,7 @@ public class NuclearAppController implements Initializable {
 	TableColumn<RegRadio, String> columnContaminationControlComment;
 	@FXML
 	TableColumn<RegRadio, Room> columnRoom;
-	
-	
+
 	public void addSuppliers() {
 		supplierList.addAll(new SupplierDao().getAll());
 		combobox_suppliers.getItems().addAll(supplierList);
@@ -105,8 +107,9 @@ public class NuclearAppController implements Initializable {
 		combobox_radio.getSelectionModel().selectFirst();
 	}
 	
-
-	
+	public void addUser() {
+		user = new UserDao().getCurrent(1);
+	}
 	public void ContaminationCheck(){
 		
 	}
@@ -125,6 +128,7 @@ public class NuclearAppController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		addSuppliers();
 		addRooms();
+		addUser();
 		ankomstdatum.setValue(LocalDate.now());
 		combobox_radio.setDisable(true);
 		
@@ -160,7 +164,7 @@ public class NuclearAppController implements Initializable {
 		
 		saveButton.setOnAction((event)->{
 			RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(), text_batchnr.getText(), 
-					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), new User("CK"), 
+					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), user, 
 					new Calibration(getCalibrationDate(), 66.6), combobox_suppliers.getValue(), getTime(), getContaminationControlComment());
 			
 			columnAnkomstdatum.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
@@ -177,14 +181,13 @@ public class NuclearAppController implements Initializable {
 			regRadioList.add(0,rr);
 			
 			tableview.setItems(regRadioList);
+			System.out.println(user);
+			//new User("CK")
 		});
 		
 	
 		
 	}
-	
-	
-	
 	
 	public double getActivity() {
 		return Double.parseDouble(text_kalibreringsaktivitet.getText());
