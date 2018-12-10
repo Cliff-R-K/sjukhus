@@ -8,6 +8,7 @@ package model;
 public class User {
 	private int id;
 	private String signature;
+	private int current;
 	
 	
 	public User(String signature) {
@@ -39,12 +40,22 @@ public class User {
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
+	
+	public void setCurrent(int current) {
+		this.current = current;
+	}
+	
+	public int getCurrent() {
+		return current;
+	}
 
 	public void print() {
 		System.out.println("ID: " + getId() + "\tUser: " + getSignature());
 	}
+
 	@Override
 	public String toString() {
 		return this.signature;
 	}
+
 }
