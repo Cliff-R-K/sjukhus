@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Calibration {
 
+
  private int id;
  private Date date;
  private Double mbq;
@@ -47,6 +48,7 @@ public Calibration(int id) {
 
 	public void print() {
 		System.out.println("ID:	" + getId() + "\tDate:	" + getDate() + "\tMbq:	" + getMbq());
+
 
 	}
 }

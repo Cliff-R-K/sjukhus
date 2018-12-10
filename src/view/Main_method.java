@@ -29,7 +29,7 @@ public class Main_method {
 	CalibrationDao calibrationdao = new CalibrationDao();
 	RoomDao roomdao = new RoomDao();
 
-//------------------------------User-------------------------------------------------------------------------
+	//------------------------------User-------------------------------------------------------------------------
 	public void addUser(String signature) {
 		userdao.save(new User(signature));
 	}
@@ -53,47 +53,47 @@ public class Main_method {
 		}
 	}
 
-//------------------------------Calibration-------------------------------------------------------------------------
+	//------------------------------Calibration-------------------------------------------------------------------------
 	public void addCalibration(Date date, double mbq) {
 		calibrationdao.save(new Calibration(date, mbq));
 	}
-	
+
 	public void deleteCalibration(int id) {
 		calibrationdao.delete(calibrationdao.get(id));
 	}
-	
+
 	public void updateCalibration(Calibration t, String...args) {
 		calibrationdao.update(t, args);
 	}
-	
+
 	public void getCalibration(int id) {
 		calibrationdao.get(id).print();
 	}
-	
+
 	public void getAllCalibrations() {
 		System.out.println("\nAlla Kalibreringar i databasen:\n");
 		for(Calibration s : calibrationdao.getAll()) {
 			s.print();
 		}
 	}
-	
-//------------------------------Room-------------------------------------------------------------------------
+
+	//------------------------------Room-------------------------------------------------------------------------
 	public void addRoom(String id, String info) {
 		roomdao.save(new Room(id, info));
 	}
-	
+
 	public void getRoom(int id) {
 		roomdao.get(id).print();
 	}
-	
+
 	public void getAllRooms() {
 		System.out.println("\nAlla Rum i databasen:\n");
 		for(Room s : roomdao.getAll()) {
 			s.print();
 		}
 	}
-	
-//------------------------------Substance-------------------------------------------------------------------------
+
+	//------------------------------Substance-------------------------------------------------------------------------
 
 	public void addSubstance(String substance, double halfLife) {
 		substancedao.save(new Substance(substance, halfLife));
@@ -117,7 +117,7 @@ public class Main_method {
 			s.print();
 		}
 	}
-//------------------------------Radiopharmaceutical-------------------------------------------------------------------------	
+	//------------------------------Radiopharmaceutical-------------------------------------------------------------------------	
 	public void addRadiopharmaceutical(String name, String form, Substance substance, Supplier supplier) {
 		radiodao.save(new Radiopharmaceutical(name, form, substance, supplier));
 	}
@@ -131,20 +131,56 @@ public class Main_method {
 		}
 	}
 
-// ------------------------------RegRadio-------------------------------------------------------------------------
-	public void addRegRadio(double startActivity, Date start, Date arrivalDate, String batchNumber, 
-			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration) {
-		regradiodao.save(new RegRadio(startActivity, start, arrivalDate, batchNumber, conControll, radiopharmaceutical, room, user, calibration));
+	//// ------------------------------RegRadio-------------------------------------------------------------------------
+	//	public void addRegRadio(double startActivity, Date start, Date arrivalDate, String batchNumber, 
+	//			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration) {
+	//		regradiodao.save(new RegRadio(startActivity, start, arrivalDate, batchNumber, conControll, radiopharmaceutical, room, user, calibration));
+	//	}
+	//
+	//	public void getRegRadio(int id) {
+	//		
+	//		regradiodao.get(id).print();
+	//		
+	//	}
+	//
+	//	public void getAllRegRadio() {
+	//		
+	//		System.out.println("\nAlla Registrerade Produkter i databasen:\n");
+	//		for (RegRadio s : regradiodao.getAll()) {
+	//			s.print();
+	//			
+	//		}
+	//	}
+
+	public void addRegRadio(double startActivity, Date startdate, Date arrivalDate, String batchNumber,
+			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user,
+			Calibration calibration) {
+		regradiodao.save(new RegRadio(startActivity, startdate, arrivalDate, batchNumber, conControll, radiopharmaceutical, room, user, calibration));
+
 	}
 
-	public void getRegRadio(int id) {
+
+	public void printRegRadio(int id) {
+
 		regradiodao.get(id).print();
+
+	}
+	public RegRadio getRegRadio(int id) {
+
+		return regradiodao.get(id);
+
 	}
 
 	public void getAllRegRadio() {
+
 		System.out.println("\nAlla Registrerade Produkter i databasen:\n");
 		for (RegRadio s : regradiodao.getAll()) {
 			s.print();
+
 		}
-	}	
+	}
+	// TODO Auto-generated method stub
+
+
+
 }

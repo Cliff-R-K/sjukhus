@@ -17,6 +17,7 @@ public class RegRadio {
 	private Radiopharmaceutical radiopharmaceutical;
 	private Double startActivity;
 	private Supplier supplier;
+
 	private String time;
 	
 	
@@ -42,6 +43,7 @@ public class RegRadio {
 		this.setContaminationControlComment(comment);
 	}
 	
+
 
 	public RegRadio(double startActivity, Date start, Date arrivalDate, String batchNumber, 
 			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration) {
@@ -78,8 +80,11 @@ public class RegRadio {
 		this.user = user;
 		this.startActivity = startActivity;		
 		this.radiopharmaceutical = radiopharmaceutical;
+		this.supplier=radiopharmaceutical.getSupplier();
 	}
 	
+
+
 	public int getId() {
 		return id;
 	}
