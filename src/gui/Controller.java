@@ -13,8 +13,10 @@ import java.util.regex.Pattern;
 import dao.RadiopharmaceuticalDao;
 import dao.RoomDao;
 import dao.SupplierDao;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -22,10 +24,17 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import model.Calibration;
 import model.Radiopharmaceutical;
+import model.RegRadio;
 import model.Room;
+import model.Substance;
 import model.Supplier;
+import model.User;
 
 public class Controller implements Initializable {
 
@@ -46,12 +55,24 @@ public class Controller implements Initializable {
 	public TextField text_kalibreringstid = new TextField();
 	public TextField text_batchnr = new TextField();
 	public TextField text_kommentar = new TextField();
-	public ListView<String> listView = new ListView<String>();
+	public TableView<RegRadio> tableview = new TableView<>();
 	
 	public CheckBox check_kontamineringskontroll = new CheckBox();
-	public Button button = new Button();
+	public Button saveButton = new Button();
 	
-
+	@FXML
+	TableColumn<RegRadio, Date> columnAnkomstdatum;
+	@FXML
+	TableColumn<RegRadio, Double> columnActivity;
+	@FXML
+	TableColumn<RegRadio, Supplier> columnSupplier;
+	@FXML
+	TableColumn<RegRadio, Radiopharmaceutical> columnRadiopharmaceutical;
+	@FXML
+	TableColumn<RegRadio, Date> columnCalibrationdate;
+	@FXML
+	TableColumn<RegRadio, String> columnTime;
+	
 	
 	public void addSuppliersToComboBox() {
 		supplierList.addAll(new SupplierDao().getAll());
@@ -66,9 +87,6 @@ public class Controller implements Initializable {
 	public void ContaminationCheck(){
 	}
 	
-	public void disableElements() {
-		
-	}
 
 	public String getCurrentDate() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -91,11 +109,12 @@ public class Controller implements Initializable {
 		});
 		
 		combobox_radio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
-			System.out.println(newValue.toString());
-			System.out.println(newValue.getSubstance());
+			if(newValue != null) {
 			label_rad_substance.setText(newValue.getSubstance().getName());
 			label_halftime.setText(newValue.getSubstance().getHalfLife()+"");
+			}
 		});
+		
 		text_kalibreringstid.focusedProperty().addListener((observable, oldText, newText)->{
 			if(!newText) {
 				if(!text_kalibreringstid.getText().matches("^(0[0-9]|1[0-9]|2[0-3]):?[0-5][0-9]$")) {
@@ -112,6 +131,43 @@ public class Controller implements Initializable {
 			}
 		});
 		
+		saveButton.setOnAction((event)->{
+			RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(), text_batchnr.getText(), 
+					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), new User("CK"), 
+					new Calibration(getCalibrationDate(), 66.6), combobox_suppliers.getValue(), getTime());
+			
+			columnAnkomstdatum.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
+			columnSupplier.setCellValueFactory(new PropertyValueFactory<>("supplier"));
+			columnRadiopharmaceutical.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
+			columnActivity.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
+			columnCalibrationdate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+			columnTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+			
+			tableview.setItems(FXCollections.observableArrayList(rr));
+		});
+		
+	
+		
+	}
+	
+	
+	
+	
+	public double getActivity() {
+		return Double.parseDouble(text_kalibreringsaktivitet.getText());
+	}
+	public Date getCalibrationDate() {
+		return java.sql.Date.valueOf(kalibreringsdatum.getValue());
+	}
+	public Date getArrivalDate() {
+		return java.sql.Date.valueOf(ankomstdatum.getValue());
+	}
+	public String getContaminationControl() {
+		return check_kontamineringskontroll.isSelected() ? "OK":"";
+	}
+	public String getTime() {
+		String time = text_kalibreringstid.getText();
+			return time.replace(":", "");
 		
 	}
 	
