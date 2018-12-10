@@ -1,5 +1,3 @@
-
-
 package gui;
 
 import java.net.URL;
@@ -48,6 +46,8 @@ public class NuclearAppController implements Initializable {
 
 
 	public Button saveButton = new Button();
+  public Button button = new Button();
+	public Button logOutButton = new Button();
 
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
@@ -64,6 +64,7 @@ public class NuclearAppController implements Initializable {
 
 	public Label label_rad_substance = new Label();
 	public Label label_halftime = new Label();
+  public Label signatur = new Label();
 
 	public TextField text_kalibreringsaktivitet = new TextField();
 	public TextField text_kalibreringstid = new TextField();
@@ -72,7 +73,6 @@ public class NuclearAppController implements Initializable {
 	public ListView<String> listView = new ListView<String>();
 
 	public CheckBox check_kontamineringskontroll = new CheckBox();
-	public Button button = new Button();
 	public TableView radioView = new TableView<RegRadio>();
 	public TableColumn startActivityCol = new TableColumn();
 	public TableColumn roomCol = new TableColumn();
@@ -82,6 +82,7 @@ public class NuclearAppController implements Initializable {
 	public TableColumn arrivalDateCol = new TableColumn();
 	public TableColumn batchNumberCol = new TableColumn();
 	private RegRadio regP;
+  private User user;
 	private Date startdate;
 	private Date enddate;
 	private Date arrivalDate;
@@ -119,7 +120,8 @@ public class NuclearAppController implements Initializable {
 	TableColumn<RegRadio, String> columnContaminationControlComment;
 	@FXML
 	TableColumn<RegRadio, Room> columnRoom;
-
+	@FXML
+	TableColumn<RegRadio, User> columnUser;
 
 	public void addSuppliers() {
 		supplierList.addAll(new SupplierDao().getAll());
@@ -140,6 +142,26 @@ public class NuclearAppController implements Initializable {
 		combobox_radio.getItems().addAll(radioList);
 		combobox_radio.getSelectionModel().selectFirst();
 	}
+  
+  public void addUser() {
+		user = new UserDao().getCurrent(1);
+	}
+	
+	public void handleButtonAction(ActionEvent event) throws Exception {
+		this.event = event;
+		logOut();
+	}
+  
+  public void logOut() throws IOException {
+		Node source = (Node) event.getSource();
+		Stage stage = (Stage) source.getScene().getWindow();
+		stage.close();
+		Stage primaryStage = new Stage();
+		Parent root = FXMLLoader.load(getClass().getResource("LOGIN.fxml"));
+		primaryStage.setTitle("Login");
+		primaryStage.setScene(new Scene(root));
+		primaryStage.show();
+	}
 
 	public void ContaminationCheck(){
 
@@ -159,7 +181,9 @@ public class NuclearAppController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		addSuppliers();
 		addRooms();
-		ankomstdatum.setValue(LocalDate.now());
+    addUser();
+    signatur.setText(user.getSignature());
+    ankomstdatum.setValue(LocalDate.now());
 		combobox_radio.setDisable(true);
 		
 		////////////////////////////////////////////////
@@ -258,4 +282,3 @@ public class NuclearAppController implements Initializable {
 
 	}
 }
-

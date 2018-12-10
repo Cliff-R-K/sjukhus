@@ -27,7 +27,6 @@ import model.User;
 public class LogInController implements Initializable {
 	
 	public Button logInButton = new Button();
-	RegRadioDao regRadioDao = new RegRadioDao();
 	private String user;
 	private String pass;
 	public TextField text_username = new TextField();
@@ -54,7 +53,6 @@ public class LogInController implements Initializable {
 				if (rs.next()) {
 					// in this case enter when at least one result comes it means user is valid
 					System.out.println("LOGIN SUCCESS");
-					signature = new UserDao().deleteCurrentUser();
 					signature = new UserDao().updateCurrentUser(user);
 					Node source = (Node) event.getSource();
 					Stage stage = (Stage) source.getScene().getWindow();
