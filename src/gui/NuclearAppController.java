@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,12 +15,17 @@ import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
 import dao.RoomDao;
 import dao.SupplierDao;
+import dao.UserDao;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -30,6 +36,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import model.Calibration;
 import model.Radiopharmaceutical;
 import model.RegRadio;
@@ -46,7 +53,7 @@ public class NuclearAppController implements Initializable {
 
 
 	public Button saveButton = new Button();
-  public Button button = new Button();
+	public Button button = new Button();
 	public Button logOutButton = new Button();
 
 
@@ -64,7 +71,7 @@ public class NuclearAppController implements Initializable {
 
 	public Label label_rad_substance = new Label();
 	public Label label_halftime = new Label();
-  public Label signatur = new Label();
+	public Label signatur = new Label();
 
 	public TextField text_kalibreringsaktivitet = new TextField();
 	public TextField text_kalibreringstid = new TextField();
@@ -82,7 +89,7 @@ public class NuclearAppController implements Initializable {
 	public TableColumn arrivalDateCol = new TableColumn();
 	public TableColumn batchNumberCol = new TableColumn();
 	private RegRadio regP;
-  private User user;
+	private User user;
 	private Date startdate;
 	private Date enddate;
 	private Date arrivalDate;
@@ -91,6 +98,8 @@ public class NuclearAppController implements Initializable {
 	public TableColumn endDateCol = new TableColumn();;
 	public TableColumn contaminationControllCol = new TableColumn();
 	public TableColumn supplierCol = new TableColumn();
+	
+	private ActionEvent event;
 
 	//Test
 
@@ -147,12 +156,12 @@ public class NuclearAppController implements Initializable {
 		user = new UserDao().getCurrent(1);
 	}
 	
-	public void handleButtonAction(ActionEvent event) throws Exception {
-		this.event = event;
+	public void logOutButtonAction(ActionEvent logout) throws Exception {
+		this.event = logout;
 		logOut();
 	}
   
-  public void logOut() throws IOException {
+	public void logOut() throws IOException {
 		Node source = (Node) event.getSource();
 		Stage stage = (Stage) source.getScene().getWindow();
 		stage.close();
