@@ -17,6 +17,7 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -36,10 +37,12 @@ import model.Substance;
 import model.Supplier;
 import model.User;
 
+
 public class NuclearAppController implements Initializable {
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();
+	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
 	
 	public DatePicker ankomstdatum = new DatePicker();
 	public DatePicker kalibreringsdatum = new DatePicker();
@@ -82,6 +85,19 @@ public class NuclearAppController implements Initializable {
 	TableColumn<RegRadio, Room> columnRoom;
 	
 	public void addSuppliersToComboBox() {
+	public ListView<String> listView = new ListView<String>();
+	
+	public CheckBox check_kontamineringskontroll = new CheckBox();
+	public Button button = new Button();
+	
+
+	
+	
+	
+	
+	
+	
+	public void addSuppliers() {
 		supplierList.addAll(new SupplierDao().getAll());
 		combobox_suppliers.getItems().addAll(supplierList);
 	}
@@ -92,6 +108,28 @@ public class NuclearAppController implements Initializable {
 	}
 	
 
+	public void addProducts() {
+		combobox_radio.setDisable(false);
+		radioList.clear();
+		radioList.addAll(new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(combobox_suppliers.getValue().toString()));
+		combobox_radio.getItems().clear();
+		combobox_radio.getItems().addAll(radioList);
+		//combobox_radio.getSelectionModel().selectFirst();
+		setSubstanceInfo();
+	}
+	
+	public void setSubstanceInfo() {
+		label_rad_substance.setText(combobox_radio.getValue().getSubstance().getName());
+		label_halftime.setText(combobox_radio.getValue().getSubstance().getHalfLife()+"");
+	}
+	
+	public void ContaminationCheck(){
+		
+	}
+	
+	public void disableElements() {
+		
+	}
 
 	public String getCurrentDate() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -184,6 +222,9 @@ public class NuclearAppController implements Initializable {
 		String time = text_kalibreringstid.getText();
 			return time.replace(":", "");
 		
+		addSuppliers();
+		ankomstdatum.setValue(LocalDate.now());
+		combobox_radio.setDisable(true);
 	}
 	
 
