@@ -51,4 +51,10 @@ public Calibration(int id) {
 
 
 	}
+	@Override
+	public String toString() {
+		String result;
+		result="Datum: "+ date+". MBq: "+mbq;
+		return result;
+	}
 }
