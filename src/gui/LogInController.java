@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
+import dao.RegRadioDao;
+import dao.UserDao;
 import db.DbConnectionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.RegRadio;
+import model.User;
 
 
 public  class LogInController implements Initializable {
@@ -31,6 +35,8 @@ public  class LogInController implements Initializable {
 	DbConnectionManager conn = DbConnectionManager.getInstance();
 	ActionEvent event;
 
+	private String signature;
+	
 	public void handleButtonAction(ActionEvent event) throws Exception {
 		this.event = event;
 		user = text_username.getText();
@@ -49,6 +55,7 @@ public  class LogInController implements Initializable {
 				if (rs.next()) {
 					// in this case enter when at least one result comes it means user is valid
 					System.out.println("LOGIN SUCCESS");
+					signature = new UserDao().updateCurrentUser(user);
 					Node source = (Node) event.getSource();
 					Stage stage = (Stage) source.getScene().getWindow();
 					stage.close();
@@ -79,7 +86,6 @@ public  class LogInController implements Initializable {
 	    }
 
 	}
-
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

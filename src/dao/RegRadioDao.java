@@ -33,7 +33,6 @@ import model.User;
  *
  */
 public class RegRadioDao implements IDao<RegRadio> {
-
 	DbConnectionManager conn = null;
 
 	public RegRadioDao() {
@@ -246,5 +245,4 @@ public class RegRadioDao implements IDao<RegRadio> {
 				System.err.println("Delete failed");
 			}
 	}
-
 }
