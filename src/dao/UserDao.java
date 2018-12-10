@@ -161,9 +161,13 @@ public class UserDao implements IDao<User> {
 		String sqlStringChange2 = "UPDATE users SET current=1 Where signature='"+t+"'";
 		try {
 			preparedStatement = conn.prepareStatement(sqlStringChange1);
+			if (preparedStatement.executeUpdate() == 1) {
+				System.out.println("loggas ut...");
+				preparedStatement.close();
+			}
 			preparedStatement = conn.prepareStatement(sqlStringChange2);
 			if (preparedStatement.executeUpdate() == 1) {
-				System.out.println("Current User updated");
+				System.out.println(t+" loggas in...");
 				preparedStatement.close();
 			}
 		} catch (SQLException e) {
@@ -189,3 +193,4 @@ public class UserDao implements IDao<User> {
 		return user;
 	}
 }
+
