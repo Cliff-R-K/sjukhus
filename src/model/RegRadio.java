@@ -22,7 +22,7 @@ public class RegRadio {
 	
 
 	public RegRadio(double startActivity, Date start, Date arrivalDate, String batchNumber, 
-			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration, Supplier supplier, String time, String comment) {
+			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration, Supplier supplier, String time) {
 
 		super();
 		this.startActivity = startActivity;
@@ -39,7 +39,6 @@ public class RegRadio {
 		this.radiopharmaceutical = radiopharmaceutical;
 		this.setSupplier(supplier);
 		this.setTime(time);
-		this.setContaminationControlComment(comment);
 	}
 	
 
@@ -166,14 +165,7 @@ public class RegRadio {
 	}
 
 
-	public String getContaminationControlComment() {
-		return contaminationControlComment;
-	}
 
-
-	public void setContaminationControlComment(String contaminationControlComment) {
-		this.contaminationControlComment = contaminationControlComment;
-	}
 
 
 	/*public void print2() {
@@ -188,9 +180,5 @@ public class RegRadio {
 		System.out.println("ID:	" + getId() + "\tSign: " + getUser().getSignature());
 
 	}
-	/*@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return this.batchNumber;
-	}*/
+	
 }

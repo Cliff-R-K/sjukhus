@@ -138,5 +138,22 @@ public class UserDao implements IDao<User> {
 		}
 
 	}
+	
+	public User getUserByName(String name) {
+		User user = null;
+		try {
+			ResultSet resultSet = conn.excecuteQuery("SELECT * FROM users WHERE signature=" + name);
+			if (!resultSet.next())
+				throw new NoSuchElementException("The user with name " + name + " doesen't exist in database");
+			else
+				user = new User(resultSet.getInt(1), resultSet.getString(2));
+
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return user;
+	}
 
 }

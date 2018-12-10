@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 import db.DbConnectionManager;
 import javafx.event.ActionEvent;
@@ -20,7 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
-public class LogInController implements Initializable {
+public  class LogInController implements Initializable {
 	
 	public Button logInButton = new Button();
 	private String user;
@@ -29,7 +30,7 @@ public class LogInController implements Initializable {
 	public TextField text_password = new TextField();
 	DbConnectionManager conn = DbConnectionManager.getInstance();
 	ActionEvent event;
-	
+
 	public void handleButtonAction(ActionEvent event) throws Exception {
 		this.event = event;
 		user = text_username.getText();

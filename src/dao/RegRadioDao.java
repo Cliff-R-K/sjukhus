@@ -4,7 +4,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -134,14 +137,19 @@ public class RegRadioDao implements IDao<RegRadio> {
 				queryString = "INSERT INTO regradios (start_activity, start_date, arrival_date, batchnumber, con_controll, radiopharmaceuticals_idradio, rooms_idroom, users_iduser, calibrations_idcalibration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(queryString);
 			ps.setDouble(1, t.getStartActivity());
-			ps.setDate(2, new java.sql.Date(t.getStartDate().getTime()));
+			ps.setDate(2, new java.sql.Date(t.getStartDate().getTime() ));
 			ps.setDate(3, new java.sql.Date(t.getArrivalDate().getTime()));
 			ps.setString(4, t.getBatchNumber());
 			ps.setString(5, t.getContaminationControll());
 			ps.setInt(6, t.getRadiopharmaceutical().getId());
 			ps.setInt(7, t.getRoom().getId());
 			ps.setInt(8, t.getUser().getId());
-			ps.setInt(9, t.getCalibration().getId());			
+			if(t.getCalibration() != null)
+			ps.setInt(9, t.getCalibration().getId());
+			else {
+				ps.setNull(9, java.sql.Types.INTEGER);
+			}
+//			ps.setInt(10, t.getSupplier().getSupplierId());
 			if(ps.executeUpdate() == 1) {
 				System.out.println("Save Success");
 				saveSucess = true;
