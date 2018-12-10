@@ -84,18 +84,6 @@ public class NuclearAppController implements Initializable {
 	@FXML
 	TableColumn<RegRadio, Room> columnRoom;
 	
-	public void addSuppliersToComboBox() {
-	public ListView<String> listView = new ListView<String>();
-	
-	public CheckBox check_kontamineringskontroll = new CheckBox();
-	public Button button = new Button();
-	
-
-	
-	
-	
-	
-	
 	
 	public void addSuppliers() {
 		supplierList.addAll(new SupplierDao().getAll());
@@ -114,14 +102,10 @@ public class NuclearAppController implements Initializable {
 		radioList.addAll(new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(combobox_suppliers.getValue().toString()));
 		combobox_radio.getItems().clear();
 		combobox_radio.getItems().addAll(radioList);
-		//combobox_radio.getSelectionModel().selectFirst();
-		setSubstanceInfo();
+		combobox_radio.getSelectionModel().selectFirst();
 	}
 	
-	public void setSubstanceInfo() {
-		label_rad_substance.setText(combobox_radio.getValue().getSubstance().getName());
-		label_halftime.setText(combobox_radio.getValue().getSubstance().getHalfLife()+"");
-	}
+
 	
 	public void ContaminationCheck(){
 		
@@ -139,7 +123,7 @@ public class NuclearAppController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		addSuppliersToComboBox();
+		addSuppliers();
 		addRooms();
 		ankomstdatum.setValue(LocalDate.now());
 		combobox_radio.setDisable(true);
@@ -221,10 +205,7 @@ public class NuclearAppController implements Initializable {
 	public String getTime() {
 		String time = text_kalibreringstid.getText();
 			return time.replace(":", "");
-		
-		addSuppliers();
-		ankomstdatum.setValue(LocalDate.now());
-		combobox_radio.setDisable(true);
+	
 	}
 	
 
