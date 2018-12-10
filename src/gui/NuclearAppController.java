@@ -34,7 +34,7 @@ import model.RegRadio;
 import model.Room;
 import model.Supplier;
 
-public class Controller implements Initializable {
+public class NuclearAppController implements Initializable {
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();

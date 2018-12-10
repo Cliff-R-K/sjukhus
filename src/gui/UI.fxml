@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1571.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1571.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.NuclearAppController">
 
   <tabs>
     <Tab text="Ankomstregistrering">
