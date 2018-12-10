@@ -83,7 +83,7 @@
                         </VBox>
                      </children>
                   </VBox>
-                  <Button fx:id="logOutButton" layoutX="951.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Logga ut" />
+                  <Button fx:id="logOutButton" layoutX="951.0" layoutY="18.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
                   
                </children></AnchorPane>
       </content>

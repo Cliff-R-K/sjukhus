@@ -4,7 +4,6 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.prefs.Preferences;
 
 import dao.RegRadioDao;
 import dao.UserDao;
@@ -25,7 +24,7 @@ import model.RegRadio;
 import model.User;
 
 
-public  class LogInController implements Initializable {
+public class LogInController implements Initializable {
 	
 	public Button logInButton = new Button();
 	private String user;
@@ -34,7 +33,6 @@ public  class LogInController implements Initializable {
 	public TextField text_password = new TextField();
 	DbConnectionManager conn = DbConnectionManager.getInstance();
 	ActionEvent event;
-
 	private String signature;
 	
 	public void handleButtonAction(ActionEvent event) throws Exception {
@@ -90,6 +88,7 @@ public  class LogInController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+		logInButton.setDefaultButton(true);
 		
 	}
 	

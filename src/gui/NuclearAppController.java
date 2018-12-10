@@ -155,12 +155,12 @@ public class NuclearAppController implements Initializable {
 		user = new UserDao().getCurrent(1);
 	}
 	
-	public void handleButtonAction(ActionEvent event) throws Exception {
-		this.event = event;
+	public void logOutButtonAction(ActionEvent logout) throws Exception {
+		this.event = logout;
 		logOut();
 	}
   
-  public void logOut() throws IOException {
+	public void logOut() throws IOException {
 		Node source = (Node) event.getSource();
 		Stage stage = (Stage) source.getScene().getWindow();
 		stage.close();
