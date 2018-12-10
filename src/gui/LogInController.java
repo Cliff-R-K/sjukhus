@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import dao.RegRadioDao;
+import dao.UserDao;
 import db.DbConnectionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -18,11 +20,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.RegRadio;
+import model.User;
 
 
 public class LogInController implements Initializable {
 	
 	public Button logInButton = new Button();
+	RegRadioDao regRadioDao = new RegRadioDao();
 	private String user;
 	private String pass;
 	public TextField text_username = new TextField();
