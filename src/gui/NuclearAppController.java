@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 import java.util.regex.Pattern;
 
 import dao.RadiopharmaceuticalDao;
@@ -126,8 +127,6 @@ public class NuclearAppController implements Initializable {
 	@FXML
 	TableColumn<RegRadio, String> columnContaminationControl;
 	@FXML
-	TableColumn<RegRadio, String> columnContaminationControlComment;
-	@FXML
 	TableColumn<RegRadio, Room> columnRoom;
 	@FXML
 	TableColumn<RegRadio, User> columnUser;
@@ -238,8 +237,10 @@ public class NuclearAppController implements Initializable {
 			}
 		});
 		check_kontamineringskontroll.selectedProperty().addListener((obs, oldValue, newValue)->{
-			if(newValue)
+			if(newValue) {
 				text_kommentar.setDisable(true);
+				text_kommentar.clear();
+				}
 			else {
 				text_kommentar.setDisable(false);
 			}
@@ -247,8 +248,9 @@ public class NuclearAppController implements Initializable {
 
 		saveButton.setOnAction((event)->{
 			RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(), text_batchnr.getText(), 
-					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), new User("CK"), 
-					new Calibration(getCalibrationDate(), 66.6), combobox_suppliers.getValue(), getTime(), getContaminationControlComment());
+					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), new UserDao().get(6), 
+					null, combobox_suppliers.getValue(), getTime());
+			
 
 			columnAnkomstdatum.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
 			columnSupplier.setCellValueFactory(new PropertyValueFactory<>("supplier"));
@@ -258,12 +260,12 @@ public class NuclearAppController implements Initializable {
 			columnTime.setCellValueFactory(new PropertyValueFactory<>("time"));
 			columnBatchNumber.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
 			columnContaminationControl.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
-			columnContaminationControlComment.setCellValueFactory(new PropertyValueFactory<>("contaminationControlComment"));
 			columnRoom.setCellValueFactory(new PropertyValueFactory<>("room"));
-
+			
+			
 			regRadioList.add(0,rr);
-
 			tableview.setItems(regRadioList);
+			new RegRadioDao().save(rr);
 
 		});
 
@@ -279,12 +281,9 @@ public class NuclearAppController implements Initializable {
 		return java.sql.Date.valueOf(ankomstdatum.getValue());
 	}
 	public String getContaminationControl() {
-		return check_kontamineringskontroll.isSelected() ? "OK":"Ej OK";
+		return check_kontamineringskontroll.isSelected() ? "OK":text_kommentar.getText();
 	}
-	public String getContaminationControlComment() {
-		String comment = text_kommentar.getText();
-		return comment.isEmpty()?"":comment;
-	}
+	
 	public String getTime() {
 		String time = text_kalibreringstid.getText();
 		return time.replace(":", "");

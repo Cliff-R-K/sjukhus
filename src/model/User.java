@@ -41,6 +41,7 @@ public class User {
 		this.signature = signature;
 	}
 	
+	
 	public void setCurrent(int current) {
 		this.current = current;
 	}

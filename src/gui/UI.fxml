@@ -71,7 +71,7 @@
                                     <TableColumn fx:id="columnTime" prefWidth="75.0" text="Kalibreringstid" />
                                     <TableColumn fx:id="columnBatchNumber" prefWidth="75.0" text="Batchnr" />
                                     <TableColumn fx:id="columnContaminationControl" prefWidth="75.0" text="Kontamineringskontroll" />
-                                    <TableColumn fx:id="columnContaminationControlComment" prefWidth="75.0" text="Kommentar" />
+                                  
                                     <TableColumn fx:id="columnRoom" prefWidth="75.0" text="Rum" />
                                     <TableColumn fx:id="columnUser" prefWidth="75.0" text="Signatur" />
                                 </columns>
