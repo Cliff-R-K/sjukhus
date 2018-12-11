@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+
 import dao.RegRadioDao;
 import dao.UserDao;
 import db.DbConnectionManager;
@@ -18,7 +19,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.RegRadio;
 import model.User;
@@ -27,7 +31,6 @@ import model.User;
 public class LogInController implements Initializable {
 	
 	public Button logInButton = new Button();
-	RegRadioDao regRadioDao = new RegRadioDao();
 	private String user;
 	private String pass;
 	public TextField text_username = new TextField();
@@ -35,6 +38,9 @@ public class LogInController implements Initializable {
 	DbConnectionManager conn = DbConnectionManager.getInstance();
 	ActionEvent event;
 	private String signature;
+	public ProgressBar progressBar = new ProgressBar();
+	
+
 	
 	public void handleButtonAction(ActionEvent event) throws Exception {
 		this.event = event;
@@ -43,6 +49,7 @@ public class LogInController implements Initializable {
 		System.out.println(user);
 		System.out.println(pass);
 		login();
+		
 	}
 	
 	private void login() throws Exception {
@@ -54,9 +61,9 @@ public class LogInController implements Initializable {
 				if (rs.next()) {
 					// in this case enter when at least one result comes it means user is valid
 					System.out.println("LOGIN SUCCESS");
-					signature = new UserDao().deleteCurrentUser();
 					signature = new UserDao().updateCurrentUser(user);
 					Node source = (Node) event.getSource();
+					
 					Stage stage = (Stage) source.getScene().getWindow();
 					stage.close();
 					Stage primaryStage = new Stage();
@@ -67,10 +74,8 @@ public class LogInController implements Initializable {
 	            } else {
 	            	System.out.println("LOGIN FAIL");
 	                //in this case enter when  result size is zero  it means user is invalid
-	            	Alert alert = new Alert(AlertType.INFORMATION);
-	    	        alert.setTitle("TITLE else");
-	    	        alert.setHeaderText("Header else");
-	    	        alert.setContentText("INFO else");
+	            	Alert alert = new Alert(AlertType.ERROR);
+	    	        alert.setContentText("Fel användare eller lösenord...");
 	    	        alert.showAndWait();
 	            }
 	        }
@@ -90,6 +95,7 @@ public class LogInController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+		logInButton.setDefaultButton(true);
 		
 	}
 	

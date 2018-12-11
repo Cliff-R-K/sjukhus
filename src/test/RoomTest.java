@@ -6,10 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import dao.CalibrationDao;
-import model.Calibration;
-
-class CalibrationTest {
+class RoomTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -20,9 +17,8 @@ class CalibrationTest {
 	}
 
 	@Test
-	void testGetCalibration() {
-		Calibration calibration1 = new CalibrationDao().get(1);
-		assertEquals(27, calibration1.getMbq().intValue(),"Fel Calibration");
+	void test() {
+		fail("Not yet implemented");
 	}
 
 }

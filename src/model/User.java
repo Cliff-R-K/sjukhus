@@ -41,6 +41,7 @@ public class User {
 		this.signature = signature;
 	}
 	
+	
 	public void setCurrent(int current) {
 		this.current = current;
 	}
@@ -55,7 +56,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return this.signature;
+		return signature;
 	}
 
 }

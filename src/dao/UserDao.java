@@ -137,28 +137,37 @@ public class UserDao implements IDao<User> {
 			System.err.println("Delete failed");
 		}
 	}
-	public String deleteCurrentUser() {
+	/*
+	public String changeCurrentUser() {
 		PreparedStatement preparedStatement = null;
-		String sqlString = "UPDATE users SET current=0 Where current=1";
+		String sqlStringchange1 = "UPDATE users SET current=0 Where current=1";
+		String sqlStringchange2 = "UPDATE users SET current=0 Where current=1";
+
 		try {
-			preparedStatement = conn.prepareStatement(sqlString);
+			preparedStatement = conn.prepareStatement(sqlStringchange1);
 			if (preparedStatement.executeUpdate() == 1) {
-				System.out.println("Current User Deletion success");
 				preparedStatement.close();
 			}
 		} catch (SQLException e) {
-			System.err.println("Current User Delete failed");
+			System.err.println("Current User change failed");
 		}
-		return sqlString;	
+		return sqlStringchange1;	
 	}
+	*/
 	
 	public String updateCurrentUser(String t) {
 		PreparedStatement preparedStatement = null;
-		String sqlString = "UPDATE users SET current=1 Where signature='"+t+"'";
+		String sqlStringChange1 = "UPDATE users SET current=0 Where current=1";
+		String sqlStringChange2 = "UPDATE users SET current=1 Where signature='"+t+"'";
 		try {
-			preparedStatement = conn.prepareStatement(sqlString);
+			preparedStatement = conn.prepareStatement(sqlStringChange1);
 			if (preparedStatement.executeUpdate() == 1) {
-				System.out.println("Current User Deletion success");
+				System.out.println("loggas ut...");
+				preparedStatement.close();
+			}
+			preparedStatement = conn.prepareStatement(sqlStringChange2);
+			if (preparedStatement.executeUpdate() == 1) {
+				System.out.println(t+" loggas in...");
 				preparedStatement.close();
 			}
 		} catch (SQLException e) {
@@ -167,10 +176,27 @@ public class UserDao implements IDao<User> {
 		return t;	
 	}
 	
+	public User getUserByName(String name) {
+		User user = null;
+		try {
+			ResultSet resultSet = conn.excecuteQuery("SELECT * FROM users WHERE signature=" + name);
+			if (!resultSet.next())
+				throw new NoSuchElementException("The user with name " + name + " doesen't exist in database");
+			else
+				user = new User(resultSet.getInt(1), resultSet.getString(2));
+
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return user;
+	}
+  
 	public User getCurrent(int id) throws NoSuchElementException {
 		User user = null;
 		try {
-			ResultSet resultSet = conn.excecuteQuery("SELECT * FROM users WHERE current=" + id);
+			ResultSet resultSet = conn.excecuteQuery("SELECT * FROM users WHERE current='" + id+"'");
 			if (!resultSet.next())
 				throw new NoSuchElementException("The user with id " + id + " doesen't exist in database");
 			else
@@ -184,3 +210,4 @@ public class UserDao implements IDao<User> {
 		return user;
 	}
 }
+
