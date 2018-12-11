@@ -13,7 +13,7 @@
             <Text layoutX="77.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Logga in" />
             <TextField fx:id="text_username" layoutX="20.0" layoutY="41.0" promptText="signatur" />
             <PasswordField fx:id="text_password" layoutX="20.0" layoutY="100.0" promptText="lösenord" />
-            <Button fx:id="logInButton" layoutX="71.0" layoutY="143.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Logga in" />
+            <Button fx:id="logInButton" layoutX="71.0" layoutY="143.0" mnemonicParsing="false" onAction="#handleButtonAction" onKeyPressed="#handleButtonAction" text="Logga in" />
          </children>
       </AnchorPane>
    </children>
