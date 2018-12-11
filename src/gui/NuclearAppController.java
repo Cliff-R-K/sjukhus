@@ -3,22 +3,21 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.prefs.Preferences;
-import java.util.regex.Pattern;
 
 import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
 import dao.RoomDao;
 import dao.SupplierDao;
 import dao.UserDao;
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -42,11 +41,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.Calibration;
 import model.Radiopharmaceutical;
 import model.RegRadio;
 import model.Room;
-import model.Substance;
 import model.Supplier;
 import model.User;
 
@@ -176,13 +173,7 @@ public class NuclearAppController implements Initializable {
 		primaryStage.show();
 	}
 
-	public void ContaminationCheck() {
 
-	}
-
-	public void disableElements() {
-
-	}
 
 	public String getCurrentDate() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -252,19 +243,21 @@ public class NuclearAppController implements Initializable {
 		});
 
 		saveButton.setOnAction((event) -> {
+			
+			
 			RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(), text_batchnr.getText(),
 					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), user, null,
-					combobox_suppliers.getValue(), getTime());
+					combobox_suppliers.getValue());
 
 			columnAnkomstdatum.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
 			columnSupplier.setCellValueFactory(new PropertyValueFactory<>("supplier"));
 			columnRadiopharmaceutical.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
 			columnActivity.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
 			columnCalibrationdate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-			columnTime.setCellValueFactory(new PropertyValueFactory<>("time"));
 			columnBatchNumber.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
 			columnContaminationControl.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
 			columnRoom.setCellValueFactory(new PropertyValueFactory<>("room"));
+			columnUser.setCellValueFactory(new PropertyValueFactory<>("user"));
 
 			regRadioList.add(0, rr);
 			tableview.setItems(regRadioList);
@@ -276,11 +269,36 @@ public class NuclearAppController implements Initializable {
 	
 
 	public double getActivity() {
-		return Double.parseDouble(text_kalibreringsaktivitet.getText());
+		return Double.parseDouble(text_kalibreringsaktivitet.getText().replace(",", "."));
 	}
 
-	public Date getCalibrationDate() {
-		return java.sql.Date.valueOf(kalibreringsdatum.getValue());
+	public LocalDateTime getCalibrationDate(){
+//		String time = getTime();
+//		int hours = Integer.parseInt(time.substring(0,2));
+//		int minutes = Integer.parseInt(time.substring(2,4));
+//		Date date = java.sql.Date.valueOf(kalibreringsdatum.getValue());
+//		
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.setTime(date);
+//		
+//		calendar.set(Calendar.HOUR_OF_DAY, hours);
+//		calendar.set(Calendar.MINUTE,minutes);
+//		
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+//		String dateAsString = sdf.format(calendar.getTime());
+//		Date dateTime = null;
+//
+//		try {
+//			dateTime = sdf.parse(dateAsString);
+//		} catch (ParseException e) {
+//			System.out.println("Could not parse date");
+//			e.printStackTrace();
+//		}
+//		return dateTime;
+		LocalDate date = kalibreringsdatum.getValue();
+		LocalTime time = LocalTime.parse(getTime());
+		LocalDateTime dateTime = LocalDateTime.of(date, time);
+		return dateTime;
 	}
 
 	public Date getArrivalDate() {

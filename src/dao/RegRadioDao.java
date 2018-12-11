@@ -114,7 +114,8 @@ public class RegRadioDao implements IDao<RegRadio> {
 				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
 				Room room = new RoomDao().get(rs.getInt(8));
 				User user = new UserDao().get(rs.getInt(9));
-				Calibration calibration = new CalibrationDao().get(rs.getInt(10));
+				
+				Calibration calibration = rs.getInt(10) != 0 ? new CalibrationDao().get(rs.getInt(10)):null;
 				list.add(new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getDate(3), rs.getDate(4),
 						rs.getString(5), rs.getString(6), radiopharmaceutical,
 						room, user, calibration));
