@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+
 import dao.RegRadioDao;
 import dao.UserDao;
 import db.DbConnectionManager;
@@ -20,6 +21,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.RegRadio;
 import model.User;
@@ -37,6 +40,8 @@ public class LogInController implements Initializable {
 	private String signature;
 	public ProgressBar progressBar = new ProgressBar();
 	
+
+	
 	public void handleButtonAction(ActionEvent event) throws Exception {
 		this.event = event;
 		user = text_username.getText();
@@ -44,6 +49,7 @@ public class LogInController implements Initializable {
 		System.out.println(user);
 		System.out.println(pass);
 		login();
+		
 	}
 	
 	private void login() throws Exception {
@@ -57,6 +63,7 @@ public class LogInController implements Initializable {
 					System.out.println("LOGIN SUCCESS");
 					signature = new UserDao().updateCurrentUser(user);
 					Node source = (Node) event.getSource();
+					
 					Stage stage = (Stage) source.getScene().getWindow();
 					stage.close();
 					Stage primaryStage = new Stage();

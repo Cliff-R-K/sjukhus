@@ -6,12 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import db.DbConnectionManager;
+import javafx.util.converter.LocalDateTimeStringConverter;
 import model.Calibration;
 import model.Radiopharmaceutical;
 import model.RegRadio;
@@ -34,7 +37,7 @@ import model.User;
  */
 public class RegRadioDao implements IDao<RegRadio> {
 	DbConnectionManager conn = null;
-
+	LocalDateTime ldt;
 	public RegRadioDao() {
 		conn = DbConnectionManager.getInstance();
 	}
@@ -57,7 +60,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 				Room room = new RoomDao().get(rs.getInt(8));
 				User user = new UserDao().get(rs.getInt(9));
 				Calibration calibration = new CalibrationDao().get(rs.getInt(10));
-				rp = new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getDate(3), rs.getDate(4),
+				rp = new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(), rs.getDate(4),
 						rs.getString(5), rs.getString(6), radiopharmaceutical,
 						room, user, calibration);		
 				radioList.add(rp);
@@ -92,7 +95,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 				Room room = new RoomDao().get(rs.getInt(8));
 				User user = new UserDao().get(rs.getInt(9));
 				Calibration calibration = new CalibrationDao().get(rs.getInt(10));	
-				regRadio = new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getDate(3), rs.getDate(4),
+				regRadio = new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(), rs.getDate(4),
 						rs.getString(5), rs.getString(6), radiopharmaceutical,
 						room, user, calibration);						
 			}
@@ -114,8 +117,9 @@ public class RegRadioDao implements IDao<RegRadio> {
 				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
 				Room room = new RoomDao().get(rs.getInt(8));
 				User user = new UserDao().get(rs.getInt(9));
-				Calibration calibration = new CalibrationDao().get(rs.getInt(10));
-				list.add(new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getDate(3), rs.getDate(4),
+				
+				Calibration calibration = rs.getInt(10) != 0 ? new CalibrationDao().get(rs.getInt(10)):null;
+				list.add(new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(), rs.getDate(4),
 						rs.getString(5), rs.getString(6), radiopharmaceutical,
 						room, user, calibration));
 
@@ -136,7 +140,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 				queryString = "INSERT INTO regradios (start_activity, start_date, arrival_date, batchnumber, con_controll, radiopharmaceuticals_idradio, rooms_idroom, users_iduser, calibrations_idcalibration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(queryString);
 			ps.setDouble(1, t.getStartActivity());
-			ps.setDate(2, new java.sql.Date(t.getStartDate().getTime() ));
+			ps.setTimestamp(2, java.sql.Timestamp.valueOf(t.getStartDate()));
 			ps.setDate(3, new java.sql.Date(t.getArrivalDate().getTime()));
 			ps.setString(4, t.getBatchNumber());
 			ps.setString(5, t.getContaminationControll());
@@ -148,7 +152,6 @@ public class RegRadioDao implements IDao<RegRadio> {
 			else {
 				ps.setNull(9, java.sql.Types.INTEGER);
 			}
-//			ps.setInt(10, t.getSupplier().getSupplierId());
 			if(ps.executeUpdate() == 1) {
 				System.out.println("Save Success");
 				saveSucess = true;

@@ -1,16 +1,16 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class RegRadio {
 
 	private int id;
-	private Date startDate;
+	private LocalDateTime startDate;
 	private Date endDate;
 	private Date arrivalDate;
 	private String batchNumber;
 	private String contaminationControll;
-	private String contaminationControlComment;
 	private Calibration calibration;
 	private Room room;
 	private User user;
@@ -18,12 +18,11 @@ public class RegRadio {
 	private Double startActivity;
 	private Supplier supplier;
 
-	private String time;
 	
 	
 
-	public RegRadio(double startActivity, Date start, Date arrivalDate, String batchNumber, 
-			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration, Supplier supplier, String time) {
+	public RegRadio(double startActivity, LocalDateTime start, Date arrivalDate, String batchNumber, 
+			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration, Supplier supplier) {
 
 		super();
 		this.startActivity = startActivity;
@@ -39,12 +38,11 @@ public class RegRadio {
 		this.startActivity = startActivity;		
 		this.radiopharmaceutical = radiopharmaceutical;
 		this.setSupplier(supplier);
-		this.setTime(time);
 	}
 	
 
 
-	public RegRadio(double startActivity, Date start, Date arrivalDate, String batchNumber, 
+	public RegRadio(double startActivity, LocalDateTime start, Date arrivalDate, String batchNumber, 
 			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration) {
 
 		super();
@@ -62,7 +60,7 @@ public class RegRadio {
 		this.radiopharmaceutical = radiopharmaceutical;
 	}
   
-	public RegRadio(int id, double startActivity, Date start, Date arrivalDate, String batchNumber, 
+	public RegRadio(int id, double startActivity, LocalDateTime start, Date arrivalDate, String batchNumber, 
 			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration) {
 
 		super();
@@ -90,10 +88,10 @@ public class RegRadio {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Date getStartDate() {
+	public LocalDateTime getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDateTime startDate) {
 		this.startDate = startDate;
 	}
 	public Date getEndDate() {
@@ -160,14 +158,7 @@ public class RegRadio {
 		this.supplier = supplier;
 	}
 
-	public String getTime() {
-		return time;
-	}
-
-
-	public void setTime(String time) {
-		this.time = time;
-	}
+	
 
 
 
