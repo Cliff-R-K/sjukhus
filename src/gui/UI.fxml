@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
@@ -71,7 +70,7 @@
                                     <TableColumn fx:id="columnTime" prefWidth="75.0" text="Kalibreringstid" />
                                     <TableColumn fx:id="columnBatchNumber" prefWidth="75.0" text="Batchnr" />
                                     <TableColumn fx:id="columnContaminationControl" prefWidth="75.0" text="Kontamineringskontroll" />
-                                  
+                                    <TableColumn fx:id="columnContaminationControlComment" prefWidth="75.0" text="Kommentar" />
                                     <TableColumn fx:id="columnRoom" prefWidth="75.0" text="Rum" />
                                     <TableColumn fx:id="columnUser" prefWidth="75.0" text="Signatur" />
                                 </columns>
