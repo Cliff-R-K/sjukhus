@@ -2,6 +2,7 @@
 
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,9 +20,13 @@ import dao.SupplierDao;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -32,6 +37,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import model.Calibration;
 import model.Radiopharmaceutical;
 import model.RegRadio;
@@ -54,6 +60,7 @@ public class NuclearAppController implements Initializable {
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> searchRegRadioList = FXCollections.observableArrayList();
+	private ActionEvent event;
 
 	public DatePicker ankomstdatum = new DatePicker();
 	public DatePicker kalibreringsdatum = new DatePicker();
@@ -90,6 +97,9 @@ public class NuclearAppController implements Initializable {
 	public TableColumn endDateCol = new TableColumn();;
 	public TableColumn contaminationControllCol = new TableColumn();
 	public TableColumn supplierCol = new TableColumn();
+	public TableColumn uniqueIdCol = new TableColumn();
+	public Button editButton = new Button();
+	private RegRadio chosenRegRadio;
 
 	//Test
 
@@ -121,6 +131,9 @@ public class NuclearAppController implements Initializable {
 	TableColumn<RegRadio, Room> columnRoom;
 
 
+	
+
+
 	public void addSuppliers() {
 		supplierList.addAll(new SupplierDao().getAll());
 		combobox_suppliers.getItems().addAll(supplierList);
@@ -130,7 +143,6 @@ public class NuclearAppController implements Initializable {
 	public void addRooms() {
 		combobox_room.getItems().addAll(FXCollections.observableArrayList(new RoomDao().getAll()));
 	}
-
 
 	public void addProducts() {
 		combobox_radio.setDisable(false);
@@ -175,6 +187,7 @@ public class NuclearAppController implements Initializable {
 		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
 		contaminationControllCol.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
 		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
+		uniqueIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
 		searchRegRadioList.clear();
 		searchRegRadioList.addAll(new RegRadioDao().getAll());
@@ -227,6 +240,7 @@ public class NuclearAppController implements Initializable {
 			columnContaminationControl.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
 			columnContaminationControlComment.setCellValueFactory(new PropertyValueFactory<>("contaminationControlComment"));
 			columnRoom.setCellValueFactory(new PropertyValueFactory<>("room"));
+			
 
 			regRadioList.add(0,rr);
 
@@ -256,6 +270,32 @@ public class NuclearAppController implements Initializable {
 		String time = text_kalibreringstid.getText();
 		return time.replace(":", "");
 
+	}
+	public void clickedSearchScrollPane() {
+		System.out.println("clicked scrollpane");
+		
+		chosenRegRadio = (RegRadio) radioView.getSelectionModel().getSelectedItem();
+		chosenRegRadio.print();
+
+	}
+	public void clickedEditButton() throws IOException {
+		
+		System.out.println("clicked edit");
+		
+//		Stage primaryStage = new Stage();
+		Parent root = FXMLLoader.load(getClass().getResource("EditRegRadioUi.fxml"));
+//		primaryStage.setTitle("kakaka");
+//		primaryStage.setScene(new Scene(root));
+//		primaryStage.show();
+		
+//		root = FXMLLoader.load(getClass().getClassLoader().getResource("path/to/other/view.fxml"), resources);
+        Stage stage = new Stage();
+        stage.setTitle("Redigera");
+        stage.setScene(new Scene(root));
+        stage.show();
+        // Hide this current window (if this is what you want)
+        ((Node)(event.getSource())).getScene().getWindow().hide();
+		
 	}
 }
 
