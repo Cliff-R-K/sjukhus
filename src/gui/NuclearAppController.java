@@ -128,6 +128,7 @@ public class NuclearAppController implements Initializable {
 	@FXML
 	TableColumn<RegRadio, User> columnUser;
 
+
 	public void addSuppliers() {
 		supplierList.addAll(new SupplierDao().getAll());
 		combobox_suppliers.getItems().addAll(supplierList);
@@ -187,6 +188,7 @@ public class NuclearAppController implements Initializable {
 		addSuppliers();
 		addRooms();
 		addUser();
+		runTempStorage();
 		signatur.setText(user.getSignature());
 		ankomstdatum.setValue(LocalDate.now());
 		combobox_radio.setDisable(true);
@@ -204,9 +206,7 @@ public class NuclearAppController implements Initializable {
 		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
 		contaminationControllCol.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
 		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
-
 		searchRegRadioList.clear();
-		searchRegRadioList.addAll(new RegRadioDao().getAll());
 		radioView.setItems(searchRegRadioList);
 
 		///////////////////////////////////////////////////
@@ -265,7 +265,15 @@ public class NuclearAppController implements Initializable {
 			new RegRadioDao().save(rr);
 
 		});
-
+	}
+	
+	public void runTempStorage() {
+		new Thread() {
+			@Override
+			public void run() {
+				searchRegRadioList.addAll(new RegRadioDao().getAll());
+			}
+		}.start();
 	}
 
 	public double getActivity() {
