@@ -1,3 +1,4 @@
+
 package gui;
 
 import java.io.IOException;
@@ -97,6 +98,34 @@ public class NuclearAppController implements Initializable {
 	public TableColumn endDateCol = new TableColumn();;
 	public TableColumn contaminationControllCol = new TableColumn();
 	public TableColumn supplierCol = new TableColumn();
+  public TableColumn uniqueIdCol = new TableColumn();
+	public Button editButton = new Button();
+  
+  
+  
+  
+  
+  	public Button button = new Button();
+	public TableView radioView = new TableView<RegRadio>();
+	public TableColumn startActivityCol = new TableColumn();
+	public TableColumn roomCol = new TableColumn();
+	public TableColumn substanceCol2 = new TableColumn();
+	public TableColumn startDateCol = new TableColumn();
+	public TableColumn calibrationCol = new TableColumn();
+	public TableColumn arrivalDateCol = new TableColumn();
+	public TableColumn batchNumberCol = new TableColumn();
+	private RegRadio regP;
+	private Date startdate;
+	private Date enddate;
+	private Date arrivalDate;
+	public TableColumn userCol = new TableColumn();;
+	public TableColumn radioPharmaceuticalCol = new TableColumn();
+	public TableColumn endDateCol = new TableColumn();;
+	public TableColumn contaminationControllCol = new TableColumn();
+	public TableColumn supplierCol = new TableColumn();
+	public TableColumn uniqueIdCol = new TableColumn();
+	public Button editButton = new Button();
+	private RegRadio chosenRegRadio;
 
 	private ActionEvent event;
 
@@ -191,8 +220,8 @@ public class NuclearAppController implements Initializable {
 		ankomstdatum.setValue(LocalDate.now());
 		combobox_radio.setDisable(true);
 
-		////////////////////////////////////////////////
-
+////////////////////////////////////////////////
+		
 		startActivityCol.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
 		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
 		radiopharmaceuticalCol.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
@@ -204,11 +233,12 @@ public class NuclearAppController implements Initializable {
 		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
 		contaminationControllCol.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
 		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
+		uniqueIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
 		searchRegRadioList.clear();
 		searchRegRadioList.addAll(new RegRadioDao().getAll());
 		radioView.setItems(searchRegRadioList);
-
+		
 		///////////////////////////////////////////////////
 
 		combobox_suppliers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -292,4 +322,32 @@ public class NuclearAppController implements Initializable {
 		return time.replace(":", "");
 
 	}
+  public void clickedSearchScrollPane() {
+		System.out.println("clicked scrollpane");
+		
+		chosenRegRadio = (RegRadio) radioView.getSelectionModel().getSelectedItem();
+		chosenRegRadio.print();
+
+	}
+	public void clickedEditButton() throws IOException {
+		
+		System.out.println("clicked edit");
+		
+//		Stage primaryStage = new Stage();
+		Parent root = FXMLLoader.load(getClass().getResource("EditRegRadioUi.fxml"));
+//		primaryStage.setTitle("kakaka");
+//		primaryStage.setScene(new Scene(root));
+//		primaryStage.show();
+		
+//		root = FXMLLoader.load(getClass().getClassLoader().getResource("path/to/other/view.fxml"), resources);
+        Stage stage = new Stage();
+        stage.setTitle("Redigera");
+        stage.setScene(new Scene(root));
+        stage.show();
+        // Hide this current window (if this is what you want)
+        ((Node)(event.getSource())).getScene().getWindow().hide();
+		
+	}
 }
+}
+
