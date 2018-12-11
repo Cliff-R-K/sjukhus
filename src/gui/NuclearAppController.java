@@ -1,4 +1,3 @@
-
 package gui;
 
 import java.io.IOException;
@@ -105,7 +104,7 @@ public class NuclearAppController implements Initializable {
   
   
   
-  	public Button button = new Button();
+  public Button button = new Button();
 	public TableView radioView = new TableView<RegRadio>();
 	public TableColumn startActivityCol = new TableColumn();
 	public TableColumn roomCol = new TableColumn();
@@ -216,6 +215,7 @@ public class NuclearAppController implements Initializable {
 		addSuppliers();
 		addRooms();
 		addUser();
+    runTempStorage();
 		signatur.setText(user.getSignature());
 		ankomstdatum.setValue(LocalDate.now());
 		combobox_radio.setDisable(true);
@@ -236,7 +236,6 @@ public class NuclearAppController implements Initializable {
 		uniqueIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
 		searchRegRadioList.clear();
-		searchRegRadioList.addAll(new RegRadioDao().getAll());
 		radioView.setItems(searchRegRadioList);
 		
 		///////////////////////////////////////////////////
@@ -296,6 +295,15 @@ public class NuclearAppController implements Initializable {
 
 		});
 
+	}
+  
+  	public void runTempStorage() {
+		new Thread() {
+			@Override
+			public void run() {
+				searchRegRadioList.addAll(new RegRadioDao().getAll());
+			}
+		}.start();
 	}
 
 	public double getActivity() {
