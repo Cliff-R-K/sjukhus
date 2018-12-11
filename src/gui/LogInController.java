@@ -97,21 +97,6 @@ public class LogInController implements Initializable {
 		// TODO Auto-generated method stub
 		logInButton.setDefaultButton(true);
 		
-		text_password.setOnKeyPressed(keyEvent -> {
-			if (keyEvent.getCode() == KeyCode.ENTER) {
-				try {
-//					user = text_username.getText();
-//					pass = text_password.getText();	
-//					login();
-					handleButtonAction(event);
-					
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		
 	}
 	
 }

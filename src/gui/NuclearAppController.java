@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -266,37 +267,14 @@ public class NuclearAppController implements Initializable {
 		});
 
 	}
-	
 
 	public double getActivity() {
 		return Double.parseDouble(text_kalibreringsaktivitet.getText().replace(",", "."));
 	}
 
 	public LocalDateTime getCalibrationDate(){
-//		String time = getTime();
-//		int hours = Integer.parseInt(time.substring(0,2));
-//		int minutes = Integer.parseInt(time.substring(2,4));
-//		Date date = java.sql.Date.valueOf(kalibreringsdatum.getValue());
-//		
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.setTime(date);
-//		
-//		calendar.set(Calendar.HOUR_OF_DAY, hours);
-//		calendar.set(Calendar.MINUTE,minutes);
-//		
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-//		String dateAsString = sdf.format(calendar.getTime());
-//		Date dateTime = null;
-//
-//		try {
-//			dateTime = sdf.parse(dateAsString);
-//		} catch (ParseException e) {
-//			System.out.println("Could not parse date");
-//			e.printStackTrace();
-//		}
-//		return dateTime;
 		LocalDate date = kalibreringsdatum.getValue();
-		LocalTime time = LocalTime.parse(getTime());
+		LocalTime time = LocalTime.parse(getTime(), DateTimeFormatter.ofPattern("HHmm"));
 		LocalDateTime dateTime = LocalDateTime.of(date, time);
 		return dateTime;
 	}

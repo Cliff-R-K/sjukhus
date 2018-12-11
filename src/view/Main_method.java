@@ -152,12 +152,12 @@ public class Main_method {
 	//		}
 	//	}
 
-	public void addRegRadio(double startActivity, Date startdate, Date arrivalDate, String batchNumber,
-			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user,
-			Calibration calibration) {
-		regradiodao.save(new RegRadio(startActivity, startdate, arrivalDate, batchNumber, conControll, radiopharmaceutical, room, user, calibration));
-
-	}
+//	public void addRegRadio(double startActivity, Date startdate, Date arrivalDate, String batchNumber,
+//			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user,
+//			Calibration calibration) {
+//		regradiodao.save(new RegRadio(startActivity, startdate, arrivalDate, batchNumber, conControll, radiopharmaceutical, room, user, calibration));
+//
+//	}
 
 
 	public void printRegRadio(int id) {
