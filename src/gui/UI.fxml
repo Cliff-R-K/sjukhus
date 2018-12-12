@@ -65,8 +65,8 @@
                   <Button fx:id="logOutButton" layoutX="951.0" layoutY="18.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
                   <TableView fx:id="tableview" layoutX="301.0" layoutY="325.0" prefHeight="357.0" prefWidth="1571.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="325.0">
                     <columns>
-                      <TableColumn fx:id="columnAnkomstdatum" prefWidth="75.0" text="AnkomstDatum" />
-                      <TableColumn fx:id="columnSupplier" prefWidth="75.0" text="Leverantör" />
+                      	<TableColumn fx:id="columnAnkomstdatum" prefWidth="75.0" text="AnkomstDatum" />
+                      	<TableColumn fx:id="columnSupplier" prefWidth="75.0" text="Leverantör" />
                         <TableColumn fx:id="columnRadiopharmaceutical" prefWidth="75.0" text="Produkt" />
                         <TableColumn fx:id="columnActivity" prefWidth="75.0" text="Aktivitet" />
                         <TableColumn fx:id="columnCalibrationdate" prefWidth="75.0" text="Kalibreringsdatum" />
