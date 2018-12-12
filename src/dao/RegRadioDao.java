@@ -111,7 +111,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 		ArrayList<RegRadio> list = new ArrayList<>();
 
 		try {
-			String sqlQuary = "SELECT * FROM regradios";
+			String sqlQuary = "SELECT * FROM regradios ORDER BY idregradio DESC";
 			ResultSet rs = conn.excecuteQuery(sqlQuary);
 			while (rs.next()) {
 				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
@@ -130,6 +130,31 @@ public class RegRadioDao implements IDao<RegRadio> {
 		}
 		return list;
 	}
+	
+	public List<RegRadio> getLastNrows(int number) {
+		ArrayList<RegRadio> list = new ArrayList<>();
+
+		try {
+			String sqlQuary = "SELECT * FROM regradios LIMIT " + number;
+			ResultSet rs = conn.excecuteQuery(sqlQuary);
+			while (rs.next()) {
+				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
+				Room room = new RoomDao().get(rs.getInt(8));
+				User user = new UserDao().get(rs.getInt(9));
+				
+				Calibration calibration = rs.getInt(10) != 0 ? new CalibrationDao().get(rs.getInt(10)):null;
+				list.add(new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(), rs.getDate(4),
+						rs.getString(5), rs.getString(6), radiopharmaceutical,
+						room, user, calibration));
+
+			}
+			conn.close();
+		} catch (SQLException e) {
+			System.err.println("Inga Läkemedel hittades");
+		}
+		return list;
+	}
+
 
 	@Override
 	public boolean save(RegRadio t) {

@@ -157,7 +157,11 @@ public class RegRadio {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
-
+@Override
+public String toString() {
+	// TODO Auto-generated method stub
+	return radiopharmaceutical.toString();
+}
 	
 
 
