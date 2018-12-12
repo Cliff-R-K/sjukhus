@@ -24,5 +24,4 @@ class RadiopharmaceuticalTest {
 		Radiopharmaceutical radio = new RadiopharmaceuticalDao().get(8);
 		assertEquals("Xofigo", radio.getRadiopharmaceuticalName(), "Fel Läkemedel");
 	}
-
 }

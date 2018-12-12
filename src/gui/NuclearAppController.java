@@ -104,6 +104,7 @@ public class NuclearAppController implements Initializable {
 	public TableColumn calibrationCol = new TableColumn();
 	public TableColumn arrivalDateCol = new TableColumn();
 	public TableColumn batchNumberCol = new TableColumn();
+	private TableColumn uniqueIdCol = new TableColumn();
 	public SearchController searchController;
 	//private RegRadio regP;
 	private User user;
@@ -117,6 +118,8 @@ public class NuclearAppController implements Initializable {
 	public TableColumn endDateCol = new TableColumn();;
 	public TableColumn contaminationControllCol = new TableColumn();
 	public TableColumn supplierCol = new TableColumn();
+	
+	private RegRadio chosenRegRadio;
 
 	private ActionEvent event;
 
@@ -215,7 +218,6 @@ public class NuclearAppController implements Initializable {
 	public void clearButton(ActionEvent search) throws Exception {
 		this.event = search;
 		searchRegRadioList.clear();
-		runTempStorage();
 		radioView.setItems(searchRegRadioList);
 	}
 
@@ -250,7 +252,6 @@ public class NuclearAppController implements Initializable {
 		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
 		contaminationControllCol.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
 		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
-
 		uniqueIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
 		searchRegRadioList.clear();
