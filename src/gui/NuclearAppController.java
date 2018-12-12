@@ -3,17 +3,17 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import controller.SearchController;
 import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
 import dao.RoomDao;
@@ -55,18 +55,29 @@ public class NuclearAppController implements Initializable {
 	public Button saveButton = new Button();
 	public Button button = new Button();
 	public Button logOutButton = new Button();
+	public Button logOutButton1 = new Button();
+	public Button searchButton = new Button();
+	public Button clearButton = new Button();
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> searchRegRadioList = FXCollections.observableArrayList();
+	
+	private List<RegRadio> sortedList;
 
 	public DatePicker ankomstdatum = new DatePicker();
 	public DatePicker kalibreringsdatum = new DatePicker();
+	public DatePicker startSortDate = new DatePicker();
+	public DatePicker endSortDate = new DatePicker();
 
 	public ComboBox<Supplier> combobox_suppliers = new ComboBox<>();
 	public ComboBox<Radiopharmaceutical> combobox_radio = new ComboBox<>();
 	public ComboBox<Room> combobox_room = new ComboBox<>();
+	
+	public ComboBox<User> combobox_user = new ComboBox<>();
+	public ComboBox<Radiopharmaceutical> combobox_radio2 = new ComboBox<>();
+	public ComboBox<Room> combobox_room2 = new ComboBox<>();
 
 	public Label label_rad_substance = new Label();
 	public Label label_halftime = new Label();
@@ -79,7 +90,7 @@ public class NuclearAppController implements Initializable {
 	public ListView<String> listView = new ListView<String>();
 
 	public CheckBox check_kontamineringskontroll = new CheckBox();
-	public TableView radioView = new TableView<RegRadio>();
+	public TableView<RegRadio> radioView = new TableView<RegRadio>();
 	public TableColumn startActivityCol = new TableColumn();
 	public TableColumn roomCol = new TableColumn();
 	public TableColumn substanceCol2 = new TableColumn();
@@ -87,44 +98,19 @@ public class NuclearAppController implements Initializable {
 	public TableColumn calibrationCol = new TableColumn();
 	public TableColumn arrivalDateCol = new TableColumn();
 	public TableColumn batchNumberCol = new TableColumn();
-	private RegRadio regP;
+	public SearchController searchController;
+	//private RegRadio regP;
 	private User user;
-	private Date startdate;
-	private Date enddate;
-	private Date arrivalDate;
+	//private Date startdate;
+	//private Date enddate;
+	//private Date arrivalDate;
+	//private Date startSortDate;
+	//private Date endSortDate;
 	public TableColumn userCol = new TableColumn();;
 	public TableColumn radioPharmaceuticalCol = new TableColumn();
 	public TableColumn endDateCol = new TableColumn();;
 	public TableColumn contaminationControllCol = new TableColumn();
 	public TableColumn supplierCol = new TableColumn();
-  public TableColumn uniqueIdCol = new TableColumn();
-	public Button editButton = new Button();
-  
-  
-  
-  
-  
-  public Button button = new Button();
-	public TableView radioView = new TableView<RegRadio>();
-	public TableColumn startActivityCol = new TableColumn();
-	public TableColumn roomCol = new TableColumn();
-	public TableColumn substanceCol2 = new TableColumn();
-	public TableColumn startDateCol = new TableColumn();
-	public TableColumn calibrationCol = new TableColumn();
-	public TableColumn arrivalDateCol = new TableColumn();
-	public TableColumn batchNumberCol = new TableColumn();
-	private RegRadio regP;
-	private Date startdate;
-	private Date enddate;
-	private Date arrivalDate;
-	public TableColumn userCol = new TableColumn();;
-	public TableColumn radioPharmaceuticalCol = new TableColumn();
-	public TableColumn endDateCol = new TableColumn();;
-	public TableColumn contaminationControllCol = new TableColumn();
-	public TableColumn supplierCol = new TableColumn();
-	public TableColumn uniqueIdCol = new TableColumn();
-	public Button editButton = new Button();
-	private RegRadio chosenRegRadio;
 
 	private ActionEvent event;
 
@@ -164,6 +150,13 @@ public class NuclearAppController implements Initializable {
 	public void addRooms() {
 		combobox_room.getItems().addAll(FXCollections.observableArrayList(new RoomDao().getAll()));
 	}
+	//FLIK 2
+	public void addRoomsFlik() {
+		combobox_room2.getItems().addAll(FXCollections.observableArrayList(new RoomDao().getAll()));
+	}
+	public void addUsersFlik() {
+		combobox_user.getItems().addAll(FXCollections.observableArrayList(new UserDao().getAll()));
+	}
 
 	public void addProducts() {
 		combobox_radio.setDisable(false);
@@ -173,6 +166,10 @@ public class NuclearAppController implements Initializable {
 		combobox_radio.getItems().clear();
 		combobox_radio.getItems().addAll(radioList);
 		combobox_radio.getSelectionModel().selectFirst();
+	}
+	//FLIK 2
+	public void addProductsFlik() {
+		combobox_radio2.getItems().addAll(FXCollections.observableArrayList(new RadiopharmaceuticalDao().getAll()));
 	}
 
 	public void addUser() {
@@ -201,8 +198,20 @@ public class NuclearAppController implements Initializable {
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
 	}
-
-
+	
+	public void searchButtonAction(ActionEvent search) throws Exception {
+		this.event = search;
+		searchRegRadioList.clear();
+		searchRegRadioList.addAll(new RegRadioDao().getSearchedRegRadios(getStartSortDate(), getEndSortDate()));
+		radioView.setItems(searchRegRadioList);
+	}
+	
+	public void clearButton(ActionEvent search) throws Exception {
+		this.event = search;
+		searchRegRadioList.clear();
+		runTempStorage();
+		radioView.setItems(searchRegRadioList);
+	}
 
 	public String getCurrentDate() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -215,13 +224,16 @@ public class NuclearAppController implements Initializable {
 		addSuppliers();
 		addRooms();
 		addUser();
-    runTempStorage();
+		addRoomsFlik();
+		addUsersFlik();
+		addProductsFlik();
+		runTempStorage();
 		signatur.setText(user.getSignature());
 		ankomstdatum.setValue(LocalDate.now());
 		combobox_radio.setDisable(true);
 
-////////////////////////////////////////////////
-		
+		////////////////////////////////////////////////
+
 		startActivityCol.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
 		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
 		radiopharmaceuticalCol.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
@@ -233,11 +245,9 @@ public class NuclearAppController implements Initializable {
 		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
 		contaminationControllCol.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
 		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
-		uniqueIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-
 		searchRegRadioList.clear();
 		radioView.setItems(searchRegRadioList);
-		
+
 		///////////////////////////////////////////////////
 
 		combobox_suppliers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -273,8 +283,8 @@ public class NuclearAppController implements Initializable {
 		});
 
 		saveButton.setOnAction((event) -> {
-			
-			
+			saveProductButton();
+			/*
 			RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(), text_batchnr.getText(),
 					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), user, null,
 					combobox_suppliers.getValue());
@@ -290,14 +300,44 @@ public class NuclearAppController implements Initializable {
 			columnUser.setCellValueFactory(new PropertyValueFactory<>("user"));
 
 			regRadioList.add(0, rr);
+			searchRegRadioList.add(0, rr);
 			tableview.setItems(regRadioList);
 			new RegRadioDao().save(rr);
-
+			*/
 		});
-
+		///FLIK 2
+		combobox_radio2.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+		});
+		
 	}
-  
-  	public void runTempStorage() {
+
+	private void saveProductButton() {
+		new Thread() {
+			@Override
+			public void run() {
+				RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(),
+						text_batchnr.getText(), getContaminationControl(), combobox_radio.getValue(),
+						combobox_room.getValue(), user, null, combobox_suppliers.getValue());
+
+				columnAnkomstdatum.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
+				columnSupplier.setCellValueFactory(new PropertyValueFactory<>("supplier"));
+				columnRadiopharmaceutical.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
+				columnActivity.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
+				columnCalibrationdate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+				columnBatchNumber.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
+				columnContaminationControl.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
+				columnRoom.setCellValueFactory(new PropertyValueFactory<>("room"));
+				columnUser.setCellValueFactory(new PropertyValueFactory<>("user"));
+
+				regRadioList.add(0, rr);
+				searchRegRadioList.add(0, rr);
+				tableview.setItems(regRadioList);
+				new RegRadioDao().save(rr);
+			}
+		}.start();
+	}
+
+	private void runTempStorage() {
 		new Thread() {
 			@Override
 			public void run() {
@@ -328,34 +368,11 @@ public class NuclearAppController implements Initializable {
 	public String getTime() {
 		String time = text_kalibreringstid.getText();
 		return time.replace(":", "");
-
 	}
-  public void clickedSearchScrollPane() {
-		System.out.println("clicked scrollpane");
-		
-		chosenRegRadio = (RegRadio) radioView.getSelectionModel().getSelectedItem();
-		chosenRegRadio.print();
-
+	public Date getStartSortDate() {
+		return java.sql.Date.valueOf(startSortDate.getValue());
 	}
-	public void clickedEditButton() throws IOException {
-		
-		System.out.println("clicked edit");
-		
-//		Stage primaryStage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("EditRegRadioUi.fxml"));
-//		primaryStage.setTitle("kakaka");
-//		primaryStage.setScene(new Scene(root));
-//		primaryStage.show();
-		
-//		root = FXMLLoader.load(getClass().getClassLoader().getResource("path/to/other/view.fxml"), resources);
-        Stage stage = new Stage();
-        stage.setTitle("Redigera");
-        stage.setScene(new Scene(root));
-        stage.show();
-        // Hide this current window (if this is what you want)
-        ((Node)(event.getSource())).getScene().getWindow().hide();
-		
+	public Date getEndSortDate() {
+		return java.sql.Date.valueOf(endSortDate.getValue());
 	}
 }
-}
-

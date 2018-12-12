@@ -6,6 +6,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import dao.RoomDao;
+import model.Room;
+
 class RoomTest {
 
 	@BeforeEach
@@ -18,7 +21,7 @@ class RoomTest {
 
 	@Test
 	void test() {
-		fail("Not yet implemented");
+		Room room = new RoomDao().get(2);
+		assertEquals("NM", room.getRoomCode(), "Fel rum");
 	}
-
 }
