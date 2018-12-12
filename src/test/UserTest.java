@@ -26,5 +26,4 @@ class UserTest {
 		assertEquals("MB", user1.getSignature(), "Fel signar för MB");
 		assertEquals("SO", user2.getSignature(), "Fel signarur från SO");
 	}
-
 }
