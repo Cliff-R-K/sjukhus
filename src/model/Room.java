@@ -5,13 +5,13 @@ public class Room {
  private String description;
  private String roomCode;
 
- public Room(String roomCode, String info) {
+ public Room(String info, String roomCode) {
 	this.roomCode = roomCode;
 	this.description = info;
 	
 }
  
-public Room(int id, String roomCode, String info) {
+public Room(int id, String info, String roomCode) {
 	this.id = id;
 	this.roomCode = roomCode;
 	this.description = info;
@@ -21,11 +21,11 @@ public int getId() {
 	return id;
 }
  
-public String getRoomId() {
+public String getRoomCode() {
 	return roomCode;
 }
 
-public void setRoomId(String roomCode) {
+public void setRoomCode(String roomCode) {
 	this.roomCode = roomCode;
 }
 
@@ -33,12 +33,12 @@ public String getDescription() {
 	return description;
 }
 
-public void setDescription(String beskrivning) {
-	this.description = beskrivning;
+public void setDescription(String description) {
+	this.description = description;
 }
 
 public void print() {
-	System.out.println("ID: " + getId() + "\tRoomCode: " + getRoomId() + "\tDescriptions: " + getDescription());
+	System.out.println("ID: " + getId() + "\tRoomCode: " + getRoomCode() + "\tDescriptions: " + getDescription());
 }
 @Override
 	public String toString() {

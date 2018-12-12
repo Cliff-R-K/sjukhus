@@ -1,6 +1,6 @@
 package dao;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -71,13 +71,73 @@ public class RegRadioDao implements IDao<RegRadio> {
 			System.err.println("Ingen Läkemedel med namn " + name + " hittades!");
 		}
 		return radioList;
-		
-		
+				
 //		SELECT * FROM nucleardb.regradios
 //		join nucleardb.suppliers on nucleardb.regradios.suppliers_idsupplier = nucleardb.suppliers.idsupplier
 //		join nucleardb.substances on nucleardb.regradios.substances_idsubstance = nucleardb.substances.idsubstance
 //		where nucleardb.suppliers.idsupplier = 1
 		
+	}
+	
+	//public ArrayList<RegRadio> getSearchedRegRadios(Date startDate, Date endDate, int radiopharmaceutical, int room, int user) {
+	public ArrayList<RegRadio> getSearchedRegRadios(Date startDate, Date endDate) {
+		RegRadio rp = null;
+		ArrayList<RegRadio> searchedList = new ArrayList<>();
+		try {
+
+			/*String sqlString = "SELECT * FROM regradios "
+					+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
+					+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
+					+ "JOIN users ON regradios.users_idroom = users.iduser "
+					+ "WHERE arrival_date BETWEEN;
+			String sqlString = "select * from regradios\n" + 
+					"where arrival_date between \"" + startDate + " AND " + endDate;*/
+			String sqlString = "select * from regradios where arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\"";
+			ResultSet rs = conn.excecuteQuery(sqlString);
+				while(rs.next()) {
+				Radiopharmaceutical radiopharmaceutical2 = new RadiopharmaceuticalDao().get(rs.getInt(7));
+				Room room2 = new RoomDao().get(rs.getInt(8));
+				User user2 = new UserDao().get(rs.getInt(9));
+				Calibration calibration = rs.getInt(10) != 0 ? new CalibrationDao().get(rs.getInt(10)):null;
+				rp = new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(), rs.getDate(4),
+						rs.getString(5), rs.getString(6), radiopharmaceutical2,
+						room2, user2, calibration);		
+				searchedList.add(rp);
+				}
+//			}
+			conn.close();
+		} catch (SQLException e) {
+			System.err.println("Ingen registrerade Läkemedel  mellan" + startDate + endDate + " hittades!");
+		}
+		return searchedList;
+	}
+	
+	public ArrayList<RegRadio> getSearchedRegRadios(Date startDate, Date endDate, int radiopharmaceutical, int room, int user) {
+		RegRadio rp = null;
+		ArrayList<RegRadio> searchedList = new ArrayList<>();
+		try {
+				String sqlString = "SELECT * FROM regradios "
+					+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
+					+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
+					+ "JOIN users ON regradios.users_idroom = users.iduser "
+					+ " WHERE arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\"";
+			ResultSet rs = conn.excecuteQuery(sqlString);
+				while(rs.next()) {
+				Radiopharmaceutical radiopharmaceutical2 = new RadiopharmaceuticalDao().get(rs.getInt(7));
+				Room room2 = new RoomDao().get(rs.getInt(8));
+				User user2 = new UserDao().get(rs.getInt(9));
+				Calibration calibration = rs.getInt(10) != 0 ? new CalibrationDao().get(rs.getInt(10)):null;
+				rp = new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(), rs.getDate(4),
+						rs.getString(5), rs.getString(6), radiopharmaceutical2,
+						room2, user2, calibration);		
+				searchedList.add(rp);
+				}
+//			}
+			conn.close();
+		} catch (SQLException e) {
+			System.err.println("Ingen registrerade Läkemedel  mellan" + startDate + endDate + " hittades!");
+		}
+		return searchedList;
 	}
 	
 	
@@ -94,7 +154,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
 				Room room = new RoomDao().get(rs.getInt(8));
 				User user = new UserDao().get(rs.getInt(9));
-				Calibration calibration = new CalibrationDao().get(rs.getInt(10));	
+				Calibration calibration = rs.getInt(10) != 0 ? new CalibrationDao().get(rs.getInt(10)):null;	
 				regRadio = new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(), rs.getDate(4),
 						rs.getString(5), rs.getString(6), radiopharmaceutical,
 						room, user, calibration);						
