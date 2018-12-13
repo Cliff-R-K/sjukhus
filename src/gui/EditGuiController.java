@@ -214,10 +214,6 @@ public class EditGuiController implements Initializable {
 		System.out.println("qqqqqqqqqqqqqqqqqq");
 
 
-
-
-
-
 		startActivityCol.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
 		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
 		radiopharmaceuticalCol.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));

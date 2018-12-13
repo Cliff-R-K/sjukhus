@@ -74,6 +74,7 @@ public class NuclearAppController implements Initializable {
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> searchRegRadioList = FXCollections.observableArrayList();
+	private ObservableList<Radiopharmaceutical> radioListTabTwo = FXCollections.observableArrayList();
 	
 	private List<RegRadio> sortedList;
 
@@ -81,6 +82,9 @@ public class NuclearAppController implements Initializable {
 	public DatePicker kalibreringsdatum = new DatePicker();
 	public DatePicker startSortDate = new DatePicker();
 	public DatePicker endSortDate = new DatePicker();
+	
+	private java.sql.Date start;
+	private java.sql.Date end;
 	
 	public ComboBox<Supplier> combobox_suppliers = new ComboBox<>();
 	public ComboBox<Radiopharmaceutical> combobox_radio = new ComboBox<>();
@@ -102,7 +106,6 @@ public class NuclearAppController implements Initializable {
 
 	public CheckBox check_kontamineringskontroll = new CheckBox();
 
-	private User user;
 	///////////////////////////////////////////////////////////
 	public TableView radioView = new TableView<RegRadio>();
 	public TableColumn startActivityCol = new TableColumn();
@@ -112,7 +115,7 @@ public class NuclearAppController implements Initializable {
 	public TableColumn calibrationCol = new TableColumn();
 	public TableColumn arrivalDateCol = new TableColumn();
 	public TableColumn batchNumberCol = new TableColumn();
-	private TableColumn uniqueIdCol = new TableColumn();
+	public TableColumn uniqueIdCol = new TableColumn();
 	//private RegRadio regP;
 	private User user;
 	//private Date startdate;
@@ -166,14 +169,6 @@ public class NuclearAppController implements Initializable {
 
 	private RegRadio radioToEdit;
 
-	private java.sql.Date start;
-
-	private java.sql.Date end;
-
-	public TableColumn uniqueIdCol;
-
-
-
 	public void addSuppliers() {
 		supplierList.addAll(new SupplierDao().getAll());
 		combobox_suppliers.getItems().addAll(supplierList);
@@ -194,7 +189,9 @@ public class NuclearAppController implements Initializable {
 	}
 	//FLIK 2
 	public void addProductsTabTwo() {
-		combobox_radio_tab_two.getItems().addAll(FXCollections.observableArrayList(new RadiopharmaceuticalDao().getAll()));
+		radioListTabTwo.clear();
+		radioListTabTwo.addAll(new RadiopharmaceuticalDao().getAll());
+		combobox_radio_tab_two.getItems().addAll(radioListTabTwo);
 	}
 	//FLIK 2
 	public void addRoomsTabTwo() {
@@ -235,9 +232,12 @@ public class NuclearAppController implements Initializable {
 	
 	public void clearButton(ActionEvent search) throws Exception {
 		this.event = search;
-		combobox_user_tab_two.setValue(null);
+/*		combobox_user_tab_two.setValue(null);
 		combobox_radio_tab_two.setValue(null);
-		combobox_room_tab_two.setValue(null);
+		combobox_room_tab_two.setValue(null);*/
+		combobox_room_tab_two.getItems().clear();
+		combobox_radio_tab_two.getItems().clear();
+		combobox_user_tab_two.getItems().clear();
 		endSortDate.setValue(LocalDate.now());
 		startSortDate.setValue(LocalDate.of(1900, 01, 01));
 		searchRegRadioList.clear();
@@ -368,9 +368,6 @@ public class NuclearAppController implements Initializable {
 			}
 		});
 	}
-
-
-	//public void runTempStorage() {
 
 	private void saveProductButton() {
 
@@ -503,21 +500,6 @@ public class NuclearAppController implements Initializable {
 	
 	public void searchButtonAction(ActionEvent search) throws Exception {
 		this.event = search;
-		/*Radiopharmaceutical radioTabTwo = null;
-		Room roomTabTwo = null;
-		User userTabTwo = null;
-		if(combobox_radio_tab_two != null) {
-			radioTabTwo = combobox_radio_tab_two.getValue();
-			//System.out.println(radioTabTwo.getRadiopharmaceuticalName());
-		}
-		if(combobox_room_tab_two != null) {
-			roomTabTwo = combobox_room_tab_two.getValue();
-			//System.out.println(roomTabTwo.getRoomCode());
-		}
-		if(combobox_user_tab_two != null) {
-			userTabTwo = combobox_user_tab_two.getValue();
-			//System.out.println(userTabTwo.getSignature());
-		}*/
 		searchRegRadioList.clear();
 		//searchRegRadioList.addAll(new RegRadioDao().getSearchedRegRadios(getStartSortDate(), getEndSortDate()));
 		searchRegRadioList.addAll(new RegRadioDao().getSearchedRegRadios(getStartSortDate(), getEndSortDate(), radio_tab_two, room_tab_two, user_tab_two));

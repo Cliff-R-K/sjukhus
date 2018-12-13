@@ -94,12 +94,13 @@ public class UserDao implements IDao<User> {
 			if (p.equals("signature"))
 				s.setSignature(t.getSignature());
 			try {
-				preparedStatement = conn
-						.prepareStatement("UPDATE users SET signature=? WHERE iduser=?");
+				preparedStatement = conn.prepareStatement("UPDATE users SET signature=? WHERE iduser=?");
 				preparedStatement.setString(1, s.getSignature());
 				preparedStatement.setInt(2, s.getId());
-
-				preparedStatement.executeUpdate();
+				if(preparedStatement.executeUpdate() == 1) {
+					System.out.println("Uppdateringen lyckades");
+				}
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
