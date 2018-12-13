@@ -12,12 +12,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+
+import com.sun.istack.internal.logging.Logger;
+
 
 import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
 import dao.RoomDao;
 import dao.SupplierDao;
 import dao.UserDao;
+import dataholder.DataHolder;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
@@ -63,6 +68,7 @@ public class NuclearAppController implements Initializable {
 	public Button logOutButton1 = new Button();
 	public Button searchButton = new Button();
 	public Button clearButton = new Button();
+	public Button editButton = new Button();
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
@@ -95,7 +101,10 @@ public class NuclearAppController implements Initializable {
 	public ListView<String> listView = new ListView<String>();
 
 	public CheckBox check_kontamineringskontroll = new CheckBox();
-	public TableView<RegRadio> radioView = new TableView<RegRadio>();
+
+	private User user;
+	///////////////////////////////////////////////////////////
+	public TableView radioView = new TableView<RegRadio>();
 	public TableColumn startActivityCol = new TableColumn();
 	public TableColumn roomCol = new TableColumn();
 	public TableColumn substanceCol2 = new TableColumn();
@@ -111,6 +120,7 @@ public class NuclearAppController implements Initializable {
 	//private Date arrivalDate;
 	//private Date startSortDate;
 	//private Date endSortDate;
+
 	public TableColumn userCol = new TableColumn();;
 	public TableColumn radioPharmaceuticalCol = new TableColumn();
 	public TableColumn endDateCol = new TableColumn();;
@@ -123,6 +133,7 @@ public class NuclearAppController implements Initializable {
 	private User user_tab_two;
 
 	private ActionEvent event;
+	//////////////////////////////////////////////////////////
 
 	// Test
 
@@ -152,9 +163,15 @@ public class NuclearAppController implements Initializable {
 	@FXML
 	TableColumn<RegRadio, User> columnUser;
 
+
+	private RegRadio radioToEdit;
+
 	private java.sql.Date start;
 
 	private java.sql.Date end;
+
+	public TableColumn uniqueIdCol;
+
 
 
 	public void addSuppliers() {
@@ -239,14 +256,21 @@ public class NuclearAppController implements Initializable {
 		addSuppliers();
 		addRooms();
 		addUser();
+
+		//runTempStorage();
+
 		addRoomsTabTwo();
 		addUsersTabTwo();
 		addProductsTabTwo();
+
 		signatur.setText(user.getSignature());
 		ankomstdatum.setValue(LocalDate.now());
 		endSortDate.setValue(LocalDate.now());
 		startSortDate.setValue(LocalDate.of(1900, 01, 01));
 		combobox_radio.setDisable(true);
+		
+		setUpTableView();
+		new Thread(() -> populateListFromDatabase()).start();
 
 		////////////////////////////////////////////////
 
@@ -267,8 +291,7 @@ public class NuclearAppController implements Initializable {
 		radioView.setItems(searchRegRadioList);
 
 		///////////////////////////////////////////////////
-		setUpTableView();
-		new Thread(() -> populateListFromDatabase()).start();
+		
 		
 
 		combobox_suppliers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -304,8 +327,10 @@ public class NuclearAppController implements Initializable {
 			}
 		});
 		saveButton.setOnAction((event) -> {
+
 			saveProductButton();
 			/*
+
 			RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(), text_batchnr.getText(),
 					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), user, null,
 					combobox_suppliers.getValue());
@@ -344,7 +369,11 @@ public class NuclearAppController implements Initializable {
 		});
 	}
 
+
+	//public void runTempStorage() {
+
 	private void saveProductButton() {
+
 		new Thread() {
 			@Override
 			public void run() {
@@ -376,6 +405,7 @@ public class NuclearAppController implements Initializable {
 	}
 
 	public void populateTabOneTablelist() {
+		//Magiska siffror
 		regRadioList = FXCollections.observableArrayList(searchRegRadioList.subList(0, 10)); 
 		tableview.getItems().addAll(regRadioList);
 
@@ -420,11 +450,46 @@ public class NuclearAppController implements Initializable {
 		return time.replace(":", "");
 	}
 
-  public void clickedSearchScrollPane() {
+	public void clickedSearchScrollPane() {
 		System.out.println("clicked scrollpane");
+
 		chosenRegRadio = (RegRadio) radioView.getSelectionModel().getSelectedItem();
 		chosenRegRadio.print();
 	}
+
+	public void clickedEditButton() throws IOException {
+
+		System.out.println("clicked edit");
+		DataHolder.setSavedRadio(chosenRegRadio);
+
+		//		FXMLLoader	 fLoader = new FXMLLoader();
+		//		fLoader.setLocation(getClass().getResource("EditRegRadioUI.fxml"));
+		//		try {
+		//			System.out.println("aaaaaaaaaaaaaaaaa");
+		//			fLoader.load();
+		//		} catch (IOException ex) { 
+		//			Logger.getLogger(NuclearAppController.class.getName(), null).log(Level.SEVERE,null,ex);
+		//		}
+		//		EditGuiController editController = fLoader.getController();
+		//		editController.initateData(chosenRegRadio);
+
+		Parent root = FXMLLoader.load(getClass().getResource("EditRegRadioUI.fxml"));
+		Stage stage = new Stage();
+		stage.setTitle("Redigera");
+		stage.setScene(new Scene(root));
+		stage.show();
+		
+		
+		//((Node)(event.getSource())).getScene().getWindow().hide();
+		
+	}
+
+
+
+
+//		
+
+
   
   	public Date getStartSortDate() {
   		start = java.sql.Date.valueOf(startSortDate.getValue());
@@ -457,5 +522,15 @@ public class NuclearAppController implements Initializable {
 		//searchRegRadioList.addAll(new RegRadioDao().getSearchedRegRadios(getStartSortDate(), getEndSortDate()));
 		searchRegRadioList.addAll(new RegRadioDao().getSearchedRegRadios(getStartSortDate(), getEndSortDate(), radio_tab_two, room_tab_two, user_tab_two));
 		radioView.setItems(searchRegRadioList);
+
 	}
+
+	//	public RegRadio getData() {
+	//		// TODO Auto-generated method stub
+	//		System.out.println("get ");
+	//		radioToEdit.print();
+	//		System.out.println("get");
+	//		return radioToEdit;
+	//	}
+
 }

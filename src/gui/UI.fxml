@@ -91,7 +91,7 @@
 					<content>
                			<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="1560.0">
                            <children>
-                              <TableView fx:id="radioView" editable="true" layoutX="6.0" layoutY="14.0" prefHeight="447.0" prefWidth="1551.0">
+                              <TableView fx:id="radioView" editable="true" layoutX="6.0" layoutY="14.0" onMouseClicked="#clickedSearchScrollPane" prefHeight="447.0" prefWidth="1551.0">
                                  <columns>
                                     <TableColumn fx:id="startActivityCol" prefWidth="130.0" text="startaktivitet" />
                                     <TableColumn fx:id="roomCol" minWidth="0.0" prefWidth="107.0" text="Rum" />
@@ -103,7 +103,8 @@
                                     <TableColumn fx:id="endDateCol" prefWidth="109.0" text="slutdatum" />
                                     <TableColumn fx:id="userCol" prefWidth="96.0" text="Användare" />
                                     <TableColumn fx:id="contaminationControllCol" minWidth="0.0" prefWidth="89.0" text="Kontroll" />
-									<TableColumn fx:id="supplierCol" prefWidth="102.0" text="Leverantör" />
+									<TableColumn fx:id="supplierCol" prefWidth="204.0" text="Leverantör" />
+                                    <TableColumn fx:id="uniqueIdCol" prefWidth="105.0" text="Unikt id" />
                                  </columns>
                               </TableView>
                            </children>
@@ -145,6 +146,7 @@
                      </children>
                   </Pane>
                   <Button fx:id="logOutButton1" layoutX="1145.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
+                  <Button fx:id="editButton" layoutX="1209.0" layoutY="115.0" mnemonicParsing="false" onMouseReleased="#clickedEditButton" text="Redigera" />
                </children></AnchorPane>
       </content>
 </Tab>
