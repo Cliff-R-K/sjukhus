@@ -28,14 +28,14 @@ public class DbConnectionManager {
 	
 	private static final String DB_NAME = "nucleardb"; // Change value to your database
 	//private static final String DB_NAME = "nucleartestdb"; // Change value to your database
-//	private static final String USER = "Krister"; // Change value to your user
-//	private static final String PASSWORD = "Kn@rkare666"; // Change value to your password
-//	private static final String CONNECTION_URL = "jdbc:mysql://server.titanmail.se:59997/"+DB_NAME+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private static final String USER = "Krister"; // Change value to your user
+	private static final String PASSWORD = "Kn@rkare666"; // Change value to your password
+	private static final String CONNECTION_URL = "jdbc:mysql://server.titanmail.se:59997/"+DB_NAME+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	
-	private static final String USER = "root"; // Change value to your user
-	private static final String PASSWORD = "Mediumsql1"; // Change value to your password
-	private static final String CONNECTION_URL = "jdbc:mysql://localhost/"+DB_NAME+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	
+//	private static final String USER = "root"; // Change value to your user
+//	private static final String PASSWORD = "Mediumsql1"; // Change value to your password
+//	private static final String CONNECTION_URL = "jdbc:mysql://localhost/"+DB_NAME+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+//	
 	
 	private Connection connection = null;
 	private Statement statement = null;
