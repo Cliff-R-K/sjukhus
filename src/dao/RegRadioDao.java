@@ -79,19 +79,10 @@ public class RegRadioDao implements IDao<RegRadio> {
 		
 	}
 	
-	//public ArrayList<RegRadio> getSearchedRegRadios(Date startDate, Date endDate, int radiopharmaceutical, int room, int user) {
 	public ArrayList<RegRadio> getSearchedRegRadios(Date startDate, Date endDate) {
 		RegRadio rp = null;
 		ArrayList<RegRadio> searchedList = new ArrayList<>();
 		try {
-
-			/*String sqlString = "SELECT * FROM regradios "
-					+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
-					+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
-					+ "JOIN users ON regradios.users_idroom = users.iduser "
-					+ "WHERE arrival_date BETWEEN;
-			String sqlString = "select * from regradios\n" + 
-					"where arrival_date between \"" + startDate + " AND " + endDate;*/
 			String sqlString = "select * from regradios where arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\"";
 			ResultSet rs = conn.excecuteQuery(sqlString);
 				while(rs.next()) {
@@ -112,16 +103,45 @@ public class RegRadioDao implements IDao<RegRadio> {
 		return searchedList;
 	}
 	
-	public ArrayList<RegRadio> getSearchedRegRadios(Date startDate, Date endDate, int radiopharmaceutical, int room, int user) {
+	public ArrayList<RegRadio> getSearchedRegRadios(Date startDate, Date endDate, Radiopharmaceutical radiopharmaceutical, Room room, User user) {
 		RegRadio rp = null;
 		ArrayList<RegRadio> searchedList = new ArrayList<>();
 		try {
-				String sqlString = "SELECT * FROM regradios "
+		String sqlString = null;
+		if(radiopharmaceutical != null && room == null && user == null) {
+			//KOD
+			System.out.println("radiopharmaceutical != null && room == null && user == null");
+			sqlString = "SELECT * FROM regradios "
+			+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
+			+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
+			+ "JOIN users ON regradios.users_iduser = users.iduser "
+			+ " WHERE arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\""
+			+ " AND radiopharmaceuticals_idradio = "+"\""+radiopharmaceutical.getId()+"\"";
+		}else if(radiopharmaceutical != null && room != null && user == null) {
+			//KOD
+			System.out.println("radiopharmaceutical != null && room != null && user == null");
+		}else if(radiopharmaceutical != null && room == null && user != null) {
+			//KOD
+			System.out.println("radiopharmaceutical != null && room == null && user != null");
+		}else if(radiopharmaceutical == null && room != null && user == null) {
+			//KOD
+			System.out.println("radiopharmaceutical == null && room != null && user == null");
+		}else if(radiopharmaceutical == null && room != null && user != null) {
+			//KOD
+			System.out.println("radiopharmaceutical == null && room != null && user != null");
+		}else if(radiopharmaceutical == null && room == null && user != null) {
+			//KOD
+			System.out.println("radiopharmaceutical == null && room == null && user != null");
+		}else {
+			System.out.println("else");
+			sqlString = "SELECT * FROM regradios "
 					+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
 					+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
-					+ "JOIN users ON regradios.users_idroom = users.iduser "
+					+ "JOIN users ON regradios.users_iduser = users.iduser "
 					+ " WHERE arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\"";
-			ResultSet rs = conn.excecuteQuery(sqlString);
+		}
+			System.out.println(sqlString);
+			 ResultSet rs = conn.excecuteQuery(sqlString);
 				while(rs.next()) {
 				Radiopharmaceutical radiopharmaceutical2 = new RadiopharmaceuticalDao().get(rs.getInt(7));
 				Room room2 = new RoomDao().get(rs.getInt(8));
