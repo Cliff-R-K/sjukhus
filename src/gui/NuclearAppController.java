@@ -112,10 +112,14 @@ public class NuclearAppController implements Initializable {
 	public TableColumn calibrationCol = new TableColumn();
 	public TableColumn arrivalDateCol = new TableColumn();
 	public TableColumn batchNumberCol = new TableColumn();
-	private RegRadio regP;
-	private Date startdate;
-	private Date enddate;
-	private Date arrivalDate;
+	private TableColumn uniqueIdCol = new TableColumn();
+	//private RegRadio regP;
+	private User user;
+	//private Date startdate;
+	//private Date enddate;
+	//private Date arrivalDate;
+	//private Date startSortDate;
+	//private Date endSortDate;
 
 	public TableColumn userCol = new TableColumn();;
 	public TableColumn radioPharmaceuticalCol = new TableColumn();
@@ -231,6 +235,11 @@ public class NuclearAppController implements Initializable {
 	
 	public void clearButton(ActionEvent search) throws Exception {
 		this.event = search;
+		combobox_user_tab_two.setValue(null);
+		combobox_radio_tab_two.setValue(null);
+		combobox_room_tab_two.setValue(null);
+		endSortDate.setValue(LocalDate.now());
+		startSortDate.setValue(LocalDate.of(1900, 01, 01));
 		searchRegRadioList.clear();
 		populateListFromDatabase();
 		radioView.setItems(searchRegRadioList);
@@ -443,7 +452,6 @@ public class NuclearAppController implements Initializable {
 
 	public void clickedSearchScrollPane() {
 		System.out.println("clicked scrollpane");
-
 
 		chosenRegRadio = (RegRadio) radioView.getSelectionModel().getSelectedItem();
 		chosenRegRadio.print();
