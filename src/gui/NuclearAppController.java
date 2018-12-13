@@ -16,7 +16,7 @@ import java.util.logging.Level;
 
 import com.sun.istack.internal.logging.Logger;
 
-import controller.SearchController;
+
 import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
 import dao.RoomDao;
@@ -68,6 +68,7 @@ public class NuclearAppController implements Initializable {
 	public Button logOutButton1 = new Button();
 	public Button searchButton = new Button();
 	public Button clearButton = new Button();
+	public Button editButton = new Button();
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
@@ -165,6 +166,8 @@ public class NuclearAppController implements Initializable {
 
 	private java.sql.Date end;
 
+	public TableColumn uniqueIdCol;
+
 
 
 	public void addSuppliers() {
@@ -245,7 +248,7 @@ public class NuclearAppController implements Initializable {
 		addRooms();
 		addUser();
 
-		runTempStorage();
+		//runTempStorage();
 
 		addRoomsTabTwo();
 		addUsersTabTwo();
@@ -256,6 +259,9 @@ public class NuclearAppController implements Initializable {
 		endSortDate.setValue(LocalDate.now());
 		startSortDate.setValue(LocalDate.of(1900, 01, 01));
 		combobox_radio.setDisable(true);
+		
+		setUpTableView();
+		new Thread(() -> populateListFromDatabase()).start();
 
 		////////////////////////////////////////////////
 
@@ -276,8 +282,7 @@ public class NuclearAppController implements Initializable {
 		radioView.setItems(searchRegRadioList);
 
 		///////////////////////////////////////////////////
-		setUpTableView();
-		new Thread(() -> populateListFromDatabase()).start();
+		
 		
 
 		combobox_suppliers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -391,6 +396,7 @@ public class NuclearAppController implements Initializable {
 	}
 
 	public void populateTabOneTablelist() {
+		//Magiska siffror
 		regRadioList = FXCollections.observableArrayList(searchRegRadioList.subList(0, 10)); 
 		tableview.getItems().addAll(regRadioList);
 
@@ -464,11 +470,16 @@ public class NuclearAppController implements Initializable {
 		stage.setTitle("Redigera");
 		stage.setScene(new Scene(root));
 		stage.show();
+		
+		
+		//((Node)(event.getSource())).getScene().getWindow().hide();
+		
+	}
 
 
 
 
-//		((Node)(event.getSource())).getScene().getWindow().hide();
+//		
 
 
   
