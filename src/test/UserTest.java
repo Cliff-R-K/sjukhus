@@ -10,9 +10,11 @@ import dao.UserDao;
 import model.User;
 
 class UserTest {
-	
+	UserDao userdao = new UserDao();
+	private String[] params = new String[1];
 	@BeforeEach
 	void setUp() throws Exception {
+		params[0]="signature";
 	}
 
 	@AfterEach
@@ -22,8 +24,12 @@ class UserTest {
 	@Test
 	void testGetUser() {
 		User user1 = new UserDao().get(1);
-		User user2 = new UserDao().get(2);
 		assertEquals("MB", user1.getSignature(), "Fel signar för MB");
-		assertEquals("SO", user2.getSignature(), "Fel signarur från SO");
+		userdao.update(new User(1, "KS"), params);
+		user1 = userdao.get(1);
+		assertEquals("KS", user1.getSignature(), "Fel signar för KS");
+		userdao.update(new User(1, "MB"), params);
+		user1 = userdao.get(1);
+		assertEquals("MB", user1.getSignature(), "Fel signar för MB");
 	}
 }

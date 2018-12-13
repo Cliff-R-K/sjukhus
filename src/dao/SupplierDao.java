@@ -86,22 +86,6 @@ public class SupplierDao implements IDao<Supplier> {
 		return saveSucess;
 	}
 
-	/**
-	 * This method uses a temporary Supplier set with the desired changed values. It
-	 * must have a 'id' that corresponds to a existing record in the database. The
-	 * String array provides the attribute names of Supplier class that is subject
-	 * to change. Do not use the column names from the table, this will increase
-	 * coupling and is bad. The method should make the coupling between the
-	 * suppliers attribute and corresponding column name in table suppliers, it
-	 * should be the same but there's no guarantee. In this way the calling object
-	 * need not to know anything about the construction of the database table, and
-	 * that is a good thing.
-	 * 
-	 * @param t      - an instance of a Supplier with new values on attributes but
-	 *               an 'id' identical to an existing supplier in the DB
-	 * @param params - an array with the attribute names of the supplier that is
-	 *               subject to change with this update.
-	 */
 	@Override
 	public void update(Supplier t, String[] params) {
 		PreparedStatement preparedStatement = null;
@@ -116,8 +100,10 @@ public class SupplierDao implements IDao<Supplier> {
 			try {
 				preparedStatement = dbConManagerSingleton
 						.prepareStatement("UPDATE suppliers SET name=? WHERE idSupplier=?");
+				System.out.println(s.getSupplierId());
 				preparedStatement.setString(1, s.getSupplierName());
 				preparedStatement.setInt(2, s.getSupplierId());
+		
 				preparedStatement.executeUpdate();
 			} catch (SQLException e) {
 
