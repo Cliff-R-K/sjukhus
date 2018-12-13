@@ -13,12 +13,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+
+import com.sun.istack.internal.logging.Logger;
 
 import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
 import dao.RoomDao;
 import dao.SupplierDao;
 import dao.UserDao;
+import dataholder.DataHolder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -79,32 +83,9 @@ public class NuclearAppController implements Initializable {
 	public ListView<String> listView = new ListView<String>();
 
 	public CheckBox check_kontamineringskontroll = new CheckBox();
-	public TableView radioView = new TableView<RegRadio>();
-	public TableColumn startActivityCol = new TableColumn();
-	public TableColumn roomCol = new TableColumn();
-	public TableColumn substanceCol2 = new TableColumn();
-	public TableColumn startDateCol = new TableColumn();
-	public TableColumn calibrationCol = new TableColumn();
-	public TableColumn arrivalDateCol = new TableColumn();
-	public TableColumn batchNumberCol = new TableColumn();
-	private RegRadio regP;
+
 	private User user;
-	private Date startdate;
-	private Date enddate;
-	private Date arrivalDate;
-	public TableColumn userCol = new TableColumn();;
-	public TableColumn radioPharmaceuticalCol = new TableColumn();
-	public TableColumn endDateCol = new TableColumn();;
-	public TableColumn contaminationControllCol = new TableColumn();
-	public TableColumn supplierCol = new TableColumn();
-  public TableColumn uniqueIdCol = new TableColumn();
-	public Button editButton = new Button();
-  
-  
-  
-  
-  
-  public Button button = new Button();
+	///////////////////////////////////////////////////////////
 	public TableView radioView = new TableView<RegRadio>();
 	public TableColumn startActivityCol = new TableColumn();
 	public TableColumn roomCol = new TableColumn();
@@ -127,6 +108,7 @@ public class NuclearAppController implements Initializable {
 	private RegRadio chosenRegRadio;
 
 	private ActionEvent event;
+	//////////////////////////////////////////////////////////
 
 	// Test
 
@@ -155,6 +137,8 @@ public class NuclearAppController implements Initializable {
 	TableColumn<RegRadio, Room> columnRoom;
 	@FXML
 	TableColumn<RegRadio, User> columnUser;
+
+	private RegRadio radioToEdit;
 
 	public void addSuppliers() {
 		supplierList.addAll(new SupplierDao().getAll());
@@ -215,13 +199,13 @@ public class NuclearAppController implements Initializable {
 		addSuppliers();
 		addRooms();
 		addUser();
-    runTempStorage();
+		runTempStorage();
 		signatur.setText(user.getSignature());
 		ankomstdatum.setValue(LocalDate.now());
 		combobox_radio.setDisable(true);
 
-////////////////////////////////////////////////
-		
+		////////////////////////////////////////////////
+
 		startActivityCol.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
 		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
 		radiopharmaceuticalCol.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
@@ -237,7 +221,7 @@ public class NuclearAppController implements Initializable {
 
 		searchRegRadioList.clear();
 		radioView.setItems(searchRegRadioList);
-		
+
 		///////////////////////////////////////////////////
 
 		combobox_suppliers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -273,8 +257,8 @@ public class NuclearAppController implements Initializable {
 		});
 
 		saveButton.setOnAction((event) -> {
-			
-			
+
+
 			RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(), text_batchnr.getText(),
 					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), user, null,
 					combobox_suppliers.getValue());
@@ -296,8 +280,8 @@ public class NuclearAppController implements Initializable {
 		});
 
 	}
-  
-  	public void runTempStorage() {
+
+	public void runTempStorage() {
 		new Thread() {
 			@Override
 			public void run() {
@@ -330,32 +314,51 @@ public class NuclearAppController implements Initializable {
 		return time.replace(":", "");
 
 	}
-  public void clickedSearchScrollPane() {
+	public void clickedSearchScrollPane() {
 		System.out.println("clicked scrollpane");
-		
+
 		chosenRegRadio = (RegRadio) radioView.getSelectionModel().getSelectedItem();
 		chosenRegRadio.print();
 
 	}
 	public void clickedEditButton() throws IOException {
-		
+
 		System.out.println("clicked edit");
-		
-//		Stage primaryStage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("EditRegRadioUi.fxml"));
-//		primaryStage.setTitle("kakaka");
-//		primaryStage.setScene(new Scene(root));
-//		primaryStage.show();
-		
-//		root = FXMLLoader.load(getClass().getClassLoader().getResource("path/to/other/view.fxml"), resources);
-        Stage stage = new Stage();
-        stage.setTitle("Redigera");
-        stage.setScene(new Scene(root));
-        stage.show();
-        // Hide this current window (if this is what you want)
-        ((Node)(event.getSource())).getScene().getWindow().hide();
-		
+		DataHolder.setSavedRadio(chosenRegRadio);
+
+		//		FXMLLoader	 fLoader = new FXMLLoader();
+		//		fLoader.setLocation(getClass().getResource("EditRegRadioUI.fxml"));
+		//		try {
+		//			System.out.println("aaaaaaaaaaaaaaaaa");
+		//			fLoader.load();
+		//		} catch (IOException ex) { 
+		//			Logger.getLogger(NuclearAppController.class.getName(), null).log(Level.SEVERE,null,ex);
+		//		}
+		//		EditGuiController editController = fLoader.getController();
+		//		editController.initateData(chosenRegRadio);
+
+		Parent root = FXMLLoader.load(getClass().getResource("EditRegRadioUI.fxml"));
+		Stage stage = new Stage();
+		stage.setTitle("Redigera");
+		stage.setScene(new Scene(root));
+		stage.show();
+
+
+
+
+//		((Node)(event.getSource())).getScene().getWindow().hide();
+
 	}
+
+	//	public RegRadio getData() {
+	//		// TODO Auto-generated method stub
+	//		System.out.println("get ");
+	//		radioToEdit.print();
+	//		System.out.println("get");
+	//		return radioToEdit;
+	//	}
+
+
 }
-}
+
 

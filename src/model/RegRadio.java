@@ -82,6 +82,13 @@ public class RegRadio {
 	
 
 
+	public RegRadio(Double valueOf, java.sql.Date valueOf2, Object object, Object object2, Object object3,
+			Object object4, Object object5, User user2, Object object6) {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	public int getId() {
 		return id;
 	}

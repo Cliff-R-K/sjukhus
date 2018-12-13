@@ -49,7 +49,6 @@ public class LogInController implements Initializable {
 		System.out.println(user);
 		System.out.println(pass);
 		login();
-		
 	}
 	
 	private void login() throws Exception {
