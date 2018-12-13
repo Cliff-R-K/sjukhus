@@ -84,22 +84,6 @@ public class UserDao implements IDao<User> {
 		return saveSucess;
 	}
 
-	/**
-	 * This method uses a temporary User set with the desired changed values. It
-	 * must have a 'id' that corresponds to a existing record in the database. The
-	 * String array provides the attribute names of User class that is subject to
-	 * change. Do not use the column names from the table, this will increase
-	 * coupling and is bad. The method should make the coupling between the Users
-	 * attribute and corresponding column name in table users, it should be the same
-	 * but there's no guarantee. In this way the calling object need not to know
-	 * anything about the construction of the database table, and that is a good
-	 * thing.
-	 * 
-	 * @param t      - an instance of a User with new values on attributes but an
-	 *               'id' identical to an existing user in the DB
-	 * @param params - an array with the attribute names of the user that is subject
-	 *               to change with this update.
-	 */
 	@Override
 	public void update(User t, String[] params) {
 		PreparedStatement preparedStatement = null;
@@ -111,7 +95,7 @@ public class UserDao implements IDao<User> {
 				s.setSignature(t.getSignature());
 			try {
 				preparedStatement = conn
-						.prepareStatement("UPDATE users SET signature=? WHERE idUser=?");
+						.prepareStatement("UPDATE users SET signature=? WHERE iduser=?");
 				preparedStatement.setString(1, s.getSignature());
 				preparedStatement.setInt(2, s.getId());
 

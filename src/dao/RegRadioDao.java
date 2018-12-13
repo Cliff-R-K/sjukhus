@@ -79,38 +79,12 @@ public class RegRadioDao implements IDao<RegRadio> {
 		
 	}
 	
-	public ArrayList<RegRadio> getSearchedRegRadios(Date startDate, Date endDate) {
-		RegRadio rp = null;
-		ArrayList<RegRadio> searchedList = new ArrayList<>();
-		try {
-			String sqlString = "select * from regradios where arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\"";
-			ResultSet rs = conn.excecuteQuery(sqlString);
-				while(rs.next()) {
-				Radiopharmaceutical radiopharmaceutical2 = new RadiopharmaceuticalDao().get(rs.getInt(7));
-				Room room2 = new RoomDao().get(rs.getInt(8));
-				User user2 = new UserDao().get(rs.getInt(9));
-				Calibration calibration = rs.getInt(10) != 0 ? new CalibrationDao().get(rs.getInt(10)):null;
-				rp = new RegRadio(rs.getInt(1),rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(), rs.getDate(4),
-						rs.getString(5), rs.getString(6), radiopharmaceutical2,
-						room2, user2, calibration);		
-				searchedList.add(rp);
-				}
-//			}
-			conn.close();
-		} catch (SQLException e) {
-			System.err.println("Ingen registrerade Läkemedel  mellan" + startDate + endDate + " hittades!");
-		}
-		return searchedList;
-	}
-	
 	public ArrayList<RegRadio> getSearchedRegRadios(Date startDate, Date endDate, Radiopharmaceutical radiopharmaceutical, Room room, User user) {
 		RegRadio rp = null;
 		ArrayList<RegRadio> searchedList = new ArrayList<>();
 		try {
 		String sqlString = null;
 		if(radiopharmaceutical != null && room == null && user == null) {
-			//KOD
-			System.out.println("radiopharmaceutical != null && room == null && user == null");
 			sqlString = "SELECT * FROM regradios "
 			+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
 			+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
@@ -118,20 +92,52 @@ public class RegRadioDao implements IDao<RegRadio> {
 			+ " WHERE arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\""
 			+ " AND radiopharmaceuticals_idradio = "+"\""+radiopharmaceutical.getId()+"\"";
 		}else if(radiopharmaceutical != null && room != null && user == null) {
-			//KOD
-			System.out.println("radiopharmaceutical != null && room != null && user == null");
+			sqlString = "SELECT * FROM regradios "
+			+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
+			+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
+			+ "JOIN users ON regradios.users_iduser = users.iduser "
+			+ " WHERE arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\""
+			+ " AND radiopharmaceuticals_idradio = "+"\""+radiopharmaceutical.getId()+"\""
+			+ " AND rooms_idroom = "+"\""+room.getId()+"\"";
 		}else if(radiopharmaceutical != null && room == null && user != null) {
-			//KOD
-			System.out.println("radiopharmaceutical != null && room == null && user != null");
+			sqlString = "SELECT * FROM regradios "
+					+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
+					+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
+					+ "JOIN users ON regradios.users_iduser = users.iduser "
+					+ " WHERE arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\""
+					+ " AND radiopharmaceuticals_idradio = "+"\""+radiopharmaceutical.getId()+"\""
+					+ " AND rooms_idroom = "+"\""+user.getId()+"\"";
 		}else if(radiopharmaceutical == null && room != null && user == null) {
-			//KOD
-			System.out.println("radiopharmaceutical == null && room != null && user == null");
+			sqlString = "SELECT * FROM regradios "
+					+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
+					+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
+					+ "JOIN users ON regradios.users_iduser = users.iduser "
+					+ " WHERE arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\""
+					+ " AND rooms_idroom = "+"\""+room.getId()+"\"";
 		}else if(radiopharmaceutical == null && room != null && user != null) {
-			//KOD
-			System.out.println("radiopharmaceutical == null && room != null && user != null");
+			sqlString = "SELECT * FROM regradios "
+					+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
+					+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
+					+ "JOIN users ON regradios.users_iduser = users.iduser "
+					+ " WHERE arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\""
+					+ " AND rooms_idroom = "+"\""+room.getId()+"\""
+					+ " AND users_iduser = "+"\""+user.getId()+"\"";
 		}else if(radiopharmaceutical == null && room == null && user != null) {
-			//KOD
-			System.out.println("radiopharmaceutical == null && room == null && user != null");
+			sqlString = "SELECT * FROM regradios "
+					+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
+					+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
+					+ "JOIN users ON regradios.users_iduser = users.iduser "
+					+ " WHERE arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\""
+					+ " AND users_iduser = "+"\""+user.getId()+"\"";
+		}else if(radiopharmaceutical != null && room != null && user != null) {
+			sqlString = "SELECT * FROM regradios "
+					+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
+					+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
+					+ "JOIN users ON regradios.users_iduser = users.iduser "
+					+ " WHERE arrival_date BETWEEN \""+startDate+"\"" +" AND "+"\""+endDate+"\""
+					+ " AND radiopharmaceuticals_idradio = "+"\""+radiopharmaceutical.getId()+"\""
+					+ " AND rooms_idroom = "+"\""+room.getId()+"\""
+					+ " AND users_iduser = "+"\""+user.getId()+"\"";
 		}else {
 			System.out.println("else");
 			sqlString = "SELECT * FROM regradios "
@@ -268,31 +274,15 @@ public class RegRadioDao implements IDao<RegRadio> {
 		return saveSucess;
 	}
 
-	/**
-	 * This method uses a temporary Student set with the desired changed values. It
-	 * must have a 'id' that corresponds to a existing record in the database. The
-	 * String array provides the attribute names of Student class that is subject to
-	 * change. Do not use the column names from the table, this will increase
-	 * coupling and is bad. The method should make the coupling between the Students
-	 * attribute and corresponding column name in table students, it should be the
-	 * same but there's no guarantee. In this way the calling object need not to
-	 * know anything about the construction of the database table, and that is a
-	 * good thing.
-	 * 
-	 * @param t      - an instance of a Student with new values on attributes but an
-	 *               'id' identical to an existing student in the DB
-	 * @param params - an array with the attribute names of the student that is
-	 *               subject to change with this update.
-	 */
-
 	@Override
 	public void update(RegRadio t, String[] params) {
-		/*PreparedStatement ps = null;
+/*
+		PreparedStatement ps = null;
 		RegRadio k = get(t.getId());
 
 		for (String p : params) {
 
-			if (p.equals("RegRadioKod")) {
+			if (p.equals("start_activity")) {
 				k.setRegRadioKod(t.getRegRadioKod());
 			} else if (p.equals("RegRadioNamn")) {
 				k.setRegRadioNamn(t.getRegRadioNamn());
@@ -335,9 +325,9 @@ public class RegRadioDao implements IDao<RegRadio> {
 			System.out.println("Update Fail");
 			e.printStackTrace();
 		}
-*/
+		*/
 	}
-
+	
 	@Override
 	public void delete(RegRadio t) {
 		String sqlString = "DELETE FROM regradios WHERE idregradio=?";

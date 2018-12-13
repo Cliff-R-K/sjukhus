@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import controller.SearchController;
 import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
 import dao.RoomDao;
@@ -105,7 +104,6 @@ public class NuclearAppController implements Initializable {
 	public TableColumn arrivalDateCol = new TableColumn();
 	public TableColumn batchNumberCol = new TableColumn();
 	private TableColumn uniqueIdCol = new TableColumn();
-	public SearchController searchController;
 	//private RegRadio regP;
 	private User user;
 	//private Date startdate;
@@ -220,6 +218,11 @@ public class NuclearAppController implements Initializable {
 	
 	public void clearButton(ActionEvent search) throws Exception {
 		this.event = search;
+		combobox_user_tab_two.setValue(null);
+		combobox_radio_tab_two.setValue(null);
+		combobox_room_tab_two.setValue(null);
+		endSortDate.setValue(LocalDate.now());
+		startSortDate.setValue(LocalDate.of(1900, 01, 01));
 		searchRegRadioList.clear();
 		populateListFromDatabase();
 		radioView.setItems(searchRegRadioList);
@@ -419,7 +422,6 @@ public class NuclearAppController implements Initializable {
 
   public void clickedSearchScrollPane() {
 		System.out.println("clicked scrollpane");
-    
 		chosenRegRadio = (RegRadio) radioView.getSelectionModel().getSelectedItem();
 		chosenRegRadio.print();
 	}
