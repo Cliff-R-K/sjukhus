@@ -58,7 +58,7 @@ public RoomDao() {
 		try {
 			String queryString = "INSERT INTO rooms (room_code, description) VALUES(?,?)";
 			ps = conn.prepareStatement(queryString);
-			ps.setString(1, t.getRoomId());
+			ps.setString(1, t.getRoomCode());
 			ps.setString(2, t.getDescription());
 			if(ps.executeUpdate() == 1)
 				saveSuccess = true;
