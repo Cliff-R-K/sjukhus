@@ -134,7 +134,7 @@ public class NuclearAppController implements Initializable {
 	private Radiopharmaceutical radio_tab_two = null;
 	private Room room_tab_two = null;
 	private User user_tab_two;
-
+	private int tabOneNumberOfRows = 30;
 	private ActionEvent event;
 	//////////////////////////////////////////////////////////
 
@@ -232,17 +232,16 @@ public class NuclearAppController implements Initializable {
 	
 	public void clearButton(ActionEvent search) throws Exception {
 		this.event = search;
-/*		combobox_user_tab_two.setValue(null);
-		combobox_radio_tab_two.setValue(null);
-		combobox_room_tab_two.setValue(null);*/
-		combobox_room_tab_two.getItems().clear();
-		combobox_radio_tab_two.getItems().clear();
-		combobox_user_tab_two.getItems().clear();
+		combobox_room_tab_two.getSelectionModel().clearSelection();
+		combobox_radio_tab_two.getSelectionModel().clearSelection();
+		combobox_user_tab_two.getSelectionModel().clearSelection();
 		endSortDate.setValue(LocalDate.now());
 		startSortDate.setValue(LocalDate.of(1900, 01, 01));
+	
 		searchRegRadioList.clear();
 		populateListFromDatabase();
 		radioView.setItems(searchRegRadioList);
+		radioView.refresh();
 	}
 
 	public String getCurrentDate() {
@@ -402,8 +401,11 @@ public class NuclearAppController implements Initializable {
 	}
 
 	public void populateTabOneTablelist() {
-		//Magiska siffror
-		regRadioList = FXCollections.observableArrayList(searchRegRadioList.subList(0, 10)); 
+		if(searchRegRadioList.size() > tabOneNumberOfRows)
+		regRadioList = FXCollections.observableArrayList(searchRegRadioList.subList(0, tabOneNumberOfRows)); 
+		else {
+			regRadioList = searchRegRadioList;
+		}
 		tableview.getItems().addAll(regRadioList);
 
 	}
@@ -477,7 +479,6 @@ public class NuclearAppController implements Initializable {
 		stage.show();
 		
 		
-		//((Node)(event.getSource())).getScene().getWindow().hide();
 		
 	}
 
