@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -438,6 +439,38 @@ public class NuclearAppController implements Initializable {
 
 		searchRegRadioList.clear();
 		radioView.setItems(searchRegRadioList);
+  }
+		tableview.setEditable(true);
+		columnSupplier.setEditable(true);
+		
+		columnSupplier.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));
+//		columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
+		
+		columnSupplier.setOnEditCommit(t -> {
+			Button save = new Button("Spara");
+			Button abort = new Button("Avbryt");
+			ArrayList<Radiopharmaceutical> radioListfromSupplier = new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(t.getNewValue().getSupplierName());
+			radioList = FXCollections.observableArrayList(radioListfromSupplier);
+			t.getRowValue().setSupplier(t.getNewValue());
+			columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
+			TableColumn<RegRadio, Button> editRow = new TableColumn<>("Edit");
+			if(tableview.getColumns().size() <= 9)
+			tableview.getColumns().add(editRow);
+			//knark
+			
+			
+			
+//			System.out.println(t.getTablePosition());
+//			System.out.println(radioList.toString());
+			
+			
+			
+			
+		
+			
+		});
+		
+
 	}
 
 	public Date getArrivalDate() {
