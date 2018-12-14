@@ -476,10 +476,7 @@ public class NuclearAppController implements Initializable {
 		Stage stage = new Stage();
 		stage.setTitle("Redigera");
 		stage.setScene(new Scene(root));
-		stage.show();
-		
-		
-		
+		stage.show();	
 	}
 
 
