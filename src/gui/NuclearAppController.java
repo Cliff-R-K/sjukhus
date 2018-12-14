@@ -449,6 +449,7 @@ public class NuclearAppController implements Initializable {
 			TableColumn<RegRadio, Button> editRow = new TableColumn<>("Edit");
 			if(tableview.getColumns().size() <= 9)
 			tableview.getColumns().add(editRow);
+			//knark
 			
 			
 			
