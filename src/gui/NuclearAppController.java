@@ -270,25 +270,12 @@ public class NuclearAppController implements Initializable {
 		combobox_radio.setDisable(true);
 		
 		setUpTableView();
+		setUpTableViewTabTwo();
 		new Thread(() -> populateListFromDatabase()).start();
 
 		////////////////////////////////////////////////
 
-		startActivityCol.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
-		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
-		radiopharmaceuticalCol.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
-		startDateCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-		endDateCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-		calibrationCol.setCellValueFactory(new PropertyValueFactory<>("calibration"));
-		arrivalDateCol.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
-		batchNumberCol.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
-		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
-		contaminationControllCol.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
-		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
-		uniqueIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-
-		searchRegRadioList.clear();
-		radioView.setItems(searchRegRadioList);
+		
 
 		///////////////////////////////////////////////////
 		
@@ -433,6 +420,26 @@ public class NuclearAppController implements Initializable {
 		columnRoom.setCellValueFactory(new PropertyValueFactory<>("room"));
 		columnUser.setCellValueFactory(new PropertyValueFactory<>("user"));
 		
+		columnSupplier.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));	
+	}
+	
+	public void setUpTableViewTabTwo() {
+		startActivityCol.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
+		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
+		radiopharmaceuticalCol.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
+		startDateCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+		endDateCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+		calibrationCol.setCellValueFactory(new PropertyValueFactory<>("calibration"));
+		arrivalDateCol.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
+		batchNumberCol.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
+		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
+		contaminationControllCol.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
+		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
+		uniqueIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+		searchRegRadioList.clear();
+		radioView.setItems(searchRegRadioList);
+  }
 		tableview.setEditable(true);
 		columnSupplier.setEditable(true);
 		
@@ -463,6 +470,7 @@ public class NuclearAppController implements Initializable {
 			
 		});
 		
+
 	}
 
 	public Date getArrivalDate() {
@@ -505,10 +513,7 @@ public class NuclearAppController implements Initializable {
 		Stage stage = new Stage();
 		stage.setTitle("Redigera");
 		stage.setScene(new Scene(root));
-		stage.show();
-		
-		
-		
+		stage.show();	
 	}
 
 
