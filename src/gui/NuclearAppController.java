@@ -51,6 +51,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.ComboBoxTreeCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Radiopharmaceutical;
@@ -435,36 +436,67 @@ public class NuclearAppController implements Initializable {
 		
 		tableview.setEditable(true);
 		columnSupplier.setEditable(true);
-		
 		columnSupplier.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));
-//		columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
-		
 		columnSupplier.setOnEditCommit(t -> {
-			Button save = new Button("Spara");
-			Button abort = new Button("Avbryt");
+			
 			ArrayList<Radiopharmaceutical> radioListfromSupplier = new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(t.getNewValue().getSupplierName());
 			radioList = FXCollections.observableArrayList(radioListfromSupplier);
 			t.getRowValue().setSupplier(t.getNewValue());
 			columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
-			TableColumn<RegRadio, Button> editRow = new TableColumn<>("Edit");
-			if(tableview.getColumns().size() <= 9)
-			tableview.getColumns().add(editRow);
-			//knark
 			
-			
-			
-//			System.out.println(t.getTablePosition());
-//			System.out.println(radioList.toString());
-			
-			
-			
-			
-		
+			if(tableview.getColumns().size() <= 9) {
+				addButtonsToTable();
+			}
 			
 		});
 		
 	}
 
+	private void addButtonsToTable() {
+		
+		TableColumn<RegRadio, Void> editRow = new TableColumn<>("Edit");
+		tableview.getColumns().add(editRow);
+		
+		Callback<TableColumn<RegRadio, Void>, TableCell<RegRadio, Void>> cellFactory = new Callback<TableColumn<RegRadio,Void>, TableCell<RegRadio,Void>>() {
+			@Override
+            public TableCell<RegRadio, Void> call(final TableColumn<RegRadio, Void> param) {
+                final TableCell<RegRadio, Void> cell = new TableCell<RegRadio, Void>() {
+
+                    private final Button btnSave = new Button("Save");
+                    private final Button btnAbort = new Button("Avbryt");
+
+                    {
+                        btnSave.setOnAction((ActionEvent event) -> {
+                        	RegRadio rr = getTableView().getItems().get(getIndex());
+                            
+                        	System.out.println("Saved");
+                        });
+                    }
+                    {
+                        btnAbort.setOnAction((ActionEvent event) -> {
+                            System.out.println("Abort");
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                        	HBox pane = new HBox(btnSave, btnAbort);
+                            setGraphic(pane);
+                        }
+                    }
+                };
+                return cell;
+            }
+		};
+		editRow.setCellFactory(cellFactory);
+
+        tableview.getColumns().add(editRow);
+	}
+	
 	public Date getArrivalDate() {
 		return java.sql.Date.valueOf(ankomstdatum.getValue());
 	}
