@@ -38,5 +38,7 @@ public class mainTest {
 //				new RoomDao().get(1), new UserDao().get(1), new CalibrationDao().get(1));
 //		mm.getAllRegRadio();
 //		mm.getRegRadio(4).getSupplier().print();
+		
+		
 	}
 }

@@ -40,6 +40,25 @@ public class RegRadio {
 		this.setSupplier(supplier);
 	}
 	
+	public RegRadio(int id, double startActivity, LocalDateTime start, Date arrivalDate, String batchNumber, 
+			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user, Calibration calibration, Supplier supplier) {
+
+		super();
+		this.startActivity = startActivity;
+		startDate = start;
+		endDate = null;
+		this.arrivalDate = arrivalDate;
+		this.batchNumber = batchNumber;
+		contaminationControll = conControll;
+		this.user=user;
+		this.calibration = calibration;
+		this.room = room;
+		this.user = user;
+		this.startActivity = startActivity;		
+		this.radiopharmaceutical = radiopharmaceutical;
+		this.setSupplier(supplier);
+	}
+	
 
 
 	public RegRadio(double startActivity, LocalDateTime start, Date arrivalDate, String batchNumber, 
@@ -82,10 +101,10 @@ public class RegRadio {
 	
 
 
-	public RegRadio(Double valueOf, java.sql.Date valueOf2, Object object, Object object2, Object object3,
-			Object object4, Object object5, User user2, Object object6) {
-		// TODO Auto-generated constructor stub
-	}
+//	public RegRadio(Double valueOf, java.sql.Date valueOf2, Object object, Object object2, Object object3,
+//			Object object4, Object object5, User user2, Object object6) {
+//		// TODO Auto-generated constructor stub
+//	}
 
 
 
