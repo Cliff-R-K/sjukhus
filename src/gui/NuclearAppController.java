@@ -424,22 +424,23 @@ public class NuclearAppController implements Initializable {
 	}
 	
 	public void setUpTableViewTabTwo() {
-		startActivityCol.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
-		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
-		radiopharmaceuticalCol.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
-		startDateCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-		endDateCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-		calibrationCol.setCellValueFactory(new PropertyValueFactory<>("calibration"));
-		arrivalDateCol.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
-		batchNumberCol.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
-		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
-		contaminationControllCol.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
-		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
 		uniqueIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
+		radiopharmaceuticalCol.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
+		batchNumberCol.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
+		startActivityCol.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
+		startDateCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+		arrivalDateCol.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
+		contaminationControllCol.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
+		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
+		calibrationCol.setCellValueFactory(new PropertyValueFactory<>("calibration"));
+		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
+		
 
 		searchRegRadioList.clear();
 		radioView.setItems(searchRegRadioList);
   }
+	/*{
 		tableview.setEditable(true);
 		columnSupplier.setEditable(true);
 		
@@ -469,9 +470,8 @@ public class NuclearAppController implements Initializable {
 		
 			
 		});
-		
-
-	}
+}
+		*/
 
 	public Date getArrivalDate() {
 		return java.sql.Date.valueOf(ankomstdatum.getValue());
