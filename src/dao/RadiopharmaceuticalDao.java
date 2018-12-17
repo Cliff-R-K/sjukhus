@@ -67,7 +67,6 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 	
 	
 	@Override
-
 	public Radiopharmaceutical get(int id) throws NoSuchElementException {
 		Radiopharmaceutical radiopharmaceutical = null;
 		try {
@@ -86,6 +85,27 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 		}
 		return radiopharmaceutical;
 	}
+	
+//	public Supplier getSupplierByRadioId(int radioId) throws NoSuchElementException {
+//		Radiopharmaceutical radiopharmaceutical = null;
+//		try {
+//			String sqlString = "SELECT * FROM radiopharmaceuticals WHERE idradio=" + id;
+//			ResultSet rs = conn.excecuteQuery(sqlString);
+//			if (!rs.next())
+//				throw new NoSuchElementException("The radiopharmaceutical with id " + id + " doesen't exist in database");
+//			else {
+//				Substance substance = new SubstanceDao().get(rs.getInt(4));
+//				Supplier supplier = new SupplierDao().get(rs.getInt(5));	
+//				radiopharmaceutical = new Radiopharmaceutical(rs.getInt(1),rs.getString(2), rs.getString(3),substance, supplier);						
+//			}
+//			conn.close();
+//		} catch (SQLException e) {
+//			System.err.println("Ingen Läkemedel med " + id + " hittades!");
+//		}
+//		return radiopharmaceutical;
+//	}
+	
+	
 
 	@Override
 	public List<Radiopharmaceutical> getAll() {

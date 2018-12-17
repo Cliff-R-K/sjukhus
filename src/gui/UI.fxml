@@ -73,6 +73,7 @@
                         <TableColumn fx:id="columnContaminationControl" prefWidth="75.0" text="Kontamineringskontroll" />
                         <TableColumn fx:id="columnRoom" prefWidth="75.0" text="Rum" />
                         <TableColumn fx:id="columnUser" prefWidth="75.0" text="Signatur" />
+                       
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
