@@ -51,6 +51,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.ComboBoxTreeCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Radiopharmaceutical;
@@ -170,6 +171,8 @@ public class NuclearAppController implements Initializable {
 
 	private RegRadio radioToEdit;
 
+	private int i;
+
 	public void addSuppliers() {
 		supplierList.addAll(new SupplierDao().getAll());
 		combobox_suppliers.getItems().addAll(supplierList);
@@ -238,7 +241,7 @@ public class NuclearAppController implements Initializable {
 		combobox_user_tab_two.getSelectionModel().clearSelection();
 		endSortDate.setValue(LocalDate.now());
 		startSortDate.setValue(LocalDate.of(1900, 01, 01));
-	
+		editButton.setDisable(true);
 		searchRegRadioList.clear();
 		populateListFromDatabase();
 		radioView.setItems(searchRegRadioList);
@@ -354,6 +357,8 @@ public class NuclearAppController implements Initializable {
 				user_tab_two = null;
 			}
 		});
+		//FLIK 2
+		editButton.setDisable(true);
 	}
 
 	private void saveProductButton() {
@@ -363,7 +368,7 @@ public class NuclearAppController implements Initializable {
 			public void run() {
 				RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(),
 						text_batchnr.getText(), getContaminationControl(), combobox_radio.getValue(),
-						combobox_room.getValue(), user, null, combobox_suppliers.getValue());
+						combobox_room.getValue(), user, combobox_suppliers.getValue());
 
 				columnAnkomstdatum.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
 				columnSupplier.setCellValueFactory(new PropertyValueFactory<>("supplier"));
@@ -487,33 +492,21 @@ public class NuclearAppController implements Initializable {
 	}
 
 	public void clickedSearchScrollPane() {
+		editButton.setDisable(false);
 		System.out.println("clicked scrollpane");
-
 		chosenRegRadio = (RegRadio) radioView.getSelectionModel().getSelectedItem();
+		i = chosenRegRadio.getId();
 		chosenRegRadio.print();
 	}
 
-	public void clickedEditButton() throws IOException {
-
-		System.out.println("clicked edit");
+	public void clickedActivityButton(ActionEvent logout) throws Exception {
+		System.out.println("clicked activity");
 		DataHolder.setSavedRadio(chosenRegRadio);
-
-		//		FXMLLoader	 fLoader = new FXMLLoader();
-		//		fLoader.setLocation(getClass().getResource("EditRegRadioUI.fxml"));
-		//		try {
-		//			System.out.println("aaaaaaaaaaaaaaaaa");
-		//			fLoader.load();
-		//		} catch (IOException ex) { 
-		//			Logger.getLogger(NuclearAppController.class.getName(), null).log(Level.SEVERE,null,ex);
-		//		}
-		//		EditGuiController editController = fLoader.getController();
-		//		editController.initateData(chosenRegRadio);
-
-		Parent root = FXMLLoader.load(getClass().getResource("EditRegRadioUI.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("ActivityControl.fxml"));
 		Stage stage = new Stage();
-		stage.setTitle("Redigera");
+		stage.setTitle("Aktivitetskontroll");
 		stage.setScene(new Scene(root));
-		stage.show();	
+		stage.show();
 	}
 
 
@@ -521,7 +514,7 @@ public class NuclearAppController implements Initializable {
 
 //		
 
-
+	
   
   	public Date getStartSortDate() {
   		start = java.sql.Date.valueOf(startSortDate.getValue());
@@ -541,13 +534,5 @@ public class NuclearAppController implements Initializable {
 		radioView.setItems(searchRegRadioList);
 
 	}
-
-	//	public RegRadio getData() {
-	//		// TODO Auto-generated method stub
-	//		System.out.println("get ");
-	//		radioToEdit.print();
-	//		System.out.println("get");
-	//		return radioToEdit;
-	//	}
-
 }
+

@@ -25,7 +25,7 @@ public class CalibrationDao implements IDao<Calibration>{
 				if(!rs.next())
 					throw new NoSuchElementException();
 				else {
-					calibration = new Calibration(rs.getInt(1), rs.getDate(2),rs.getDouble(3));
+					calibration = new Calibration(rs.getInt(1), rs.getTimestamp(2).toLocalDateTime(),rs.getDouble(3));
 				}
 				conn.close();
 			} catch (Exception e) {
@@ -41,7 +41,7 @@ public class CalibrationDao implements IDao<Calibration>{
 			try {
 				ResultSet rs = conn.excecuteQuery("SELECT * FROM calibrations");
 				while(rs.next()) {
-					list.add(new Calibration(rs.getInt(1), rs.getDate(2),rs.getDouble(3)));
+					list.add(new Calibration(rs.getInt(1), rs.getTimestamp(2).toLocalDateTime(),rs.getDouble(3)));
 				}
 				conn.close();
 			} catch (Exception e) {
@@ -58,7 +58,7 @@ public class CalibrationDao implements IDao<Calibration>{
 			try {
 				String queryString = "INSERT INTO calibrations (calibration_date, mbq) VALUES(?,?)";
 				ps = conn.prepareStatement(queryString);
-				ps.setDate(1, new java.sql.Date(t.getDate().getTime()));
+				ps.setTimestamp(1, java.sql.Timestamp.valueOf(t.getDate()));
 				ps.setDouble(2, t.getMbq());
 				if(ps.executeUpdate() == 1)
 					saveSuccess = true;
