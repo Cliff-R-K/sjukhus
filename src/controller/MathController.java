@@ -81,7 +81,7 @@ public class MathController {
 		activity = startActivity*(Math.exp(((Math.log(2)/halfLife)*(time/60))));
 
 		//((Math.log(2)/halfLife)*Math.abs(time))
-		System.out.println(activity);
+
 		return activity;
 	}
 }
