@@ -145,7 +145,7 @@
                      </children>
                   </Pane>
                   <Button fx:id="logOutButton1" layoutX="1209.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
-                  <Button fx:id="editButton" layoutX="1209.0" layoutY="115.0" mnemonicParsing="false" onMouseReleased="#clickedEditButton" text="Redigera" />
+                  <Button fx:id="editButton" layoutX="1160.0" layoutY="115.0" mnemonicParsing="false" onAction="#clickedActivityButton" text="Aktivitetskontroll" />
                </children></AnchorPane>
       </content>
 </Tab>
