@@ -165,8 +165,7 @@ public class SetActivityController implements Initializable {
 				setMbQActivity(chosenRegRadio);
 				label_show_activity.setText("Aktivitet: " + df.format(chosenRegRadio.getCalibrationActivity()) + " MBq, "
 						+ "Datum: " + getCalibrationDate());
-				saveButton.setDisable(false);
-				
+				saveButton.setDisable(false);			
 			} else {
 				calibrationTextField.setDisable(false);
 			}
