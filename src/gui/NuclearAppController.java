@@ -135,13 +135,8 @@ public class NuclearAppController implements Initializable {
 	public TableColumn arrivalDateCol = new TableColumn();
 	public TableColumn batchNumberCol = new TableColumn();
 	public TableColumn uniqueIdCol = new TableColumn();
-	//private RegRadio regP;
+
 	private User user;
-	//private Date startdate;
-	//private Date enddate;
-	//private Date arrivalDate;
-	//private Date startSortDate;
-	//private Date endSortDate;
 
 	public TableColumn userCol = new TableColumn();;
 	public TableColumn radioPharmaceuticalCol = new TableColumn();
@@ -345,21 +340,7 @@ public class NuclearAppController implements Initializable {
 		saveButton.setOnAction((event) -> {
 
 			saveProductButton();
-			/*
 
-			RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(), text_batchnr.getText(),
-					getContaminationControl(), combobox_radio.getValue(), combobox_room.getValue(), user, null,
-					combobox_suppliers.getValue());
-
-
-			if(regRadioList.size() >= 10)
-				regRadioList.remove(regRadioList.size()-1);
-			regRadioList.add(0, rr);
-			searchRegRadioList.add(0, rr);
-			tableview.setItems(regRadioList);
-			radioView.getItems().add(0, rr);
-			new RegRadioDao().save(rr);
-			 */
 		});
 		///FLIK 2
 		combobox_radio_tab_two.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -453,7 +434,7 @@ public class NuclearAppController implements Initializable {
 
 		columnSupplier.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));	
 	}
-
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					
 	public void setUpTableViewTabTwo() {
 		uniqueIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
@@ -464,7 +445,7 @@ public class NuclearAppController implements Initializable {
 		arrivalDateCol.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
 		contaminationControllCol.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
 		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
-		calibrationCol.setCellValueFactory(new PropertyValueFactory<>("calibration"));
+		calibrationCol.setCellValueFactory(new PropertyValueFactory<>("calibrationInfo"));
 		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
 
 
@@ -472,38 +453,6 @@ public class NuclearAppController implements Initializable {
 		radioView.setItems(searchRegRadioList);
 		addColumnNamesToList();
 	}
-	/*{
-		tableview.setEditable(true);
-		columnSupplier.setEditable(true);
-
-		columnSupplier.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));
-//		columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
-
-		columnSupplier.setOnEditCommit(t -> {
-			Button save = new Button("Spara");
-			Button abort = new Button("Avbryt");
-			ArrayList<Radiopharmaceutical> radioListfromSupplier = new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(t.getNewValue().getSupplierName());
-			radioList = FXCollections.observableArrayList(radioListfromSupplier);
-			t.getRowValue().setSupplier(t.getNewValue());
-			columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
-			TableColumn<RegRadio, Button> editRow = new TableColumn<>("Edit");
-			if(tableview.getColumns().size() <= 9)
-			tableview.getColumns().add(editRow);
-			//knark
-
-
-
-//			System.out.println(t.getTablePosition());
-//			System.out.println(radioList.toString());
-
-
-
-
-
-
-		});
-}
-	 */
 
 	public Date getArrivalDate() {
 		return java.sql.Date.valueOf(ankomstdatum.getValue());
@@ -550,7 +499,6 @@ public class NuclearAppController implements Initializable {
 	public void searchButtonAction(ActionEvent search) throws Exception {
 		this.event = search;
 		searchRegRadioList.clear();
-		//searchRegRadioList.addAll(new RegRadioDao().getSearchedRegRadios(getStartSortDate(), getEndSortDate()));
 		searchRegRadioList.addAll(new RegRadioDao().getSearchedRegRadios(getStartSortDate(), getEndSortDate(), radio_tab_two, room_tab_two, user_tab_two));
 		radioView.setItems(searchRegRadioList);
 
