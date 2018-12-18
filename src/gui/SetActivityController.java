@@ -14,7 +14,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 import com.sun.istack.internal.logging.Logger;
 
@@ -26,29 +28,17 @@ import dao.RoomDao;
 import dao.SupplierDao;
 import dao.UserDao;
 import dataholder.DataHolder;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Calibration;
 import model.Radiopharmaceutical;
@@ -64,6 +54,9 @@ public class SetActivityController implements Initializable {
 	public Button saveButton = new Button();
 	public Button button = new Button();
 	public Button logOutButton = new Button();
+	public Button calibrationButton = new Button();
+	public Button closeButton = new Button();
+
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
@@ -76,7 +69,7 @@ public class SetActivityController implements Initializable {
 	public ComboBox<Supplier> comboBoxSuppliers = new ComboBox<>();
 	public ComboBox<Radiopharmaceutical> comboBoxRadios = new ComboBox<>();
 	public ComboBox<Room> comboBoxRooms = new ComboBox<>();
-	
+
 	public ChoiceBox<String> choiceBoxActivity = new ChoiceBox<>();
 
 	public Label label_rad_substance = new Label();
@@ -85,22 +78,23 @@ public class SetActivityController implements Initializable {
 
 	public TextField startActivityTextField = new TextField();
 	public TextField calibrationTextField = new TextField();
+	public TextField calibrationInput = new TextField();
 	public TextField calibrationTimeTextField = new TextField();
 	public TextField batchNrTextField = new TextField();
 	public TextField commentaryTextField = new TextField();
-	public TextField setActivityText = new TextField();
+	public Label label_show_activity = new Label();
+	public TextField text_activity = new TextField();
 	public Label calibrationText = new Label();
-	public Label regRadioName = new Label();
+	public Label regRadioInfo = new Label();
 
-	
 	public ListView<String> listView = new ListView<String>();
 
 	public CheckBox checkBoxContamination = new CheckBox();
+	public CheckBox check_auto_calibration = new CheckBox();
 
 	private User user;
 
 	public Button editButton = new Button();
-	public Button closeButton = new Button();
 	public Button saveEditButton = new Button();
 	public RegRadio chosenRegRadio;
 
@@ -108,39 +102,18 @@ public class SetActivityController implements Initializable {
 
 	private RegRadio regRadio;
 
-	private String regRadioNameText;
+	private String regRadioInfoText;
 
 	private Double calculatedActivity;
+	private Double userInputActivity;
 
-	public void addSuppliers() {
-		supplierList.addAll(new SupplierDao().getAll());
-		comboBoxSuppliers.getItems().addAll(supplierList);
-	}
-
-	public void addRooms() {
-		comboBoxRooms.getItems().addAll(FXCollections.observableArrayList(new RoomDao().getAll()));
-	}
-
-	public void addProducts() {
-		comboBoxRadios.setDisable(false);
-		radioList.clear();
-		radioList.addAll(new RadiopharmaceuticalDao()
-				.getRadiopharmaceuticalsBySupplierName(comboBoxSuppliers.getValue().toString()));
-		comboBoxRadios.getItems().clear();
-		comboBoxRadios.getItems().addAll(radioList);
-		comboBoxRadios.getSelectionModel().selectFirst();
-	}
-
-	public void addUser() { 
-		user = new UserDao().getCurrent(1);
-	}
-	
 	public void addRegRadio(RegRadio chosenRegRadio) {
 		this.chosenRegRadio = chosenRegRadio;
 	}
+
 	public RegRadio getRegRadio() {
 		return chosenRegRadio;
-		
+
 	}
 
 	public String getCurrentDate() {
@@ -148,50 +121,86 @@ public class SetActivityController implements Initializable {
 		Date date = new Date();
 		return dateFormat.format(date);
 	}
+	public void handleCloseButtonAction(ActionEvent event) {
+		Alert saveAlert = new Alert(AlertType.CONFIRMATION);
+		saveAlert.setHeaderText(null);
+		saveAlert.setTitle("Avbryt");
+		saveAlert.setContentText("Vill du avbryta aktiviteten?");
+	    Optional<ButtonType> result = saveAlert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			Stage stage = (Stage) closeButton.getScene().getWindow();
+		    stage.close();
+		}
+	}
+	
+	public void handleSaveButtonAction(ActionEvent event) {
+		new RegRadioDao().update(chosenRegRadio, new String[] { "calibration_activity", "users_iduser" });
+		Alert saveAlert = new Alert(AlertType.CONFIRMATION);
+		saveAlert.setHeaderText(null);
+		saveAlert.setTitle("Spara");
+		saveAlert.setContentText("Vill du spara aktiviteten?");
+
+		Optional<ButtonType> result = saveAlert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			Stage stage = (Stage) saveButton.getScene().getWindow();
+		    stage.close();
+		}
+		}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		DecimalFormat df = new DecimalFormat("#.00");
 		chosenRegRadio = DataHolder.getSavedRadio();
-		regRadioName.setText(chosenRegRadio.getRadiopharmaceutical().getRadiopharmaceuticalName());
+		regRadioInfo.setText(getRegRadioInfo());
 		calibrationText.setText(getCurrentDate());
-		choiceBoxActivity.getItems().addAll("Manuell", "Automatisk");
-		choiceBoxActivity.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue != null) {
-				if(newValue.intValue()==0) {
-				setActivityText.editableProperty();
+		saveButton.setDisable(true);
+		calibrationButton.setDisable(true);
+		calibrationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+			calibrationButton.setDisable(false);
+		});		
+		check_auto_calibration.selectedProperty().addListener((obs, oldValue, newValue) -> {
+			if (newValue) {
+				calibrationTextField.setDisable(true);
+				calibrationButton.setDisable(true);
+				setMbQActivity(chosenRegRadio);
+				label_show_activity.setText("Aktivitet: " + df.format(chosenRegRadio.getCalibrationActivity()) + " "
+						+ "Datum: " + chosenRegRadio.getCalibrationDate());
 				saveButton.setDisable(false);
-				}
-				if(newValue.intValue()==1) {
-					System.out.println("Automatisk");
-					
-					}
-			}else {
-				System.out.print(newValue);
+				
+			} else {
+				calibrationTextField.setDisable(false);
 			}
 		});
-
-		saveButton.setOnAction((event) -> {
-			MathController mathController = new MathController();
-			calculatedActivity = mathController.execute(chosenRegRadio);
-			chosenRegRadio.setCalibrationActivity(calculatedActivity);
-			chosenRegRadio.setUser(new UserDao().getCurrent(1));
-			new RegRadioDao().update(chosenRegRadio, new String[]{"calibration_activity", "users_iduser"});
-			System.out.println(calculatedActivity);
-			setActivityText.setText("Aktivitet: "+df.format(chosenRegRadio.getCalibrationActivity())+ " "
-					+ "Datum: "+chosenRegRadio.getCalibrationDate());
+		calibrationButton.setOnAction((event) -> {
+			chosenRegRadio.setCalibrationActivity(getActivity());
+			chosenRegRadio.setCalibrationsDate();
+			label_show_activity.setText("Aktivitet: " + df.format(chosenRegRadio.getCalibrationActivity()) + " "
+					+ "Datum: " + chosenRegRadio.getCalibrationDate());
 		});
+	}
 
+	public String getRegRadioInfo() {
+		regRadioInfoText = chosenRegRadio.getRadiopharmaceutical().getSupplier().getSupplierName() +": "
+				+chosenRegRadio.getRadiopharmaceutical().getRadiopharmaceuticalName()+": "
+				+chosenRegRadio.getBatchNumber()+": "+chosenRegRadio.getRoom().getDescription()+ ": "
+				+chosenRegRadio.getUser().getSignature();
+		return regRadioInfoText;
 	}
-	public String getRegRadioName() {
-		return regRadioNameText = chosenRegRadio.getRadiopharmaceutical().getRadiopharmaceuticalName();
-	}
-	
+
 	public double getActivity() {
-		return Double.parseDouble(calibrationTextField.getText().replace(",", "."));
+		try {
+			userInputActivity = Double.parseDouble(calibrationTextField.getText().replace(",", "."));
+			calibrationButton.setDisable(false);
+			saveButton.setDisable(false);
+		} catch (NumberFormatException e) {
+			calibrationButton.setDisable(true);
+			saveButton.setDisable(true);
+			label_show_activity.setText("Ange ett korrekt aktivitetsvärde");
+		}
+		return userInputActivity;
 	}
 
-	public LocalDateTime getCalibrationDate(){
+	public LocalDateTime getCalibrationDate() {
 		LocalDate date = calibrationDatePicker.getValue();
 		LocalTime time = LocalTime.parse(getTime(), DateTimeFormatter.ofPattern("HHmm"));
 		LocalDateTime dateTime = LocalDateTime.of(date, time);
@@ -202,8 +211,9 @@ public class SetActivityController implements Initializable {
 		return java.sql.Date.valueOf(arrivalDatePicker.getValue());
 	}
 
-	public String getContaminationControl() {
-		return checkBoxContamination.isSelected() ? "OK" : commentaryTextField.getText();
+	public String getCalibrationInput() {
+		return check_auto_calibration.isSelected() ? "Här ska den uträknade aktiviteten stå"
+				: commentaryTextField.getText();
 	}
 
 	public String getTime() {
@@ -211,35 +221,21 @@ public class SetActivityController implements Initializable {
 		return time.replace(":", "");
 	}
 
-
-	public void closeEditGui(ActionEvent event) throws Exception {
-
-		System.out.println("close");
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-
-		// do what you have to do
-		stage.close();
-		System.out.println("end close");
-	}
-
 	public void setNewInfo() {
-	
+
 	}
-	/*public void setMbQActivity(RegRadio chosenRegRadio) {
+
+	public void setMbQActivity(RegRadio chosenRegRadio) {
 		this.chosenRegRadio = chosenRegRadio;
 		MathController mathController = new MathController();
 		calculatedActivity = mathController.execute(chosenRegRadio);
 		chosenRegRadio.setCalibrationActivity(calculatedActivity);
+		chosenRegRadio.setCalibrationsDate();
 		chosenRegRadio.setUser(new UserDao().getCurrent(1));
-		new RegRadioDao().update(chosenRegRadio, new String[]{"calibration_activity", "users_iduser"});
-		System.out.println(calculatedActivity);
-	}*/
+	}
 
 	public double getMbQActivity() {
 		System.out.println(calculatedActivity);
 		return calculatedActivity;
 	}
 }
-
-

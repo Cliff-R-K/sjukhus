@@ -214,7 +214,8 @@ public class NuclearAppController implements Initializable {
 	public void logOutButtonAction(ActionEvent logout) throws Exception {
 		this.event = logout;
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setHeaderText("Logga ut");
+		alert.setTitle("Logga ut");
+		alert.setHeaderText(null);
 		alert.setContentText("Vill du fortsätta?");
 
 		Optional<ButtonType> result = alert.showAndWait();

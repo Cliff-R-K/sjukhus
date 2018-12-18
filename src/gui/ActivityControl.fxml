@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="571.0" prefWidth="646.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SetActivityController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="241.0" prefWidth="659.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SetActivityController">
    <children>
-      <Label layoutX="25.0" layoutY="32.0" text="Välj aktivitetshantering" />
-      <Label layoutX="35.0" layoutY="190.0" text="Datum" />
-      <Label fx:id="calibrationText" layoutX="35.0" layoutY="221.0" prefHeight="17.0" prefWidth="109.0" />
-      <Label layoutX="306.0" layoutY="190.0" prefHeight="17.0" prefWidth="96.0" text="Namn" />
-      <Label fx:id="regRadioName" layoutX="306.0" layoutY="221.0" prefHeight="17.0" prefWidth="109.0" />
-      <TextField fx:id="setActivityText" layoutX="25.0" layoutY="286.0" prefHeight="27.0" prefWidth="334.0" text="Ange aktivitet (MBq)" />
-      <ChoiceBox fx:id="choiceBoxActivity" layoutX="25.0" layoutY="62.0" prefWidth="150.0" />
-      <Button fx:id="saveButton" layoutX="506.0" layoutY="484.0" mnemonicParsing="false" text="Spara" />
+      <Label layoutX="25.0" layoutY="65.0" prefHeight="27.0" text="Datum" />
+      <Label fx:id="calibrationText" layoutX="25.0" layoutY="90.0" prefHeight="27.0" prefWidth="109.0" text="Datum..." />
+      <Label layoutX="25.0" layoutY="15.0" prefHeight="27.0" prefWidth="129.0" text="Produktinformation" />
+      <Label fx:id="regRadioInfo" layoutX="25.0" layoutY="40.0" prefHeight="27.0" prefWidth="616.0" text="Produktinfo..." />
+      <Button fx:id="saveButton" layoutX="500.0" layoutY="194.0" mnemonicParsing="false" onAction="#handleSaveButtonAction" text="Spara" />
+      <TextField fx:id="calibrationTextField" layoutX="25.0" layoutY="150.0" prefHeight="27.0" prefWidth="155.0" text="Skriv in aktivitet" />
+      <CheckBox fx:id="check_auto_calibration" layoutX="25.0" layoutY="185.0" mnemonicParsing="false" text="Automatisk uträkning" />
+      <Button fx:id="calibrationButton" layoutX="204.0" layoutY="150.0" mnemonicParsing="false" text="Sätt aktivitet" />
+      <Button fx:id="closeButton" layoutX="579.0" layoutY="194.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" text="Avbryt" />
+      <Label fx:id="label_show_activity" layoutX="25.0" layoutY="115.0" prefHeight="27.0" prefWidth="357.0" text="Visa aktivitetsInfo" />
    </children>
 </AnchorPane>

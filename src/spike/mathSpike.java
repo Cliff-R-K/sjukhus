@@ -1,11 +1,14 @@
 package spike;
 
-import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import controller.MathController;
 import dao.RadiopharmaceuticalDao;
+import dao.RegRadioDao;
 import dao.RoomDao;
 import dao.UserDao;
 import model.RegRadio;
@@ -21,12 +24,8 @@ public class mathSpike {
 		Date arrivalDate = simpleDateFormat.parse("2018-12-17 10:26");
 
 		System.out.println("startDate: "+startDate);
-
-
-//		RegRadio radio = new RegRadio(1000.0, startDate, null, "hittat", "OK", new RadiopharmaceuticalDao().get(2), new RoomDao().get(1),new UserDao().get(1),new CalibrationDao().get(1)); 
 		RegRadio radio = new RegRadio(1000.0, startDate, arrivalDate, "hittat", "OK", new RadiopharmaceuticalDao().get(1), new RoomDao().get(1),new UserDao().get(1), new RegRadioDao().get(1).getCalibrationActivity(),new RegRadioDao().get(1).getCalibrationDate()); 
 
-		
 		MathController mCon = new MathController();
 		
 		
