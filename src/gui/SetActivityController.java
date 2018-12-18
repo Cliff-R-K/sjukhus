@@ -163,8 +163,8 @@ public class SetActivityController implements Initializable {
 				calibrationTextField.setDisable(true);
 				calibrationButton.setDisable(true);
 				setMbQActivity(chosenRegRadio);
-				label_show_activity.setText("Aktivitet: " + df.format(chosenRegRadio.getCalibrationActivity()) + " "
-						+ "Datum: " + chosenRegRadio.getCalibrationDate());
+				label_show_activity.setText("Aktivitet: " + df.format(chosenRegRadio.getCalibrationActivity()) + " MBq, "
+						+ "Datum: " + getCalibrationDate());
 				saveButton.setDisable(false);
 				
 			} else {
@@ -175,7 +175,7 @@ public class SetActivityController implements Initializable {
 			chosenRegRadio.setCalibrationActivity(getActivity());
 			chosenRegRadio.setCalibrationsDate();
 			label_show_activity.setText("Aktivitet: " + df.format(chosenRegRadio.getCalibrationActivity()) + " "
-					+ "Datum: " + chosenRegRadio.getCalibrationDate());
+					+ "Datum: " + getCalibrationDate());
 		});
 	}
 
@@ -200,11 +200,10 @@ public class SetActivityController implements Initializable {
 		return userInputActivity;
 	}
 
-	public LocalDateTime getCalibrationDate() {
-		LocalDate date = calibrationDatePicker.getValue();
-		LocalTime time = LocalTime.parse(getTime(), DateTimeFormatter.ofPattern("HHmm"));
-		LocalDateTime dateTime = LocalDateTime.of(date, time);
-		return dateTime;
+	public String getCalibrationDate() {
+		String date = chosenRegRadio.getCalibrationDate().getYear() +"-"
+		+chosenRegRadio.getCalibrationDate().getMonthValue()+"-"+chosenRegRadio.getCalibrationDate().getDayOfMonth();
+		return date;
 	}
 
 	public Date getArrivalDate() {
