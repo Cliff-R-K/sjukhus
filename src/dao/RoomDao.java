@@ -33,13 +33,29 @@ public RoomDao() {
 		}
 		return room;
 	}
+	
+	public List<Room> getTrash() {
+		String room_code = "kassering";
+		ArrayList<Room> list = new ArrayList<>();
+		try {
+			ResultSet rs = conn.excecuteQuery("SELECT * FROM rooms WHERE room_code = " +"\"" + room_code + "\"");
+			while(rs.next()) {
+				list.add(new Room(rs.getInt(1), rs.getString(2), rs.getString(3)));
+			}
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 	@Override
 	public List<Room> getAll() {
+		String room_code = "kassering";
 		ArrayList<Room> list = new ArrayList<>();
 		
 		try {
-			ResultSet rs = conn.excecuteQuery("SELECT * FROM rooms");
+			ResultSet rs = conn.excecuteQuery("SELECT * FROM rooms WHERE room_code != " +"\"" + room_code + "\"");
 			while(rs.next()) {
 				list.add(new Room(rs.getInt(1), rs.getString(2), rs.getString(3)));
 			}
