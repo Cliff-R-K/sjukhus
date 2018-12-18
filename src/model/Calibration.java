@@ -49,7 +49,6 @@ public Calibration(int id) {
 	public void print() {
 		System.out.println("ID:	" + getId() + "\tDate:	" + getDate() + "\tMbq:	" + getMbq());
 
-
 	}
 	@Override
 	public String toString() {
