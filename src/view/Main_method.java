@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import dao.CalibrationDao;
 import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
 import dao.RoomDao;
@@ -28,7 +27,6 @@ public class Main_method {
 	SubstanceDao substancedao = new SubstanceDao();
 	RadiopharmaceuticalDao radiodao = new RadiopharmaceuticalDao();
 	RegRadioDao regradiodao = new RegRadioDao();
-	CalibrationDao calibrationdao = new CalibrationDao();
 	RoomDao roomdao = new RoomDao();
 
 	//------------------------------User-------------------------------------------------------------------------
@@ -56,7 +54,7 @@ public class Main_method {
 	}
 
 	//------------------------------Calibration-------------------------------------------------------------------------
-	public void addCalibration(LocalDateTime date, double mbq) {
+	/*public void addCalibration(LocalDateTime date, double mbq) {
 		calibrationdao.save(new Calibration(date, mbq));
 	}
 
@@ -77,7 +75,7 @@ public class Main_method {
 		for(Calibration s : calibrationdao.getAll()) {
 			s.print();
 		}
-	}
+	}*/
 
 	//------------------------------Room-------------------------------------------------------------------------
 	public void addRoom(String id, String info) {

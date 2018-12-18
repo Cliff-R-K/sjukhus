@@ -11,7 +11,7 @@ public class RegRadio {
 	private Date arrivalDate;
 	private String batchNumber;
 	private String contaminationControll;
-	private Calibration calibration;
+	private String calibrationInfo;
 	private Room room;
 	private User user;
 	private Radiopharmaceutical radiopharmaceutical;
@@ -221,6 +221,16 @@ public class RegRadio {
 
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
+	}
+	public String getCalibrationInfo() {
+		LocalDateTime tempDate = getCalibrationDate();
+		String date;
+		if(tempDate == null ) {
+			return "";
+		} else {
+			date = tempDate.getYear()+"-"+tempDate.getMonthValue()+"-"+tempDate.getDayOfMonth();
+		}
+		return "MBq: "+getCalibrationActivity()+", "+date;
 	}
 @Override
 public String toString() {

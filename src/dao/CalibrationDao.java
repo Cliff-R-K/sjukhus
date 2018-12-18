@@ -10,8 +10,9 @@ import java.util.NoSuchElementException;
 
 import db.DbConnectionManager;
 import model.Calibration;
-
+/*
 public class CalibrationDao implements IDao<Calibration>{
+	
 	DbConnectionManager conn = null;
 
 	public CalibrationDao() {
@@ -98,3 +99,4 @@ public class CalibrationDao implements IDao<Calibration>{
 	
 
 }
+*/

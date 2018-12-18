@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Calibration {
-
+/*
 
  private int id;
  private LocalDateTime date;
@@ -57,4 +57,5 @@ public Calibration(int id) {
 		result="Datum: "+ date+". MBq: "+mbq;
 		return result;
 	}
+	*/
 }

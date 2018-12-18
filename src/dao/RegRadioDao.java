@@ -85,7 +85,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
 						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND radiopharmaceuticals_idradio = "
-						+ "\"" + radiopharmaceutical.getId() + "\"";
+						+radiopharmaceutical.getId()+";";
 			} else if (radiopharmaceutical != null && room != null && user == null) {
 				sqlString = "SELECT * FROM regradios "
 						+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
@@ -100,7 +100,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
 						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND radiopharmaceuticals_idradio = "
-						+ "\"" + radiopharmaceutical.getId() + "\"" + " AND rooms_idroom = " + "\"" + user.getId()
+						+ "\"" + radiopharmaceutical.getId() + "\"" + " AND users_iduser = " + "\"" + user.getId()
 						+ "\"";
 			} else if (radiopharmaceutical == null && room != null && user == null) {
 				sqlString = "SELECT * FROM regradios "
@@ -131,7 +131,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND radiopharmaceuticals_idradio = "
 						+ "\"" + radiopharmaceutical.getId() + "\"" + " AND rooms_idroom = " + "\"" + room.getId()
 						+ "\"" + " AND users_iduser = " + "\"" + user.getId() + "\"";
-			} else {
+			} else if (radiopharmaceutical == null && room == null && user == null){
 				sqlString = "SELECT * FROM regradios "
 						+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
