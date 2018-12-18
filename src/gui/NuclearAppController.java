@@ -1,7 +1,11 @@
 package gui;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -15,9 +19,16 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
+
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import com.sun.istack.internal.logging.Logger;
 
-
+import controller.WriteToExcelController;
 import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
 import dao.RoomDao;
@@ -43,16 +54,21 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumnBase;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.ComboBoxTreeCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Callback;
 import model.Radiopharmaceutical;
 import model.RegRadio;
@@ -71,27 +87,28 @@ public class NuclearAppController implements Initializable {
 	public Button searchButton = new Button();
 	public Button clearButton = new Button();
 	public Button editButton = new Button();
+	public Button writeToExcelButton = new Button();
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> searchRegRadioList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioListTabTwo = FXCollections.observableArrayList();
-	
+
 	private List<RegRadio> sortedList;
 
 	public DatePicker ankomstdatum = new DatePicker();
 	public DatePicker kalibreringsdatum = new DatePicker();
 	public DatePicker startSortDate = new DatePicker();
 	public DatePicker endSortDate = new DatePicker();
-	
+
 	private java.sql.Date start;
 	private java.sql.Date end;
-	
+
 	public ComboBox<Supplier> combobox_suppliers = new ComboBox<>();
 	public ComboBox<Radiopharmaceutical> combobox_radio = new ComboBox<>();
 	public ComboBox<Room> combobox_room = new ComboBox<>();
-	
+
 	public ComboBox<User> combobox_user_tab_two = new ComboBox<>();
 	public ComboBox<Radiopharmaceutical> combobox_radio_tab_two = new ComboBox<>();
 	public ComboBox<Room> combobox_room_tab_two = new ComboBox<>();
@@ -131,13 +148,17 @@ public class NuclearAppController implements Initializable {
 	public TableColumn endDateCol = new TableColumn();;
 	public TableColumn contaminationControllCol = new TableColumn();
 	public TableColumn supplierCol = new TableColumn();
-	
+
 	private RegRadio chosenRegRadio;
 	private Radiopharmaceutical radio_tab_two = null;
 	private Room room_tab_two = null;
 	private User user_tab_two;
 	private int tabOneNumberOfRows = 30;
 	private ActionEvent event;
+
+	private ArrayList<String> columnHeaderList = new ArrayList<>();
+
+
 	//////////////////////////////////////////////////////////
 
 	// Test
@@ -172,6 +193,8 @@ public class NuclearAppController implements Initializable {
 	private RegRadio radioToEdit;
 
 	private int i;
+
+	private Window primaryStage;
 
 	public void addSuppliers() {
 		supplierList.addAll(new SupplierDao().getAll());
@@ -233,7 +256,7 @@ public class NuclearAppController implements Initializable {
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
 	}
-	
+
 	public void clearButton(ActionEvent search) throws Exception {
 		this.event = search;
 		combobox_room_tab_two.getSelectionModel().clearSelection();
@@ -271,18 +294,20 @@ public class NuclearAppController implements Initializable {
 		endSortDate.setValue(LocalDate.now());
 		startSortDate.setValue(LocalDate.of(1900, 01, 01));
 		combobox_radio.setDisable(true);
-		
+
+
+
 		setUpTableView();
 		setUpTableViewTabTwo();
 		new Thread(() -> populateListFromDatabase()).start();
 
 		////////////////////////////////////////////////
 
-		
+
 
 		///////////////////////////////////////////////////
-		
-		
+
+
 
 		combobox_suppliers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			combobox_radio.getItems().clear();
@@ -294,7 +319,7 @@ public class NuclearAppController implements Initializable {
 
 		combobox_radio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != null) {
-				
+
 				//label_rad_substance.setText(newValue.getSubstance().getName());
 				label_halftime.setText(newValue.getSubstance().getHalfLife() + "");
 			}
@@ -333,7 +358,7 @@ public class NuclearAppController implements Initializable {
 			tableview.setItems(regRadioList);
 			radioView.getItems().add(0, rr);
 			new RegRadioDao().save(rr);
-			*/
+			 */
 		});
 		///FLIK 2
 		combobox_radio_tab_two.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -395,7 +420,7 @@ public class NuclearAppController implements Initializable {
 
 	public void populateTabOneTablelist() {
 		if(searchRegRadioList.size() > tabOneNumberOfRows)
-		regRadioList = FXCollections.observableArrayList(searchRegRadioList.subList(0, tabOneNumberOfRows)); 
+			regRadioList = FXCollections.observableArrayList(searchRegRadioList.subList(0, tabOneNumberOfRows)); 
 		else {
 			regRadioList = searchRegRadioList;
 		}
@@ -424,10 +449,10 @@ public class NuclearAppController implements Initializable {
 		columnContaminationControl.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
 		columnRoom.setCellValueFactory(new PropertyValueFactory<>("room"));
 		columnUser.setCellValueFactory(new PropertyValueFactory<>("user"));
-		
+
 		columnSupplier.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));	
 	}
-	
+
 	public void setUpTableViewTabTwo() {
 		uniqueIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
@@ -440,18 +465,19 @@ public class NuclearAppController implements Initializable {
 		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
 		calibrationCol.setCellValueFactory(new PropertyValueFactory<>("calibration"));
 		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
-		
+
 
 		searchRegRadioList.clear();
 		radioView.setItems(searchRegRadioList);
-  }
+		addColumnNamesToList();
+	}
 	/*{
 		tableview.setEditable(true);
 		columnSupplier.setEditable(true);
-		
+
 		columnSupplier.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));
 //		columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
-		
+
 		columnSupplier.setOnEditCommit(t -> {
 			Button save = new Button("Spara");
 			Button abort = new Button("Avbryt");
@@ -463,20 +489,20 @@ public class NuclearAppController implements Initializable {
 			if(tableview.getColumns().size() <= 9)
 			tableview.getColumns().add(editRow);
 			//knark
-			
-			
-			
+
+
+
 //			System.out.println(t.getTablePosition());
 //			System.out.println(radioList.toString());
-			
-			
-			
-			
-		
-			
+
+
+
+
+
+
 		});
 }
-		*/
+	 */
 
 	public Date getArrivalDate() {
 		return java.sql.Date.valueOf(ankomstdatum.getValue());
@@ -510,22 +536,16 @@ public class NuclearAppController implements Initializable {
 	}
 
 
-
-
-//		
-
-	
-  
-  	public Date getStartSortDate() {
-  		start = java.sql.Date.valueOf(startSortDate.getValue());
+	public Date getStartSortDate() {
+		start = java.sql.Date.valueOf(startSortDate.getValue());
 		return start;
-  	}
-  	
+	}
+
 	public Date getEndSortDate() {
 		end = java.sql.Date.valueOf(endSortDate.getValue());
 		return end;
 	}
-	
+
 	public void searchButtonAction(ActionEvent search) throws Exception {
 		this.event = search;
 		searchRegRadioList.clear();
@@ -534,5 +554,36 @@ public class NuclearAppController implements Initializable {
 		radioView.setItems(searchRegRadioList);
 
 	}
+	public void writeTableViewToExcel() {
+
+		FileChooser fileChooser = new FileChooser();
+		File file = fileChooser.showSaveDialog(null);
+		
+		if (file != null) {
+			String ebola = file.toPath().toString();
+			System.out.println(ebola);
+			WriteToExcelController writeExCon = new WriteToExcelController();
+			writeExCon.execute(radioView, columnHeaderList,file);
+		}
+	}
+	
+	private void addColumnNamesToList() {
+
+		columnHeaderList.add(uniqueIdCol.getText());
+		columnHeaderList.add(supplierCol.getText());
+		columnHeaderList.add(radiopharmaceuticalCol.getText());
+		columnHeaderList.add(batchNumberCol.getText());
+		columnHeaderList.add(startActivityCol.getText());
+		columnHeaderList.add(startDateCol.getText());
+		columnHeaderList.add(arrivalDateCol.getText());
+		columnHeaderList.add(contaminationControllCol.getText());
+		columnHeaderList.add(roomCol.getText());
+		columnHeaderList.add(calibrationCol.getText());
+		columnHeaderList.add(userCol.getText());
+
+	}
+
+
+
 }
 
