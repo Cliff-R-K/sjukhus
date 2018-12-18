@@ -1,51 +1,25 @@
 package gui;
 
-import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.function.UnaryOperator;
-import java.util.logging.Level;
-import java.util.regex.Pattern;
-
-import com.sun.istack.internal.logging.Logger;
-
 import controller.MathController;
-import dao.CalibrationDao;
-import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
-import dao.RoomDao;
-import dao.SupplierDao;
 import dao.UserDao;
 import dataholder.DataHolder;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import model.Calibration;
 import model.Radiopharmaceutical;
 import model.RegRadio;
 import model.Room;
 import model.Supplier;
-import model.User;
 
 public class SetActivityController implements Initializable {
 
@@ -56,12 +30,6 @@ public class SetActivityController implements Initializable {
 	public Button logOutButton = new Button();
 	public Button calibrationButton = new Button();
 	public Button closeButton = new Button();
-
-
-	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
-	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
-	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();
-	private ObservableList<RegRadio> editRegRadioList = FXCollections.observableArrayList();
 
 	public DatePicker arrivalDatePicker = new DatePicker();
 	public DatePicker calibrationDatePicker = new DatePicker();
@@ -92,15 +60,9 @@ public class SetActivityController implements Initializable {
 	public CheckBox checkBoxContamination = new CheckBox();
 	public CheckBox check_auto_calibration = new CheckBox();
 
-	private User user;
-
 	public Button editButton = new Button();
 	public Button saveEditButton = new Button();
 	public RegRadio chosenRegRadio;
-
-	private ActionEvent event;
-
-	private RegRadio regRadio;
 
 	private String regRadioInfoText;
 
