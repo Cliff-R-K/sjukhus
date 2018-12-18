@@ -181,10 +181,6 @@ public class SetActivityController implements Initializable {
 		return time.replace(":", "");
 	}
 
-	public void setNewInfo() {
-
-	}
-
 	public void setMbQActivity(RegRadio chosenRegRadio) {
 		this.chosenRegRadio = chosenRegRadio;
 		MathController mathController = new MathController();
