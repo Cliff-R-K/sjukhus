@@ -24,14 +24,14 @@ public class mathSpike {
 		Date arrivalDate = simpleDateFormat.parse("2018-12-17 10:26");
 
 		System.out.println("startDate: "+startDate);
-
-//		RegRadio radio = new RegRadio(1000.0, startDate, null, "hittat", "OK", new RadiopharmaceuticalDao().get(2), new RoomDao().get(1),new UserDao().get(1),new CalibrationDao().get(1)); 
 		RegRadio radio = new RegRadio(1000.0, startDate, arrivalDate, "hittat", "OK", new RadiopharmaceuticalDao().get(1), new RoomDao().get(1),new UserDao().get(1), new RegRadioDao().get(1).getCalibrationActivity(),new RegRadioDao().get(1).getCalibrationDate()); 
-		
+
 		MathController mCon = new MathController();
 		
 		
-		System.out.println("New activity: "+mCon.execute(radio));
+		Double calcActivity;
+		calcActivity=mCon.execute(radio);
+		System.out.println("New activity: "+calcActivity);
 		System.out.println("Old activity: "+radio.getStartActivity());
 		System.out.println("startactivity: "+radio.getStartActivity());
 		
