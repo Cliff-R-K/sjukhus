@@ -195,3 +195,4 @@ public class SetActivityController implements Initializable {
 		return calculatedActivity;
 	}
 }
+
