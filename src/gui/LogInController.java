@@ -66,7 +66,7 @@ public class LogInController implements Initializable {
 					Stage stage = (Stage) source.getScene().getWindow();
 					stage.close();
 					Stage primaryStage = new Stage();
-					Parent root = FXMLLoader.load(getClass().getResource("MainTabRegistration.fxml"));
+					Parent root = FXMLLoader.load(getClass().getResource("UI.fxml"));
 					primaryStage.setTitle("Nuclear App");
 					primaryStage.setScene(new Scene(root));
 					primaryStage.show();
