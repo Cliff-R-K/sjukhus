@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.Date;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import db.DbConnectionManager;
 import model.Calibration;
@@ -45,10 +47,17 @@ public class RegRadioDao implements IDao<RegRadio> {
 				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
 				Room room = new RoomDao().get(rs.getInt(8));
 				User user = new UserDao().get(rs.getInt(9));
-				Calibration calibration = new CalibrationDao().get(rs.getInt(10));
+				if(rs.getTimestamp(11) == null) {
 				rp = new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(), rs.getDate(4),
-						rs.getString(5), rs.getString(6), radiopharmaceutical, room, user, calibration);
+						rs.getString(5), rs.getString(6), radiopharmaceutical, room, user, rs.getDouble(10),
+						null);
 				radioList.add(rp);
+				} else {
+					rp = new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(), rs.getDate(4),
+						rs.getString(5), rs.getString(6), radiopharmaceutical, room, user, rs.getDouble(10),
+						rs.getTimestamp(11).toLocalDateTime());
+				radioList.add(rp);	
+				}
 			}
 //			}
 			conn.close();
@@ -76,7 +85,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
 						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND radiopharmaceuticals_idradio = "
-						+ "\"" + radiopharmaceutical.getId() + "\"";
+						+radiopharmaceutical.getId()+";";
 			} else if (radiopharmaceutical != null && room != null && user == null) {
 				sqlString = "SELECT * FROM regradios "
 						+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
@@ -91,7 +100,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
 						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND radiopharmaceuticals_idradio = "
-						+ "\"" + radiopharmaceutical.getId() + "\"" + " AND rooms_idroom = " + "\"" + user.getId()
+						+ "\"" + radiopharmaceutical.getId() + "\"" + " AND users_iduser = " + "\"" + user.getId()
 						+ "\"";
 			} else if (radiopharmaceutical == null && room != null && user == null) {
 				sqlString = "SELECT * FROM regradios "
@@ -122,7 +131,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND radiopharmaceuticals_idradio = "
 						+ "\"" + radiopharmaceutical.getId() + "\"" + " AND rooms_idroom = " + "\"" + room.getId()
 						+ "\"" + " AND users_iduser = " + "\"" + user.getId() + "\"";
-			} else {
+			} else if (radiopharmaceutical == null && room == null && user == null){
 				sqlString = "SELECT * FROM regradios "
 						+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
@@ -134,10 +143,16 @@ public class RegRadioDao implements IDao<RegRadio> {
 				Radiopharmaceutical radiopharmaceutical2 = new RadiopharmaceuticalDao().get(rs.getInt(7));
 				Room room2 = new RoomDao().get(rs.getInt(8));
 				User user2 = new UserDao().get(rs.getInt(9));
-				Calibration calibration = rs.getInt(10) != 0 ? new CalibrationDao().get(rs.getInt(10)) : null;
+				if (rs.getTimestamp(11) == null) {
 				rp = new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(), rs.getDate(4),
-						rs.getString(5), rs.getString(6), radiopharmaceutical2, room2, user2, calibration);
+						rs.getString(5), rs.getString(6), radiopharmaceutical2, room2, user2, rs.getDouble(10),
+						null);
 				searchedList.add(rp);
+				} else {
+					rp = new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(), rs.getDate(4),
+							rs.getString(5), rs.getString(6), radiopharmaceutical2, room2, user2, rs.getDouble(10), rs.getTimestamp(11).toLocalDateTime());
+					searchedList.add(rp);
+				}
 			}
 //			}
 			conn.close();
@@ -161,9 +176,15 @@ public class RegRadioDao implements IDao<RegRadio> {
 				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
 				Room room = new RoomDao().get(rs.getInt(8));
 				User user = new UserDao().get(rs.getInt(9));
-				Calibration calibration = rs.getInt(10) != 0 ? new CalibrationDao().get(rs.getInt(10)) : null;
-				regRadio = new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(),
-						rs.getDate(4), rs.getString(5), rs.getString(6), radiopharmaceutical, room, user, calibration);
+				if (rs.getTimestamp(11) == null) {
+					regRadio = new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(),
+							rs.getDate(4), rs.getString(5), rs.getString(6), radiopharmaceutical, room, user,
+							rs.getDouble(10), null);
+				} else {
+					regRadio = new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(),
+							rs.getDate(4), rs.getString(5), rs.getString(6), radiopharmaceutical, room, user,
+							rs.getDouble(10), rs.getTimestamp(11).toLocalDateTime());
+				}
 			}
 			conn.close();
 		} catch (SQLException e) {
@@ -183,16 +204,22 @@ public class RegRadioDao implements IDao<RegRadio> {
 				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
 				Room room = new RoomDao().get(rs.getInt(8));
 				User user = new UserDao().get(rs.getInt(9));
+				if (rs.getTimestamp(11) == null) {
+					list.add(new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(),
+							rs.getDate(4), rs.getString(5), rs.getString(6), radiopharmaceutical, room, user,
+							rs.getDouble(10), null));
+				} else {
+					list.add(new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(),
+							rs.getDate(4), rs.getString(5), rs.getString(6), radiopharmaceutical, room, user,
+							rs.getDouble(10), rs.getTimestamp(11).toLocalDateTime()));
 
-				Calibration calibration = rs.getInt(10) != 0 ? new CalibrationDao().get(rs.getInt(10)) : null;
-				list.add(new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(),
-						rs.getDate(4), rs.getString(5), rs.getString(6), radiopharmaceutical, room, user, calibration));
-
+				}
 			}
 			conn.close();
 		} catch (SQLException e) {
 			System.err.println("Inga Läkemedel hittades");
 		}
+
 		return list;
 	}
 
@@ -206,11 +233,16 @@ public class RegRadioDao implements IDao<RegRadio> {
 				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
 				Room room = new RoomDao().get(rs.getInt(8));
 				User user = new UserDao().get(rs.getInt(9));
+				if (rs.getTimestamp(11) == null) {
+					list.add(new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(),
+							rs.getDate(4), rs.getString(5), rs.getString(6), radiopharmaceutical, room, user,
+							rs.getDouble(10), null));
+				} else {
+					list.add(new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(),
+							rs.getDate(4), rs.getString(5), rs.getString(6), radiopharmaceutical, room, user,
+							rs.getDouble(10), rs.getTimestamp(11).toLocalDateTime()));
 
-				Calibration calibration = rs.getInt(10) != 0 ? new CalibrationDao().get(rs.getInt(10)) : null;
-				list.add(new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(),
-						rs.getDate(4), rs.getString(5), rs.getString(6), radiopharmaceutical, room, user, calibration));
-
+				}
 			}
 			conn.close();
 		} catch (SQLException e) {
@@ -225,7 +257,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 		boolean saveSucess = false;
 		try {
 			String queryString;
-			queryString = "INSERT INTO regradios (start_activity, start_date, arrival_date, batchnumber, con_controll, radiopharmaceuticals_idradio, rooms_idroom, users_iduser, calibrations_idcalibration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			queryString = "INSERT INTO regradios (start_activity, start_date, arrival_date, batchnumber, con_controll, radiopharmaceuticals_idradio, rooms_idroom, users_iduser, calibration_activity, calibration_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(queryString);
 			ps.setDouble(1, t.getStartActivity());
 			ps.setTimestamp(2, java.sql.Timestamp.valueOf(t.getStartDate()));
@@ -235,10 +267,15 @@ public class RegRadioDao implements IDao<RegRadio> {
 			ps.setInt(6, t.getRadiopharmaceutical().getId());
 			ps.setInt(7, t.getRoom().getId());
 			ps.setInt(8, t.getUser().getId());
-			if (t.getCalibration() != null)
-				ps.setInt(9, t.getCalibration().getId());
-			else {
-				ps.setNull(9, java.sql.Types.INTEGER);
+			if(t.getCalibrationActivity()==null) {
+				ps.setObject(9, (Double) null);
+			} else {
+			ps.setDouble(9, t.getCalibrationActivity());
+			}
+			if(t.getCalibrationDate() == null) {
+			ps.setTimestamp(10, null);
+			} else {
+				ps.setTimestamp(10, java.sql.Timestamp.valueOf(t.getCalibrationDate()));
 			}
 			if (ps.executeUpdate() == 1) {
 				System.out.println("Save Success");
@@ -273,25 +310,32 @@ public class RegRadioDao implements IDao<RegRadio> {
 				rg.setRoom(t.getRoom());
 			} else if (p.equals("users_iduser")) {
 				rg.setUser(t.getUser());
-			} else if (p.equals("calibrations_idcalibration")) {
-				rg.setCalibration(t.getCalibration());
-			}
+			} else if (p.equals("calibration_activity")) {
+				rg.setCalibrationActivity(t.getCalibrationActivity());
+				rg.setCalibrationsDate();
+			} 
 		}
 
 		try {
 			String sqlQuery = "UPDATE regradios SET start_activity=?, start_date=?, arrival_date=?, batchnumber=?, con_controll=?, "
-					+ "radiopharmaceuticals_idradio=?, rooms_idroom=?, users_iduser=?, calibrations_idcalibration=? WHERE idregradio=?";
+					+ "radiopharmaceuticals_idradio=?, rooms_idroom=?, users_iduser=?, calibration_activity=?, calibration_date=? WHERE idregradio=?";
 			ps = conn.prepareStatement(sqlQuery);
 			ps.setDouble(1, rg.getStartActivity());
-			ps.setObject(2, rg.getStartDate());
-			ps.setDate(3, (java.sql.Date) rg.getArrivalDate());
+			ps.setTimestamp(2, java.sql.Timestamp.valueOf(t.getStartDate()));
+			ps.setDate(3, new java.sql.Date(t.getArrivalDate().getTime()));
 			ps.setString(4, rg.getBatchNumber());
 			ps.setString(5, rg.getContaminationControll());
 			ps.setInt(6, rg.getRadiopharmaceutical().getId());
 			ps.setInt(7, rg.getRoom().getId());
 			ps.setInt(8, rg.getUser().getId());
-			ps.setInt(9, rg.getCalibration().getId());
-			ps.setInt(10, rg.getId());
+			ps.setDouble(9, rg.getCalibrationActivity());
+			System.out.println(rg.getCalibrationDate());
+			if(rg.getCalibrationDate() == null) {
+				ps.setTimestamp(10, null);
+			} else {
+				ps.setTimestamp(10, java.sql.Timestamp.valueOf(LocalDateTime.now()));
+			}
+			ps.setInt(11, rg.getId());
 			if (ps.executeUpdate() == 1)
 				System.out.println("Update success");
 		} catch (SQLException e) {

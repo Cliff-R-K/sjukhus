@@ -1,13 +1,14 @@
 package view;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import dao.CalibrationDao;
 import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
 import dao.RoomDao;
@@ -26,7 +27,6 @@ public class Main_method {
 	SubstanceDao substancedao = new SubstanceDao();
 	RadiopharmaceuticalDao radiodao = new RadiopharmaceuticalDao();
 	RegRadioDao regradiodao = new RegRadioDao();
-	CalibrationDao calibrationdao = new CalibrationDao();
 	RoomDao roomdao = new RoomDao();
 
 	//------------------------------User-------------------------------------------------------------------------
@@ -54,7 +54,7 @@ public class Main_method {
 	}
 
 	//------------------------------Calibration-------------------------------------------------------------------------
-	public void addCalibration(Date date, double mbq) {
+	/*public void addCalibration(LocalDateTime date, double mbq) {
 		calibrationdao.save(new Calibration(date, mbq));
 	}
 
@@ -75,7 +75,7 @@ public class Main_method {
 		for(Calibration s : calibrationdao.getAll()) {
 			s.print();
 		}
-	}
+	}*/
 
 	//------------------------------Room-------------------------------------------------------------------------
 	public void addRoom(String id, String info) {
@@ -152,11 +152,11 @@ public class Main_method {
 	//		}
 	//	}
 
-//	public void addRegRadio(double startActivity, Date startdate, Date arrivalDate, String batchNumber,
-//			String conControll, Radiopharmaceutical radiopharmaceutical, Room room, User user,
-//			Calibration calibration) {
-//		regradiodao.save(new RegRadio(startActivity, startdate, arrivalDate, batchNumber, conControll, radiopharmaceutical, room, user, calibration));
-//
+	public void addRegRadio() {
+		regradiodao.save(new RegRadio(10.1, LocalDateTime.now(), java.sql.Date.valueOf(LocalDate.now()), "9999", "ok",
+				new RadiopharmaceuticalDao().get(8), new RoomDao().get(1), new UserDao().get(4)));
+	}
+	
 //	}
 
 

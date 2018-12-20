@@ -2,9 +2,10 @@ package spike;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
-import dao.CalibrationDao;
 import dao.RadiopharmaceuticalDao;
 import dao.RoomDao;
 import dao.SubstanceDao;
@@ -24,7 +25,7 @@ public class mainTest {
 		Date arrivalDate = simpleDateFormat.parse("2019-11-02 10:26");
 		String[] params = new String[1];
 		params[0]="Knark";
-		mm.updateUser(new User(1,"MB"), new String[] {"signature"});
+		//mm.updateUser(new User(1,"MB"), new String[] {"signature"});
 		//mm.addRadiopharmaceutical("Knark", "Tabletter", new SubstanceDao().get(1), new SupplierDao().get(1));
 		//mm.addRoom("04-02-303", "NM Förråd");
 		/*mm.addRadiopharmaceutical("I-131 Standard källa", 192.96, startdate, "Lösning", 

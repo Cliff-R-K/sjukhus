@@ -1,21 +1,22 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Calibration {
-
+/*
 
  private int id;
- private Date date;
+ private LocalDateTime date;
  private Double mbq;
  
-public Calibration(int id, Date date, Double mbq) {
+public Calibration(int id, LocalDateTime date, Double mbq) {
 	this.id = id;
 	this.date = date;
 	this.mbq = mbq;
 }
-public Calibration(Date date, Double mbq) {
-	this.date = date;
+public Calibration(LocalDateTime localDateTime, Double mbq) {
+	this.date = localDateTime;
 	this.mbq = mbq;
 }
 public Calibration(int id) {
@@ -30,11 +31,11 @@ public Calibration(int id) {
 		this.id = id;
 	}
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 
@@ -49,7 +50,6 @@ public Calibration(int id) {
 	public void print() {
 		System.out.println("ID:	" + getId() + "\tDate:	" + getDate() + "\tMbq:	" + getMbq());
 
-
 	}
 	@Override
 	public String toString() {
@@ -57,4 +57,5 @@ public Calibration(int id) {
 		result="Datum: "+ date+". MBq: "+mbq;
 		return result;
 	}
+	*/
 }

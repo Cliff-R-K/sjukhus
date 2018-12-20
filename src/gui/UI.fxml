@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1571.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.NuclearAppController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1297.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.NuclearAppController">
 
 
 
@@ -66,8 +66,8 @@
                     <columns>
                       	<TableColumn fx:id="columnUId" prefWidth="60.0" text="Id" />
                       	<TableColumn fx:id="columnAnkomstdatum" prefWidth="75.0" text="AnkomstDatum" />
-                      	<TableColumn fx:id="columnSupplier" prefWidth="75.0" text="Leverantör" />
-                        <TableColumn fx:id="columnRadiopharmaceutical" prefWidth="75.0" text="Produkt" />
+                      	<TableColumn fx:id="columnSupplier" prefWidth="106.00003051757812" text="Leverantör" />
+                        <TableColumn fx:id="columnRadiopharmaceutical" prefWidth="182.0" text="Produkt" />
                         <TableColumn fx:id="columnActivity" prefWidth="75.0" text="Aktivitet" />
                         <TableColumn fx:id="columnCalibrationdate" prefWidth="75.0" text="Kalibreringsdatum" />
                         <TableColumn fx:id="columnBatchNumber" prefWidth="75.0" text="Batchnr" />
@@ -85,28 +85,27 @@
       </content>
     </Tab>
     
-    <Tab text="Tillfällig Förvaring">
+    <Tab text="Förvaring">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="680.0" prefWidth="1351.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="678.0" prefWidth="1292.0">
                <children>
                   <ScrollPane layoutX="2.0" layoutY="214.0" prefHeight="466.0" prefWidth="1571.0">
 					<content>
                			<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="1560.0">
                            <children>
-                              <TableView fx:id="radioView" editable="true" layoutX="6.0" layoutY="14.0" onMouseClicked="#clickedSearchScrollPane" prefHeight="447.0" prefWidth="1551.0">
+                              <TableView fx:id="radioView" editable="true" layoutX="6.0" layoutY="14.0" onMouseClicked="#clickedSearchScrollPane" prefHeight="447.0" prefWidth="1281.0">
                                  <columns>
-                                    <TableColumn fx:id="startActivityCol" prefWidth="130.0" text="startaktivitet" />
-                                    <TableColumn fx:id="roomCol" minWidth="0.0" prefWidth="107.0" text="Rum" />
-                                    <TableColumn fx:id="radiopharmaceuticalCol" prefWidth="159.0" text="produktnamn" />
-                                    <TableColumn fx:id="startDateCol" prefWidth="129.0" text="Skapelsedatum" />
-                                    <TableColumn fx:id="calibrationCol" prefWidth="147.0" text="Kalibrering" />
-                                    <TableColumn fx:id="arrivalDateCol" prefWidth="157.0" text="Ankomstdatum" />
-                                    <TableColumn fx:id="batchNumberCol" prefWidth="118.0" text="Batchnummer" />
-                                    <TableColumn fx:id="endDateCol" prefWidth="109.0" text="slutdatum" />
-                                    <TableColumn fx:id="userCol" prefWidth="96.0" text="Användare" />
-                                    <TableColumn fx:id="contaminationControllCol" minWidth="0.0" prefWidth="89.0" text="Kontroll" />
-									<TableColumn fx:id="supplierCol" prefWidth="204.0" text="Leverantör" />
-                                    <TableColumn fx:id="uniqueIdCol" prefWidth="105.0" text="Unikt id" />
+                                    <TableColumn fx:id="uniqueIdCol" prefWidth="42.999969482421875" text="ID" />
+									<TableColumn fx:id="supplierCol" prefWidth="168.0" text="Leverantör" />
+                                    <TableColumn fx:id="radiopharmaceuticalCol" prefWidth="219.0" text="produktnamn" />
+                                    <TableColumn fx:id="batchNumberCol" prefWidth="117.0" text="Batchnummer" />
+                                    <TableColumn fx:id="startActivityCol" prefWidth="131.0" text="Kalibreringsaktivitet" />
+                                    <TableColumn fx:id="startDateCol" prefWidth="139.0" text="Kalibreringsdatum" />
+                                    <TableColumn fx:id="arrivalDateCol" prefWidth="107.0" text="Ankomstdatum" />
+                                    <TableColumn fx:id="contaminationControllCol" prefWidth="89.0" text="Kontroll" />
+                                    <TableColumn fx:id="roomCol" minWidth="0.0" prefWidth="71.0" text="Rum" />
+                                    <TableColumn fx:id="calibrationCol" minWidth="0.0" prefWidth="118.0" text="Aktivitetsmätning" />
+                                    <TableColumn fx:id="userCol" prefWidth="78.0" text="Signatur" />
                                  </columns>
                               </TableView>
                            </children>
@@ -138,7 +137,7 @@
                                  </font>
                               </Label>
                               <Label layoutX="203.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök lagring" />
-                              <ComboBox fx:id="combobox_room_tab_two" layoutX="203.0" layoutY="92.0"  prefWidth="150.0" promptText="Välj typ" />
+                              <ComboBox fx:id="combobox_room_tab_two" layoutX="203.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
                               <Label layoutX="391.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök användare" />
                               <ComboBox fx:id="combobox_user_tab_two" layoutX="391.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
                            </children>
@@ -147,9 +146,15 @@
                         <Button fx:id="clearButton" layoutX="1086.0" layoutY="103.0" mnemonicParsing="false" onAction="#clearButton" text="Clear" />
                      </children>
                   </Pane>
-                  <Button fx:id="logOutButton1" layoutX="1145.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
-                  <Button fx:id="editButton" layoutX="1209.0" layoutY="115.0" mnemonicParsing="false" onMouseReleased="#clickedEditButton" text="Redigera" />
+                  <Button fx:id="logOutButton1" layoutX="1209.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
+                  <Button fx:id="editButton" layoutX="1160.0" layoutY="115.0" mnemonicParsing="false" onAction="#clickedActivityButton" text="Aktivitetskontroll" />
+                  <Button fx:id="writeToExcelButton" layoutX="1160.0" layoutY="168.0" mnemonicParsing="false" onMousePressed="#writeTableViewToExcel" prefHeight="25.0" prefWidth="107.0" text="Export to excel" />
                </children></AnchorPane>
+      </content>
+</Tab>
+    <Tab text="Kassering">
+      <content>
+        
       </content>
 </Tab>
   </tabs>
