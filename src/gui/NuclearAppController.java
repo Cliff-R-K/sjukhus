@@ -95,6 +95,7 @@ public class NuclearAppController implements Initializable {
 	public Button clearButton = new Button();
 	public Button editButton = new Button();
 	public Button writeToExcelButton = new Button();
+	public Button discardButton = new Button();
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
@@ -304,6 +305,7 @@ public class NuclearAppController implements Initializable {
 		endSortDate.setValue(LocalDate.now());
 		startSortDate.setValue(LocalDate.of(1900, 01, 01));
 		combobox_radio.setDisable(true);
+		discardButton.setDisable(true);
 
 
 
@@ -653,10 +655,12 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 
 	public void clickedSearchScrollPane() {
 		editButton.setDisable(false);
+		discardButton.setDisable(false);
 		System.out.println("clicked scrollpane");
 		chosenRegRadio = (RegRadio) radioView.getSelectionModel().getSelectedItem();
 		i = chosenRegRadio.getId();
 		chosenRegRadio.print();
+		
 	}
 
 	public void clickedActivityButton(ActionEvent logout) throws Exception {
@@ -667,6 +671,7 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 		stage.setTitle("Aktivitetskontroll");
 		stage.setScene(new Scene(root));
 		stage.show();
+		updateSearchField();
 	}
 
 
@@ -682,9 +687,7 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 
 	public void searchButtonAction(ActionEvent search) throws Exception {
 		this.event = search;
-		searchRegRadioList.clear();
-		searchRegRadioList.addAll(new RegRadioDao().getSearchedRegRadios(getStartSortDate(), getEndSortDate(), radio_tab_two, room_tab_two, user_tab_two));
-		radioView.setItems(searchRegRadioList);
+		updateSearchField();
 
 	}
 	public void writeTableViewToExcel() {
@@ -693,8 +696,8 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 		File file = fileChooser.showSaveDialog(null);
 		
 		if (file != null) {
-			String ebola = file.toPath().toString();
-			System.out.println(ebola);
+			String path = file.toPath().toString();
+			System.out.println(path);
 			WriteToExcelController writeExCon = new WriteToExcelController();
 			writeExCon.execute(radioView, columnHeaderList,file);
 		}
@@ -716,6 +719,22 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 
 	}
 
-	
+	public void updateSearchField() {
+		
+		searchRegRadioList.clear();
+		searchRegRadioList.addAll(new RegRadioDao().getSearchedRegRadios(getStartSortDate(), getEndSortDate(), radio_tab_two, room_tab_two, user_tab_two));
+		radioView.setItems(searchRegRadioList);
+		radioView.refresh();
+	}
+	public void clickedDiscardButton() throws IOException {
+		DataHolder.setSavedRadio(chosenRegRadio);
+		System.out.println("clicked discard button");
+		Parent root = FXMLLoader.load(getClass().getResource("ChooseDiscardGui.fxml"));
+		Stage stage = new Stage();
+		stage.setTitle("Kasseringsmetod");
+		stage.setScene(new Scene(root));
+		stage.showAndWait();
+		updateSearchField();
+	}
 
 }
