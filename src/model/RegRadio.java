@@ -167,7 +167,7 @@ public class RegRadio {
 @Override
 public String toString() {
 	// TODO Auto-generated method stub
-	return radiopharmaceutical.toString();
+	return "Supplier: " + supplier + ", Radio: " + radiopharmaceutical;
 }
 	
 

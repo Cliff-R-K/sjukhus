@@ -300,6 +300,36 @@ public class RegRadioDao implements IDao<RegRadio> {
 		}
 	}
 
+	
+	public void updateAndReplace(RegRadio oldValue, RegRadio newValue) {
+		PreparedStatement ps = null;
+	
+
+		try {
+			String sqlQuery = "UPDATE regradios SET start_activity=?, start_date=?, arrival_date=?, batchnumber=?, con_controll=?, "
+					+ "radiopharmaceuticals_idradio=?, rooms_idroom=?, users_iduser=? WHERE idregradio=?";
+			ps = conn.prepareStatement(sqlQuery);
+			ps.setDouble(1, newValue.getStartActivity());
+			ps.setObject(2, newValue.getStartDate());
+			ps.setDate(3, (java.sql.Date) newValue.getArrivalDate());
+			ps.setString(4, newValue.getBatchNumber());
+			ps.setString(5, newValue.getContaminationControll());
+			ps.setInt(6, newValue.getRadiopharmaceutical().getId());
+			ps.setInt(7, newValue.getRoom().getId());
+			ps.setInt(8, newValue.getUser().getId());
+			ps.setInt(9, oldValue.getId());
+			if (ps.executeUpdate() == 1)
+				System.out.println("Update success");
+		} catch (SQLException e) {
+			System.out.println("Update Fail");
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	
 	@Override
 	public void delete(RegRadio t) {
 		String sqlString = "DELETE FROM regradios WHERE idregradio=?";
