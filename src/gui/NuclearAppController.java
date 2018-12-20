@@ -68,6 +68,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.ComboBoxTreeCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -434,6 +436,26 @@ public class NuclearAppController implements Initializable {
 		return dateTime;
 	}
 
+	public void setUpTableViewTabTwo() {
+		uniqueIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
+		radiopharmaceuticalCol.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
+		batchNumberCol.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
+		startActivityCol.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
+		startDateCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+		arrivalDateCol.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
+		contaminationControllCol.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
+		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
+		calibrationCol.setCellValueFactory(new PropertyValueFactory<>("calibrationInfo"));
+		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
+
+
+		searchRegRadioList.clear();
+		radioView.setItems(searchRegRadioList);
+		addColumnNamesToList();
+	}
+	
+	
 	public void setUpTableView() {
 		columnUId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		columnAnkomstdatum.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
@@ -452,7 +474,7 @@ public class NuclearAppController implements Initializable {
 		tableview.setEditable(true);
 		
 	
-		
+	
 		columnSupplier.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));
 		columnSupplier.setOnEditCommit(t -> {
 			ArrayList<Radiopharmaceutical> radioListfromSupplier = new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(t.getNewValue().getSupplierName());
@@ -481,7 +503,7 @@ public class NuclearAppController implements Initializable {
 		
 		columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
 		tableview.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-        	
+        	if(newValue != null) {
 			oldRegRadio = newValue;
 			System.out.println("Change Row");
         	if(oldValue != null)
@@ -493,7 +515,7 @@ public class NuclearAppController implements Initializable {
 			columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
 			addTableCellButton();
 //			tableview.refresh();
-			
+        	}
         });
 		
 tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
@@ -505,41 +527,25 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 		columnSupplier.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));	
 	}
 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					
-	public void setUpTableViewTabTwo() {
-		uniqueIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-		supplierCol.setCellValueFactory(new PropertyValueFactory<>("supplier"));
-		radiopharmaceuticalCol.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
-		batchNumberCol.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
-		startActivityCol.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
-		startDateCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-		arrivalDateCol.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
-		contaminationControllCol.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
-		roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
-		calibrationCol.setCellValueFactory(new PropertyValueFactory<>("calibrationInfo"));
-		userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
-
-
-		searchRegRadioList.clear();
-		radioView.setItems(searchRegRadioList);
-		addColumnNamesToList();
-	}
+	
 	else {
 		System.out.println("lost focus");
-		System.out.println(currentRowIndex);
+		
+		tableview.getSelectionModel().clearSelection();
 		
 //		buttons.setVisible(false);
 //		addTableCellButton();
 	}
 });
 
-	}
 	
+	}	
 	
 	private void addTableCellButton() {
 	    int selectedRowIndex = tableview.getSelectionModel().getSelectedIndex();
 	    System.out.println("selectedrowindex: " + selectedRowIndex);
 	    System.out.println();
-	  
+	   
 	    
 	    Callback<TableColumn<RegRadio,String>,TableCell<RegRadio,String>> cellFactory = 
 	            new Callback<TableColumn<RegRadio,String>,TableCell<RegRadio,String>>() {
@@ -547,8 +553,9 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	                public TableCell<RegRadio, String> call(TableColumn<RegRadio, String> param) {
 	                	TableCell<RegRadio, String> cell = new TableCell<RegRadio, String>() {
 	                      
-	                        
-	                			final Button btnSave = new Button("Spara");
+//	                        	Image saveIcon = new Image(getClass().getResourceAsStream("/sjukhusdigitalisering/res/Save-icon.png"));
+//	                			final Button btnSave = new Button("",new ImageView(saveIcon));
+	                			final Button btnSave = new Button("Save");
 	                			final Button btnAbort = new Button("Avbryt");
 	                			final Button btnDelete = new Button("Radera");
 	                			HBox buttons =new HBox(btnSave, btnAbort, btnDelete);
@@ -556,6 +563,27 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	                         
 	                        @Override
 	                        public void updateItem(String item, boolean empty) {
+	                        	
+	                        	
+	                        	tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
+	                        		if(newValue) {
+	                        			System.out.println("focus2");
+//	                        			System.out.println(tableview.getFocusModel().getFocusedItem().getRadiopharmaceutical().getSupplier());
+	                        		}
+	                        		else {
+	                        			System.out.println("lost focus2");
+	                        			 setGraphic(null);
+			                                setText(null);  
+//	                        			buttons.setVisible(false);
+//	                        			addTableCellButton();
+	                        		}
+	                        	});
+	                        	
+	                        	
+	                        	
+	                        	
+	                        	
+	                        	
 	                        	  System.out.println("getIndex: " + getIndex());
 	                        	super.updateItem(item, empty);
 	                            if (empty || getIndex() == -1 ||  getIndex() != selectedRowIndex ||!tableview.isFocused() ) { 
@@ -579,7 +607,9 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	                                });
 	                                
 	                                btnAbort.setOnAction(event -> {
-	                                System.out.println("Abort");
+	                                
+	                                	
+	                                	System.out.println("Abort");
 	                                    setGraphic(null);
 		                                setText(null);  
 		                                
@@ -686,6 +716,6 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 
 	}
 
-
+	
 
 }
