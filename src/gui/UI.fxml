@@ -194,6 +194,7 @@
                         <TableColumn fx:id="columnCalibrationdateTab3" prefWidth="75.0" text="Kalibreringsdatum" />
                         <TableColumn fx:id="columnBatchNumberTab3" prefWidth="75.0" text="Batchnr" />
                         <TableColumn fx:id="columnContaminationControlTab3" prefWidth="75.0" text="Kontamineringskontroll" />
+                        <TableColumn fx:id="columnCalibrationInfoTab3" minWidth="0.0" prefWidth="146.0" text="Aktivitetsmätning" />
                         <TableColumn fx:id="columnRoomTab3" prefWidth="75.0" text="Rum" />
                         <TableColumn fx:id="columnUserTab3" prefWidth="75.0" text="Signatur" />
                     </columns>
