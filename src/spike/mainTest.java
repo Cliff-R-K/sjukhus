@@ -4,13 +4,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import dao.RadiopharmaceuticalDao;
+import dao.RegRadioDao;
 import dao.RoomDao;
 import dao.SubstanceDao;
 import dao.SupplierDao;
 import dao.UserDao;
+import model.RegRadio;
 import model.User;
 import view.Main_method;
 
@@ -25,6 +29,8 @@ public class mainTest {
 		Date arrivalDate = simpleDateFormat.parse("2019-11-02 10:26");
 		String[] params = new String[1];
 		params[0]="Knark";
+		List<RegRadio> hej = new ArrayList<>();
+		List<RegRadio> kalle = new ArrayList<>();
 		//mm.updateUser(new User(1,"MB"), new String[] {"signature"});
 		//mm.addRadiopharmaceutical("Knark", "Tabletter", new SubstanceDao().get(1), new SupplierDao().get(1));
 		//mm.addRoom("04-02-303", "NM Förråd");
@@ -39,5 +45,14 @@ public class mainTest {
 //				new RoomDao().get(1), new UserDao().get(1), new CalibrationDao().get(1));
 //		mm.getAllRegRadio();
 //		mm.getRegRadio(4).getSupplier().print();
+		hej = new RegRadioDao().getAll();
+		for(RegRadio h : hej) {
+			h.print();
+		}
+		System.out.println("trash");
+		kalle = new RegRadioDao().getTrash();
+		for(RegRadio h : kalle) {
+			h.print();
+		}
 	}
 }

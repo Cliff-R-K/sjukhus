@@ -60,20 +60,19 @@
                         <VBox prefHeight="364.0" prefWidth="1181.0" />
                      </children>
                   </VBox>
-                  <Button fx:id="logOutButton" layoutX="1073.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
+                  <Button fx:id="logOutButtonTab1" layoutX="1073.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
                   <TableView fx:id="tableview" layoutX="301.0" layoutY="325.0" prefHeight="357.0" prefWidth="1571.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="325.0">
                     <columns>
-                      	<TableColumn fx:id="columnUId" prefWidth="60.0" text="Id" />
-                      	<TableColumn fx:id="columnAnkomstdatum" prefWidth="75.0" text="AnkomstDatum" />
-                      	<TableColumn fx:id="columnSupplier" prefWidth="106.00003051757812" text="Leverantör" />
-                        <TableColumn fx:id="columnRadiopharmaceutical" prefWidth="182.0" text="Produkt" />
-                        <TableColumn fx:id="columnActivity" prefWidth="75.0" text="Aktivitet" />
-                        <TableColumn fx:id="columnCalibrationdate" prefWidth="75.0" text="Kalibreringsdatum" />
-                        <TableColumn fx:id="columnBatchNumber" prefWidth="75.0" text="Batchnr" />
-                        <TableColumn fx:id="columnContaminationControl" prefWidth="75.0" text="Kontamineringskontroll" />
-                        <TableColumn fx:id="columnRoom" prefWidth="75.0" text="Rum" />
-                        <TableColumn fx:id="columnUser" prefWidth="75.0" text="Signatur" />
-                       
+                      	<TableColumn fx:id="columnAnkomstdatumTab1" prefWidth="75.0" text="AnkomstDatum" />
+                      	<TableColumn fx:id="columnSupplierTab1" prefWidth="106.00003051757812" text="Leverantör" />
+                        <TableColumn fx:id="columnRadiopharmaceuticalTab1" prefWidth="182.0" text="Produkt" />
+                        <TableColumn fx:id="columnActivityTab1" prefWidth="75.0" text="Aktivitet" />
+                        <TableColumn fx:id="columnCalibrationdateTab1" prefWidth="75.0" text="Kalibreringsdatum" />
+                        <TableColumn fx:id="columnBatchNumberTab1" prefWidth="75.0" text="Batchnr" />
+                        <TableColumn fx:id="columnContaminationControlTab1" prefWidth="75.0" text="Kontamineringskontroll" />
+                        <TableColumn fx:id="columnRoomTab1" prefWidth="75.0" text="Rum" />
+                        <TableColumn fx:id="columnUserTab1" prefWidth="75.0" text="Signatur" />
+
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -88,12 +87,35 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="682.0" prefWidth="1364.0">
                <children>
+                  <ScrollPane layoutX="2.0" layoutY="214.0" prefHeight="466.0" prefWidth="1571.0">
+					<content>
+               			<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="1560.0">
+                           <children>
+                              <TableView fx:id="searchRadioViewTab2" editable="true" layoutX="6.0" layoutY="14.0" onMouseClicked="#clickedSearchScrollPaneTab2" prefHeight="447.0" prefWidth="1281.0">
+                                 <columns>
+                                    <TableColumn fx:id="columnIDTab2" prefWidth="42.999969482421875" text="ID" />
+									<TableColumn fx:id="columnSupplierTab2" prefWidth="168.0" text="Leverantör" />
+                                    <TableColumn fx:id="columnRadiopharmaceuticalTab2" prefWidth="219.0" text="produktnamn" />
+                                    <TableColumn fx:id="columnBatchNumberTab2" prefWidth="117.0" text="Batchnummer" />
+                                    <TableColumn fx:id="columnActivityTab2" prefWidth="131.0" text="Kalibreringsaktivitet" />
+                                    <TableColumn fx:id="columnCalibrationdateTab2" prefWidth="139.0" text="Kalibreringsdatum" />
+                                    <TableColumn fx:id="columnAnkomstdatumTab2" prefWidth="107.0" text="Ankomstdatum" />
+                                    <TableColumn fx:id="columnContaminationControlTab2" prefWidth="89.0" text="Kontroll" />
+                                    <TableColumn fx:id="columnRoomTab2" minWidth="0.0" prefWidth="71.0" text="Rum" />
+                                    <TableColumn fx:id="columnCalibrationInfoTab2" minWidth="0.0" prefWidth="118.0" text="Aktivitetsmätning" />
+                                    <TableColumn fx:id="columnUserTab2" prefWidth="78.0" text="Signatur" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+  						</content>
+					</ScrollPane>
                   <Pane layoutX="7.0" layoutY="12.0" prefHeight="156.0" prefWidth="1137.0">
                      <children>
                         <Pane layoutX="8.0" layoutY="12.0" prefHeight="133.0" prefWidth="409.0">
                            <children>
-                              <DatePicker fx:id="startSortDate" layoutX="14.0" layoutY="86.0" promptText="startdatum" />
-                              <DatePicker fx:id="endSortDate" layoutX="205.0" layoutY="86.0" promptText="slutdatum" />
+                              <DatePicker fx:id="startSortDateTab2" layoutX="14.0" layoutY="86.0" promptText="startdatum" />
+                              <DatePicker fx:id="endSortDateTab2" layoutX="205.0" layoutY="86.0" promptText="slutdatum" />
                               <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="162.0" text="Datumsökning">
                                  <font>
                                     <Font size="21.0" />
@@ -118,33 +140,79 @@
                               <ComboBox fx:id="combobox_user_tab_two" layoutX="391.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
                            </children>
                         </Pane>
-                        <Button fx:id="searchButton" layoutX="1032.0" layoutY="103.0" mnemonicParsing="false" onAction="#searchButtonAction" text="Sök" />
-                        <Button fx:id="clearButton" layoutX="1086.0" layoutY="103.0" mnemonicParsing="false" onAction="#clearButton" text="Clear" />
+                        <Button fx:id="searchButtonTab2" layoutX="1032.0" layoutY="103.0" mnemonicParsing="false" onAction="#searchButtonTab2Action" text="Sök" />
+                        <Button fx:id="clearButtonTab2" layoutX="1086.0" layoutY="103.0" mnemonicParsing="false" onAction="#clearButtonTab2" text="Clear" />
                      </children>
                   </Pane>
-                  <Button fx:id="logOutButton1" layoutX="1515.0" layoutY="12.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
-                  <TableView fx:id="radioView" editable="true" layoutX="14.0" layoutY="221.0" onMouseClicked="#clickedSearchScrollPane" prefHeight="449.0" prefWidth="1587.0">
-                     <columns>
-                        <TableColumn fx:id="uniqueIdCol" prefWidth="73.99996948242188" text="ID" />
-                        <TableColumn fx:id="supplierCol" prefWidth="214.0" text="Leverantör" />
-                        <TableColumn fx:id="radiopharmaceuticalCol" prefWidth="244.0" text="produktnamn" />
-                        <TableColumn fx:id="batchNumberCol" minWidth="8.0" prefWidth="117.0" text="Batchnummer" />
-                        <TableColumn fx:id="startActivityCol" prefWidth="138.0" text="Kalibreringsaktivitet" />
-                        <TableColumn fx:id="startDateCol" minWidth="0.0" prefWidth="197.0" text="Kalibreringsdatum" />
-                        <TableColumn fx:id="arrivalDateCol" minWidth="0.0" prefWidth="119.0" text="Ankomstdatum" />
-                        <TableColumn fx:id="contaminationControllCol" minWidth="0.0" prefWidth="167.0" text="Kontroll" />
-                        <TableColumn fx:id="roomCol" minWidth="0.0" prefWidth="94.0" text="Rum" />
-                        <TableColumn fx:id="calibrationCol" minWidth="0.0" prefWidth="144.0" text="Aktivitetsmätning" />
-                        <TableColumn fx:id="userCol" prefWidth="86.0" text="Signatur" />
-                     </columns>
-                  </TableView>
-                  <Pane layoutX="1199.0" layoutY="94.0" prefHeight="113.0" prefWidth="402.0">
+                  <Button fx:id="logOutButtonTab2" layoutX="1209.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
+                  <Button fx:id="editButtonTab2" layoutX="1160.0" layoutY="115.0" mnemonicParsing="false" onAction="#clickedActivityButton" text="Aktivitetskontroll" />
+                  <Button fx:id="writeToExcelButtonTab2" layoutX="1160.0" layoutY="168.0" mnemonicParsing="false" onMousePressed="#writeTableViewToExcelTab2" prefHeight="25.0" prefWidth="107.0" text="Export to excel" />
+               </children></AnchorPane>
+      </content>
+</Tab>
+    <Tab text="Kassering">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="678.0" prefWidth="1292.0">
+               <children>
+                  <ScrollPane layoutX="2.0" layoutY="214.0" prefHeight="466.0" prefWidth="1571.0">
+					<content>
+               			<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="1560.0">
+                           <children>
+                              <TableView fx:id="searchRadioViewTab3" editable="true" layoutX="6.0" layoutY="14.0" onMouseClicked="#clickedSearchScrollPaneTab3" prefHeight="447.0" prefWidth="1281.0">
+                                 <columns>
+                                    <TableColumn fx:id="columnIDTab3" prefWidth="42.999969482421875" text="ID" />
+									<TableColumn fx:id="columnSupplierTab3" prefWidth="168.0" text="Leverantör" />
+                                    <TableColumn fx:id="columnRadiopharmaceuticalTab3" prefWidth="219.0" text="produktnamn" />
+                                    <TableColumn fx:id="columnBatchNumberTab3" prefWidth="117.0" text="Batchnummer" />
+                                    <TableColumn fx:id="columnActivityTab3" prefWidth="131.0" text="Kalibreringsaktivitet" />
+                                    <TableColumn fx:id="columnCalibrationdateTab3" prefWidth="139.0" text="Kalibreringsdatum" />
+                                    <TableColumn fx:id="columnAnkomstdatumTab3" prefWidth="107.0" text="Ankomstdatum" />
+                                    <TableColumn fx:id="columnContaminationControlTab3" prefWidth="89.0" text="Kontroll" />
+                                    <TableColumn fx:id="columnRoomTab3" minWidth="0.0" prefWidth="71.0" text="Rum" />
+                                    <TableColumn fx:id="columnCalibrationInfoTab3" minWidth="0.0" prefWidth="118.0" text="Aktivitetsmätning" />
+                                    <TableColumn fx:id="columnUserTab3" prefWidth="78.0" text="Signatur" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+  						</content>
+					</ScrollPane>
+                  <Pane layoutX="7.0" layoutY="12.0" prefHeight="156.0" prefWidth="1137.0">
                      <children>
-                        <Button fx:id="writeToExcelButton" layoutX="13.0" layoutY="58.0" mnemonicParsing="false" onMousePressed="#writeTableViewToExcel" prefHeight="25.0" prefWidth="107.0" text="Export to excel" />
-                        <Button fx:id="editButton" layoutX="148.0" layoutY="58.0" mnemonicParsing="false" onAction="#clickedActivityButton" text="Aktivitetskontroll" />
-                        <Button fx:id="discardButton" layoutX="282.0" layoutY="57.0" mnemonicParsing="false" onMouseReleased="#clickedDiscardButton" prefHeight="25.0" prefWidth="106.0" text="Kassera" />
+                        <Pane layoutX="14.0" layoutY="14.0" prefHeight="133.0" prefWidth="409.0">
+                           <children>
+                              <DatePicker fx:id="startSortDateTab3" layoutX="14.0" layoutY="86.0" promptText="startdatum" />
+                              <DatePicker fx:id="endSortDateTab3" layoutX="205.0" layoutY="86.0" promptText="slutdatum" />
+                              <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="162.0" text="Datumsökning">
+                                 <font>
+                                    <Font size="21.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="14.0" layoutY="58.0" prefHeight="17.0" prefWidth="78.0" text="Startdatum" />
+                              <Label layoutX="205.0" layoutY="58.0" text="Slutdatum" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="456.0" layoutY="11.0" prefHeight="134.0" prefWidth="555.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök typ" />
+                              <ComboBox fx:id="combobox_radio_tab_three" layoutX="14.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
+                              <Label layoutX="14.0" layoutY="14.0" prefHeight="35.0" prefWidth="216.0" text="Filtrerad sökning">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="203.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök lagring" />
+                              <ComboBox fx:id="combobox_room_tab_three" layoutX="203.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
+                              <Label layoutX="391.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök användare" />
+                              <ComboBox fx:id="combobox_user_tab_three" layoutX="391.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
+                           </children>
+                        </Pane>
+                        <Button fx:id="searchButtonTab3" layoutX="1032.0" layoutY="103.0" mnemonicParsing="false" onAction="#searchButtonTab3Action" text="Sök" />
+                        <Button fx:id="clearButtonTab3" layoutX="1086.0" layoutY="103.0" mnemonicParsing="false" onAction="#clearButtonTab3" text="Clear" />
                      </children>
                   </Pane>
+                  <Button fx:id="logOutButtonTab3" layoutX="1209.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
+                  <Button fx:id="writeToExcelButtonTab3" layoutX="1160.0" layoutY="168.0" mnemonicParsing="false" onMousePressed="#writeTableViewToExcelTab3" prefHeight="25.0" prefWidth="107.0" text="Export to excel" />
                </children></AnchorPane>
       </content>
 </Tab>
