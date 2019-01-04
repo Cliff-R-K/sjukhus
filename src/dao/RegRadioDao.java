@@ -25,6 +25,7 @@ import model.User;
 public class RegRadioDao implements IDao<RegRadio> {
 	DbConnectionManager conn = null;
 	LocalDateTime ldt;
+	private int aktiv;
 
 	public RegRadioDao() {
 		conn = DbConnectionManager.getInstance();
@@ -74,8 +75,9 @@ public class RegRadioDao implements IDao<RegRadio> {
 	}
 
 	public ArrayList<RegRadio> getSearchedRegRadios(Date startDate, Date endDate,
-			Radiopharmaceutical radiopharmaceutical, Room room, User user) {
+			Radiopharmaceutical radiopharmaceutical, Room room, User user, int aktiv) {
 		RegRadio rp = null;
+		this.aktiv = aktiv;
 		ArrayList<RegRadio> searchedList = new ArrayList<>();
 		try {
 			String sqlString = null;
@@ -85,58 +87,62 @@ public class RegRadioDao implements IDao<RegRadio> {
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
 						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND radiopharmaceuticals_idradio = "
-						+radiopharmaceutical.getId()+";";
+						+radiopharmaceutical.getId()+ " AND aktivt =" + aktiv
+								+ " AND rooms_idroom = idroom";
 			} else if (radiopharmaceutical != null && room != null && user == null) {
 				sqlString = "SELECT * FROM regradios "
 						+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
 						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND radiopharmaceuticals_idradio = "
-						+ "\"" + radiopharmaceutical.getId() + "\"" + " AND rooms_idroom = " + "\"" + room.getId()
-						+ "\"";
+						+ radiopharmaceutical.getId() + " AND rooms_idroom = " + room.getId()+ " AND aktivt =" + aktiv;
 			} else if (radiopharmaceutical != null && room == null && user != null) {
 				sqlString = "SELECT * FROM regradios "
 						+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
 						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND radiopharmaceuticals_idradio = "
-						+ "\"" + radiopharmaceutical.getId() + "\"" + " AND users_iduser = " + "\"" + user.getId()
-						+ "\"";
+						+ radiopharmaceutical.getId() + " AND users_iduser = " + user.getId()
+						+" AND aktivt = " + aktiv
+								+ " AND rooms_idroom = idroom";
 			} else if (radiopharmaceutical == null && room != null && user == null) {
 				sqlString = "SELECT * FROM regradios "
 						+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
-						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND rooms_idroom = " + "\""
-						+ room.getId() + "\"";
+						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND rooms_idroom = "
+						+ room.getId()+ " AND aktivt =" + aktiv;
 			} else if (radiopharmaceutical == null && room != null && user != null) {
 				sqlString = "SELECT * FROM regradios "
 						+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
-						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND rooms_idroom = " + "\""
-						+ room.getId() + "\"" + " AND users_iduser = " + "\"" + user.getId() + "\"";
+						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND rooms_idroom = "
+						+ room.getId() + " AND users_iduser = " + user.getId()+ " AND aktivt =" + aktiv;
 			} else if (radiopharmaceutical == null && room == null && user != null) {
 				sqlString = "SELECT * FROM regradios "
 						+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
-						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND users_iduser = " + "\""
-						+ user.getId() + "\"";
+						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND users_iduser = " +
+						+ user.getId() +" AND aktivt = " + aktiv 
+								+ " AND rooms_idroom = idroom";
 			} else if (radiopharmaceutical != null && room != null && user != null) {
 				sqlString = "SELECT * FROM regradios "
 						+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
 						+ startDate + "\"" + " AND " + "\"" + endDate + "\"" + " AND radiopharmaceuticals_idradio = "
-						+ "\"" + radiopharmaceutical.getId() + "\"" + " AND rooms_idroom = " + "\"" + room.getId()
-						+ "\"" + " AND users_iduser = " + "\"" + user.getId() + "\"";
+						+ radiopharmaceutical.getId() + " AND rooms_idroom = " + room.getId()
+						+ " AND users_iduser = " + user.getId()+ " AND aktivt =" + aktiv;
 			} else if (radiopharmaceutical == null && room == null && user == null){
 				sqlString = "SELECT * FROM regradios "
 						+ "JOIN radiopharmaceuticals ON regradios.radiopharmaceuticals_idradio = radiopharmaceuticals.idradio "
 						+ "JOIN rooms ON regradios.rooms_idroom = rooms.idroom "
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
-						+ startDate + "\"" + " AND " + "\"" + endDate + "\"";
+						+ startDate + "\"" + " AND " + "\"" + endDate + "\""+" AND aktivt =" + aktiv 
+						+ " AND rooms_idroom = idroom";
+				System.out.println(sqlString);
 			}
 			ResultSet rs = conn.excecuteQuery(sqlString);
 			while (rs.next()) {
@@ -157,7 +163,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 //			}
 			conn.close();
 		} catch (SQLException e) {
-			System.err.println("Ingen registrerade Läkemedel  mellan" + startDate + endDate + " hittades!");
+			System.err.println("Ingen registrerade Läkemedel  mellan " + startDate + " "+ endDate + " hittades!");
 		}
 		return searchedList;
 	}
@@ -196,9 +202,11 @@ public class RegRadioDao implements IDao<RegRadio> {
 	@Override
 	public List<RegRadio> getAll() {
 		ArrayList<RegRadio> list = new ArrayList<>();
+		String room_code = "kassering";
 
 		try {
-			String sqlQuary = "SELECT * FROM regradios ORDER BY idregradio DESC";
+			String sqlQuary = "SELECT * FROM regradios, rooms WHERE rooms.room_code != " +"\"" + room_code + "\"" 
+					+ " AND regradios.rooms_idroom = rooms.idroom ORDER BY idregradio DESC";
 			ResultSet rs = conn.excecuteQuery(sqlQuary);
 			while (rs.next()) {
 				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
@@ -218,6 +226,36 @@ public class RegRadioDao implements IDao<RegRadio> {
 			conn.close();
 		} catch (SQLException e) {
 			System.err.println("Inga Läkemedel hittades");
+		}
+
+		return list;
+	}
+	
+	public List<RegRadio> getTrash() {
+		ArrayList<RegRadio> list = new ArrayList<>();
+		String room_code = "kassering";
+		try {
+			String sqlQuary = "SELECT * FROM regradios, rooms WHERE rooms.room_code = " +"\"" + room_code + "\"" 
+					+ " AND regradios.rooms_idroom = rooms.idroom ORDER BY idregradio DESC";
+			ResultSet rs = conn.excecuteQuery(sqlQuary);
+			while (rs.next()) {
+				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
+				Room room = new RoomDao().get(rs.getInt(8));
+				User user = new UserDao().get(rs.getInt(9));
+				if (rs.getTimestamp(11) == null) {
+					list.add(new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(),
+							rs.getDate(4), rs.getString(5), rs.getString(6), radiopharmaceutical, room, user,
+							rs.getDouble(10), null));
+				} else {
+					list.add(new RegRadio(rs.getInt(1), rs.getDouble(2), rs.getTimestamp(3).toLocalDateTime(),
+							rs.getDate(4), rs.getString(5), rs.getString(6), radiopharmaceutical, room, user,
+							rs.getDouble(10), rs.getTimestamp(11).toLocalDateTime()));
+
+				}
+			}
+			conn.close();
+		} catch (SQLException e) {
+			System.err.println("Inga Läkemedel hittades i soporna");
 		}
 
 		return list;
@@ -249,6 +287,21 @@ public class RegRadioDao implements IDao<RegRadio> {
 			System.err.println("Inga Läkemedel hittades");
 		}
 		return list;
+	}
+	
+	public Date getFirstDate() {
+		Date date = null;
+		try {
+			String sqlQuary = "Select min(start_date) From regradios";
+			ResultSet rs = conn.excecuteQuery(sqlQuary);
+			while (rs.next()) {
+				date = rs.getDate(1);
+			}
+			conn.close();
+		} catch (SQLException e) {
+			System.err.println("Inga Läkemedel hittades");
+		}
+		return date;
 	}
 
 	@Override
