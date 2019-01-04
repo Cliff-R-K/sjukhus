@@ -791,6 +791,7 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 
 	public void clickedSearchScrollPaneTab2() {
 		editButtonTab2.setDisable(false);
+		discardButton.setDisable(false);
 		System.out.println("clicked scrollpane");
 		chosenRegRadioTab2 = (RegRadio) searchRadioViewTab2.getSelectionModel().getSelectedItem();
 		chosenRegRadioTab2.print();
