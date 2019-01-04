@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1617.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.NuclearAppController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1290.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.NuclearAppController">
 
 
 
@@ -85,31 +85,8 @@
     
     <Tab text="Förvaring">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="682.0" prefWidth="1364.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="678.0" prefWidth="1311.0">
                <children>
-                  <ScrollPane layoutX="2.0" layoutY="214.0" prefHeight="466.0" prefWidth="1571.0">
-					<content>
-               			<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="1560.0">
-                           <children>
-                              <TableView fx:id="searchRadioViewTab2" editable="true" layoutX="6.0" layoutY="14.0" onMouseClicked="#clickedSearchScrollPaneTab2" prefHeight="447.0" prefWidth="1281.0">
-                                 <columns>
-                                    <TableColumn fx:id="columnIDTab2" prefWidth="42.999969482421875" text="ID" />
-									<TableColumn fx:id="columnSupplierTab2" prefWidth="168.0" text="Leverantör" />
-                                    <TableColumn fx:id="columnRadiopharmaceuticalTab2" prefWidth="219.0" text="produktnamn" />
-                                    <TableColumn fx:id="columnBatchNumberTab2" prefWidth="117.0" text="Batchnummer" />
-                                    <TableColumn fx:id="columnActivityTab2" prefWidth="131.0" text="Kalibreringsaktivitet" />
-                                    <TableColumn fx:id="columnCalibrationdateTab2" prefWidth="139.0" text="Kalibreringsdatum" />
-                                    <TableColumn fx:id="columnAnkomstdatumTab2" prefWidth="107.0" text="Ankomstdatum" />
-                                    <TableColumn fx:id="columnContaminationControlTab2" prefWidth="89.0" text="Kontroll" />
-                                    <TableColumn fx:id="columnRoomTab2" minWidth="0.0" prefWidth="71.0" text="Rum" />
-                                    <TableColumn fx:id="columnCalibrationInfoTab2" minWidth="0.0" prefWidth="118.0" text="Aktivitetsmätning" />
-                                    <TableColumn fx:id="columnUserTab2" prefWidth="78.0" text="Signatur" />
-                                 </columns>
-                              </TableView>
-                           </children>
-                        </AnchorPane>
-  						</content>
-					</ScrollPane>
                   <Pane layoutX="7.0" layoutY="12.0" prefHeight="156.0" prefWidth="1137.0">
                      <children>
                         <Pane layoutX="8.0" layoutY="12.0" prefHeight="133.0" prefWidth="409.0">
@@ -147,36 +124,30 @@
                   <Button fx:id="logOutButtonTab2" layoutX="1209.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
                   <Button fx:id="editButtonTab2" layoutX="1160.0" layoutY="115.0" mnemonicParsing="false" onAction="#clickedActivityButton" text="Aktivitetskontroll" />
                   <Button fx:id="writeToExcelButtonTab2" layoutX="1160.0" layoutY="168.0" mnemonicParsing="false" onMousePressed="#writeTableViewToExcelTab2" prefHeight="25.0" prefWidth="107.0" text="Export to excel" />
+                 <TableView fx:id="searchRadioViewTab2" layoutX="301.0" layoutY="198.0" prefHeight="480.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="198.0">
+                    <columns>
+                    	<TableColumn fx:id="columnIDTab2" prefWidth="75.0" text="ID" />	
+                      	<TableColumn fx:id="columnAnkomstdatumTab2" prefWidth="75.0" text="AnkomstDatum" />
+                      	<TableColumn fx:id="columnSupplierTab2" prefWidth="106.00003051757812" text="Leverantör" />
+                        <TableColumn fx:id="columnRadiopharmaceuticalTab2" prefWidth="182.0" text="Produkt" />
+                        <TableColumn fx:id="columnActivityTab2" prefWidth="75.0" text="Aktivitet" />
+                        <TableColumn fx:id="columnCalibrationdateTab2" prefWidth="75.0" text="Kalibreringsdatum" />
+                        <TableColumn fx:id="columnBatchNumberTab2" prefWidth="126.0" text="Batchnr" />
+                        <TableColumn fx:id="columnContaminationControlTab2" prefWidth="113.0" text="Kontamineringskontroll" />
+                        <TableColumn fx:id="columnCalibrationInfoTab2" minWidth="0.0" prefWidth="146.0" text="Aktivitetsmätning" />
+                        <TableColumn fx:id="columnRoomTab2" prefWidth="88.0" text="Rum" />
+                        <TableColumn fx:id="columnUserTab2" minWidth="0.0" prefWidth="70.0" text="Signatur" />
+                        
+
+                    </columns>
+                       </TableView>
                </children></AnchorPane>
       </content>
 </Tab>
     <Tab text="Kassering">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="678.0" prefWidth="1292.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="678.0" prefWidth="1559.0">
                <children>
-                  <ScrollPane layoutX="2.0" layoutY="214.0" prefHeight="466.0" prefWidth="1571.0">
-					<content>
-               			<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="1560.0">
-                           <children>
-                              <TableView fx:id="searchRadioViewTab3" editable="true" layoutX="6.0" layoutY="14.0" onMouseClicked="#clickedSearchScrollPaneTab3" prefHeight="447.0" prefWidth="1281.0">
-                                 <columns>
-                                    <TableColumn fx:id="columnIDTab3" prefWidth="42.999969482421875" text="ID" />
-									<TableColumn fx:id="columnSupplierTab3" prefWidth="168.0" text="Leverantör" />
-                                    <TableColumn fx:id="columnRadiopharmaceuticalTab3" prefWidth="219.0" text="produktnamn" />
-                                    <TableColumn fx:id="columnBatchNumberTab3" prefWidth="117.0" text="Batchnummer" />
-                                    <TableColumn fx:id="columnActivityTab3" prefWidth="131.0" text="Kalibreringsaktivitet" />
-                                    <TableColumn fx:id="columnCalibrationdateTab3" prefWidth="139.0" text="Kalibreringsdatum" />
-                                    <TableColumn fx:id="columnAnkomstdatumTab3" prefWidth="107.0" text="Ankomstdatum" />
-                                    <TableColumn fx:id="columnContaminationControlTab3" prefWidth="89.0" text="Kontroll" />
-                                    <TableColumn fx:id="columnRoomTab3" minWidth="0.0" prefWidth="71.0" text="Rum" />
-                                    <TableColumn fx:id="columnCalibrationInfoTab3" minWidth="0.0" prefWidth="118.0" text="Aktivitetsmätning" />
-                                    <TableColumn fx:id="columnUserTab3" prefWidth="78.0" text="Signatur" />
-                                 </columns>
-                              </TableView>
-                           </children>
-                        </AnchorPane>
-  						</content>
-					</ScrollPane>
                   <Pane layoutX="7.0" layoutY="12.0" prefHeight="156.0" prefWidth="1137.0">
                      <children>
                         <Pane layoutX="14.0" layoutY="14.0" prefHeight="133.0" prefWidth="409.0">
@@ -213,7 +184,21 @@
                   </Pane>
                   <Button fx:id="logOutButtonTab3" layoutX="1209.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
                   <Button fx:id="writeToExcelButtonTab3" layoutX="1160.0" layoutY="168.0" mnemonicParsing="false" onMousePressed="#writeTableViewToExcelTab3" prefHeight="25.0" prefWidth="107.0" text="Export to excel" />
-               </children></AnchorPane>
+                  <TableView fx:id="searchRadioViewTab3" layoutX="301.0" layoutY="197.0" prefHeight="481.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="197.0">
+                    <columns>
+                    	<TableColumn fx:id="columnIDTab3" prefWidth="75.0" text="ID" />	
+                      	<TableColumn fx:id="columnAnkomstdatumTab3" prefWidth="75.0" text="AnkomstDatum" />
+                      	<TableColumn fx:id="columnSupplierTab3" prefWidth="106.00003051757812" text="Leverantör" />
+                        <TableColumn fx:id="columnRadiopharmaceuticalTab3" prefWidth="182.0" text="Produkt" />
+                        <TableColumn fx:id="columnActivityTab3" prefWidth="75.0" text="Aktivitet" />
+                        <TableColumn fx:id="columnCalibrationdateTab3" prefWidth="75.0" text="Kalibreringsdatum" />
+                        <TableColumn fx:id="columnBatchNumberTab3" prefWidth="75.0" text="Batchnr" />
+                        <TableColumn fx:id="columnContaminationControlTab3" prefWidth="75.0" text="Kontamineringskontroll" />
+                        <TableColumn fx:id="columnRoomTab3" prefWidth="75.0" text="Rum" />
+                        <TableColumn fx:id="columnUserTab3" prefWidth="75.0" text="Signatur" />
+                    </columns>
+                        </TableView>
+             </children>  </AnchorPane>
       </content>
 </Tab>
   </tabs>
