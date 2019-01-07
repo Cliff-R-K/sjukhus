@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import model.User;
 public class RegRadioDao implements IDao<RegRadio> {
 	DbConnectionManager conn = null;
 	LocalDateTime ldt;
+	LocalDateTime firstDate;
 	private int aktiv;
 
 	public RegRadioDao() {
@@ -142,7 +144,6 @@ public class RegRadioDao implements IDao<RegRadio> {
 						+ "JOIN users ON regradios.users_iduser = users.iduser " + " WHERE arrival_date BETWEEN \""
 						+ startDate + "\"" + " AND " + "\"" + endDate + "\""+" AND aktivt =" + aktiv 
 						+ " AND rooms_idroom = idroom";
-				System.out.println(sqlString);
 			}
 			ResultSet rs = conn.excecuteQuery(sqlString);
 			while (rs.next()) {
@@ -289,19 +290,19 @@ public class RegRadioDao implements IDao<RegRadio> {
 		return list;
 	}
 	
-	public Date getFirstDate() {
-		Date date = null;
+	public LocalDateTime getFirstDate() {
+		firstDate = null;
 		try {
 			String sqlQuary = "Select min(start_date) From regradios";
 			ResultSet rs = conn.excecuteQuery(sqlQuary);
 			while (rs.next()) {
-				date = rs.getDate(1);
+				firstDate = rs.getTimestamp(1).toLocalDateTime();
 			}
 			conn.close();
 		} catch (SQLException e) {
 			System.err.println("Inga Läkemedel hittades");
 		}
-		return date;
+		return firstDate;
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,9 +69,6 @@ class RegRadioDaoTest {
 	@Test
 	void getFromTrash() {
 		System.out.println("0");
-/*		int actual = regradiodao.getSearchedRegRadios(startDate, endDate, null, room, null).size();
-		int expected = 13;
-		assertEquals(expected, actual, "skulle varit: " + expected + "men va: " + actual);*/
 		regradiolist.addAll(regradiodao.getTrash());
 		for (RegRadio rg : regradiolist) {
 			assertEquals("kassering", rg.getRoom().getRoomCode(), "Fel room hämtades");
@@ -79,9 +78,6 @@ class RegRadioDaoTest {
 	@Test
 	void getFromRadioPharmaceutical() {
 		System.out.println("1");
-/*		int actual = regradiodao.getSearchedRegRadios(startDate, endDate, radiopharmaceutical, null, null).size();
-		int expected = 6;
-		assertEquals(expected, actual, "skulle varit: " + expected + "men va: " + actual);*/
 		regradiolist.addAll(regradiodao.getSearchedRegRadios(startDate, endDate, radiopharmaceutical, null, null, aktiv));
 		for (RegRadio rg : regradiolist) {
 			assertEquals(radiopharmaceutical.getRadiopharmaceuticalName(),
@@ -92,9 +88,6 @@ class RegRadioDaoTest {
 	@Test
 	void getFromUser() {
 		System.out.println("2");
-/*		int actual = regradiodao.getSearchedRegRadios(startDate, endDate, null, null, user).size();
-		int expected = 20;
-		assertEquals(expected, actual, "skulle varit: " + expected + "men va: " + actual);*/
 		regradiolist.addAll(regradiodao.getSearchedRegRadios(startDate, endDate, null, null, user, aktiv));
 		for (RegRadio rg : regradiolist) {
 			assertEquals(user.getSignature(), rg.getUser().getSignature(), "Fel user hämtades");
@@ -105,9 +98,6 @@ class RegRadioDaoTest {
 	@Test
 	void getFromRoom() {
 		System.out.println("3");
-/*		int actual = regradiodao.getSearchedRegRadios(startDate, endDate, null, room, null).size();
-		int expected = 13;
-		assertEquals(expected, actual, "skulle varit: " + expected + "men va: " + actual);*/
 		regradiolist.addAll(regradiodao.getSearchedRegRadios(startDate, endDate, null, room, null, aktiv));
 		for (RegRadio rg : regradiolist) {
 			assertEquals(room.getDescription(), rg.getRoom().getDescription(), "Fel room hämtades");
@@ -117,9 +107,6 @@ class RegRadioDaoTest {
 	@Test
 	void getFromRadioPharmaceuticalRoom() {
 		System.out.println("4");
-/*		int actual = regradiodao.getSearchedRegRadios(startDate, endDate, radiopharmaceutical, room, null).size();
-		int expected = 2;
-		assertEquals(expected, actual, "skulle varit: " + expected + "men va: " + actual);*/
 		regradiolist.addAll(regradiodao.getSearchedRegRadios(startDate, endDate, radiopharmaceutical, room, null, aktiv));
 		for (RegRadio rg : regradiolist) {
 			assertEquals(radiopharmaceutical.getRadiopharmaceuticalName(),
@@ -131,9 +118,6 @@ class RegRadioDaoTest {
 	@Test
 	void getFromRadioPharmaceuticalUser() {
 		System.out.println("5");
-/*		int actual = regradiodao.getSearchedRegRadios(startDate, endDate, radiopharmaceutical, null, user).size();
-		int expected = 5;
-		assertEquals(expected, actual, "skulle varit: " + expected + "men va: " + actual);*/
 		regradiolist.addAll(regradiodao.getSearchedRegRadios(startDate, endDate, radiopharmaceutical, null, user, aktiv));
 		for (RegRadio rg : regradiolist) {
 			assertEquals(radiopharmaceutical.getRadiopharmaceuticalName(),
@@ -145,9 +129,6 @@ class RegRadioDaoTest {
 	@Test
 	void getFromRadioPharmaceuticalRoomUser() {
 		System.out.println("6");
-/*		int actual = regradiodao.getSearchedRegRadios(startDate, endDate, radiopharmaceutical, room, user).size();
-		int expected = 1;
-		assertEquals(expected, actual, "skulle varit: " + expected + "men va: " + actual);*/
 		regradiolist.addAll(regradiodao.getSearchedRegRadios(startDate, endDate, radiopharmaceutical, room, user, aktiv));
 		for (RegRadio rg : regradiolist) {
 			assertEquals(radiopharmaceutical.getRadiopharmaceuticalName(),
@@ -160,9 +141,6 @@ class RegRadioDaoTest {
 	@Test
 	void getFromRoomUser() {
 		System.out.println("7");
-/*		int actual = regradiodao.getSearchedRegRadios(startDate, endDate, null, room, user).size();
-		int expected = 10;
-		assertEquals(expected, actual, "skulle varit: " + expected + "men va: " + actual);*/
 		regradiolist.addAll(regradiodao.getSearchedRegRadios(startDate, endDate, null, room, user, aktiv));
 		for (RegRadio rg : regradiolist) {
 			assertEquals(user.getSignature(), rg.getUser().getSignature(), "Fel user hämtades");
@@ -173,13 +151,17 @@ class RegRadioDaoTest {
 	@Test
 	void getFromNothing() {
 		System.out.println("8");
-/*		int actual = regradiodao.getSearchedRegRadios(startDate, endDate, null, null, null).size();
-		int expected = 26;
-		assertEquals(expected, actual, "skulle varit: " + expected + "men va: " + actual);*/
 		regradiolist.addAll(regradiodao.getSearchedRegRadios(startDate, endDate, null, null, null, aktiv));
 		List<RegRadio> allRegRadioList = regradiodao.getAll();
 		assertEquals(allRegRadioList.size(), regradiolist.size(),
 				"skulle varit: " + allRegRadioList.size() + "men va: " + regradiolist.size());
+	}
+	
+	@Test
+	void getFirstDateFromDatabase() {
+		System.out.println("9");
+		LocalDate localDate = regradiodao.getFirstDate().toLocalDate();
+		assertEquals("2018-10-30", localDate.toString(), "fel första datum från databasen");
 	}
 
 }
