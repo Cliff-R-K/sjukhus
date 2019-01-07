@@ -257,6 +257,7 @@ HBox buttons;
 	TableColumn<RegRadio, String> columnCalibrationInfoTab3;
 
 	private int aktivt;
+	private int inaktivt;
 	
 	public void addProductsTabThree() {
 		radioListTabThree.clear();
@@ -812,16 +813,20 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 		stage.setTitle("Aktivitetskontroll");
 		stage.setScene(new Scene(root));
 		stage.showAndWait();
-		updateTableTab2();
+		updateTables();
 	}
 
-
-	private void updateTableTab2() {
+	private void updateTables() {
 		aktivt = 1;
+		inaktivt = 0;
 		searchRegRadioListTab2.clear();
 		searchRegRadioListTab2.addAll(new RegRadioDao().getSearchedRegRadios(getStartSortDateTab2(), getEndSortDateTab2(), radio_tab_two, room_tab_two, user_tab_two, aktivt));
 		searchRadioViewTab2.setItems(searchRegRadioListTab2);
 		searchRadioViewTab2.refresh();	
+		searchRegRadioListTab3.clear();
+		searchRegRadioListTab3.addAll(new RegRadioDao().getSearchedRegRadios(getStartSortDateTab3(), getEndSortDateTab3(), radio_tab_three, room_tab_three, user_tab_three, inaktivt));
+		searchRadioViewTab3.setItems(searchRegRadioListTab3);
+		searchRadioViewTab3.refresh();	
 	}
 
 	public Date getStartSortDateTab2() {
@@ -921,7 +926,8 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 		stage.setTitle("Kasseringsmetod");
 		stage.setScene(new Scene(root));
 		stage.showAndWait();
-		updateTableTab2();
+		updateTables();
+		//updateTableTab3();
 	}
 
 }
