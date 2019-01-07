@@ -620,7 +620,7 @@ HBox buttons;
 			radioUpdatedList.clear();
 			radioUpdatedList = FXCollections.observableArrayList(radioListfromSupplier);
 			t.getRowValue().setSupplier(t.getNewValue());
-			columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioUpdatedList));
+			columnRadiopharmaceuticalTab1.setCellFactory(ComboBoxTableCell.forTableColumn(radioUpdatedList));
 			tableview.getSelectionModel().select(currentRowIndex);
 
 			tableview.requestFocus();
@@ -740,7 +740,7 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	                                            rr.getSupplier(),
 	                                            rr.getRadiopharmaceutical());
 	                                    new RegRadioDao().updateAndReplace(rr, rr);
-		                                radioView.refresh();
+		                                searchRadioViewTab2.refresh();
 	                                    
 	                                    setGraphic(null);
 		                                setText(null);  
@@ -762,7 +762,7 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	                                tableview.getItems().remove(selectedRow);
 	                                new RegRadioDao().delete(selectedRow);
 	                                searchRegRadioList.remove(selectedRow);
-	                                radioView.refresh();
+	                                searchRadioViewTab2.refresh();
 	                                
 	                                setGraphic(null);
 		                                setText(null);  
