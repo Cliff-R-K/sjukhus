@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="678.0" prefWidth="1559.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CreationTabController">
+   <children>
+      <Pane layoutX="32.0" layoutY="31.0" prefHeight="319.0" prefWidth="816.0">
+         <children>
+            <ComboBox fx:id="typeComboBox" layoutX="18.0" layoutY="44.0" prefHeight="25.0" prefWidth="196.0" promptText="Välj typ" />
+            <Label layoutX="18.0" layoutY="16.0" prefHeight="17.0" prefWidth="74.0" text="Välj typ" />
+            <ComboBox layoutX="491.0" layoutY="44.0" prefHeight="25.0" prefWidth="289.0" promptText="Välj Attribut 1" />
+            <ComboBox layoutX="491.0" layoutY="93.0" prefHeight="25.0" prefWidth="289.0" promptText="Välj Attribut 2" />
+            <TextField layoutX="491.0" layoutY="141.0" prefHeight="25.0" prefWidth="289.0" promptText="Skriv Attribut" />
+            <TextField layoutX="491.0" layoutY="190.0" prefHeight="25.0" prefWidth="289.0" promptText="Skriv Attribut 2" />
+            <Button layoutX="537.0" layoutY="270.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Avbryt" />
+            <Button layoutX="669.0" layoutY="270.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Spara" />
+            <Label layoutX="319.0" layoutY="51.0" prefHeight="17.0" prefWidth="74.0" text="Label1" />
+            <Label layoutX="319.0" layoutY="100.0" prefHeight="17.0" prefWidth="74.0" text="Label2" />
+            <Label layoutX="319.0" layoutY="148.0" prefHeight="17.0" prefWidth="74.0" text="Label3" />
+            <Label layoutX="319.0" layoutY="197.0" prefHeight="17.0" prefWidth="74.0" text="Label3" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
