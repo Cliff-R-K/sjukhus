@@ -98,6 +98,7 @@ public class NuclearAppController implements Initializable {
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
+	private ObservableList<Radiopharmaceutical> radioUpdatedList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> searchRegRadioList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioListTabTwo = FXCollections.observableArrayList();
@@ -478,27 +479,28 @@ public class NuclearAppController implements Initializable {
 		columnSupplier.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));
 		columnSupplier.setOnEditCommit(t -> {
 			ArrayList<Radiopharmaceutical> radioListfromSupplier = new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(t.getNewValue().getSupplierName());
-			radioList.clear();
-			radioList = FXCollections.observableArrayList(radioListfromSupplier);
+			radioUpdatedList.clear();
+			radioUpdatedList = FXCollections.observableArrayList(radioListfromSupplier);
 			t.getRowValue().setSupplier(t.getNewValue());
-			columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
+			columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioUpdatedList));
+			tableview.getSelectionModel().select(currentRowIndex);
 			tableview.requestFocus();
-//			addTableCellButton();
 		});
 
 		columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
 		columnRadiopharmaceutical.setOnEditCommit(t ->{
+			tableview.getSelectionModel().select(currentRowIndex);
 			t.getRowValue().setRadiopharmaceutical(t.getNewValue());
-//			columnSupplier.getTableView().requestFocus();
-//			addTableCellButton();
-			tableview.requestFocus();
-		});
-		tableview.setOnMouseClicked(t ->{
 			
+			
+		});
+		
+		tableview.setOnMouseClicked(t ->{
 			currentRowIndex = tableview.getSelectionModel().getSelectedIndex();
+			if(currentRowIndex != -1) {
 			RegRadio lastRegradio = tableview.getItems().get(currentRowIndex);
 			System.out.println(tableview.getItems().get(currentRowIndex).toString());
-			System.out.println(currentRowIndex);
+			}
 		});
 		
 		columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
@@ -521,16 +523,13 @@ public class NuclearAppController implements Initializable {
 tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	if(newValue) {
 		System.out.println("focus");
-		System.out.println(tableview.getFocusModel().getFocusedItem().getRadiopharmaceutical().getSupplier());
-	
-
+//		System.out.println(tableview.getFocusModel().getFocusedItem().getRadiopharmaceutical().getSupplier());
 		columnSupplier.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));	
 	}
 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					
 	
 	else {
 		System.out.println("lost focus");
-		
 		tableview.getSelectionModel().clearSelection();
 		
 //		buttons.setVisible(false);
@@ -543,8 +542,7 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	
 	private void addTableCellButton() {
 	    int selectedRowIndex = tableview.getSelectionModel().getSelectedIndex();
-	    System.out.println("selectedrowindex: " + selectedRowIndex);
-	    System.out.println();
+	    System.out.println("selectedrowindex: " + selectedRowIndex + " Something fishy here!!");
 	   
 	    
 	    Callback<TableColumn<RegRadio,String>,TableCell<RegRadio,String>> cellFactory = 
@@ -552,23 +550,24 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	                @Override
 	                public TableCell<RegRadio, String> call(TableColumn<RegRadio, String> param) {
 	                	TableCell<RegRadio, String> cell = new TableCell<RegRadio, String>() {
-	                      
-//	                        	Image saveIcon = new Image(getClass().getResourceAsStream("/sjukhusdigitalisering/res/Save-icon.png"));
-//	                			final Button btnSave = new Button("",new ImageView(saveIcon));
-	                			final Button btnSave = new Button("Save");
-	                			final Button btnAbort = new Button("Avbryt");
-	                			final Button btnDelete = new Button("Radera");
+	                		
+	                        	Image saveIcon = new Image(getClass().getResourceAsStream("/icons/Save-icon.png"),16,16,true,true);
+	                        	Image cancelIcon = new Image(getClass().getResourceAsStream("/icons/icons8-delete.png"),16,16,true,true);
+	                        	Image deleteIcon = new Image(getClass().getResourceAsStream("/icons/icons8-trash.png"),16,16,true,true);
+	                			
+	                        	
+	                        	final Button btnSave = new Button("",new ImageView(saveIcon));
+	                			final Button btnAbort = new Button("",new ImageView(cancelIcon));
+	                			final Button btnDelete = new Button("",new ImageView(deleteIcon));
 	                			HBox buttons =new HBox(btnSave, btnAbort, btnDelete);
 	                        
 	                         
 	                        @Override
 	                        public void updateItem(String item, boolean empty) {
 	                        	
-	                        	
 	                        	tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	                        		if(newValue) {
 	                        			System.out.println("focus2");
-//	                        			System.out.println(tableview.getFocusModel().getFocusedItem().getRadiopharmaceutical().getSupplier());
 	                        		}
 	                        		else {
 	                        			System.out.println("lost focus2");
@@ -583,14 +582,12 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	                        	
 	                        	
 	                        	
-	                        	
 	                        	  System.out.println("getIndex: " + getIndex());
 	                        	super.updateItem(item, empty);
 	                            if (empty || getIndex() == -1 ||  getIndex() != selectedRowIndex ||!tableview.isFocused() ) { 
-	                                setGraphic(null);
-	                                setText(null);                                  
+	                            	setGraphic(null);
+	                                //setText(null);                                  
 	                            } else {
-	                                 
 	                                // Do update here
 	                                btnSave.setOnAction(event -> {
 	                                	System.out.println(item);
@@ -602,23 +599,29 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	                                            rr.getSupplier(),
 	                                            rr.getRadiopharmaceutical());
 	                                    new RegRadioDao().updateAndReplace(rr, rr);
+		                                radioView.refresh();
+	                                    
 	                                    setGraphic(null);
 		                                setText(null);  
 	                                });
 	                                
 	                                btnAbort.setOnAction(event -> {
-	                                
-	                                	
 	                                	System.out.println("Abort");
 	                                    setGraphic(null);
 		                                setText(null);  
+		                                tableview.getColumns().get(0).setVisible(false);
+		                                tableview.getColumns().get(0).setVisible(true);
 		                                
 	                                });
 	                                btnDelete.setOnAction(event -> {
 	                                System.out.println("Delete");
-	                                RegRadio selectedRow = tableview.getSelectionModel().getSelectedItem();
+	                                
+	                                RegRadio selectedRow = tableview.getItems().get(currentRowIndex);
+	                                System.out.println(selectedRow);
 	                                tableview.getItems().remove(selectedRow);
 	                                new RegRadioDao().delete(selectedRow);
+	                                searchRegRadioList.remove(selectedRow);
+	                                radioView.refresh();
 	                                
 	                                setGraphic(null);
 		                                setText(null);  
