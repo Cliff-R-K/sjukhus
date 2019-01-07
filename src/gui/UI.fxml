@@ -197,6 +197,7 @@
                         <TableColumn fx:id="columnUserTab3" prefWidth="75.0" text="Signatur" />
                     </columns>
                         </TableView>
+                  <Button fx:id="aboutButton" layoutX="1216.0" layoutY="63.0" mnemonicParsing="false" onAction="#clickedAboutButton" text="About" />
              </children>  </AnchorPane>
       </content>
 </Tab>

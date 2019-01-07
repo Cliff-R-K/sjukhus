@@ -95,6 +95,7 @@ public class NuclearAppController implements Initializable {
 	public Button editButtonTab3 = new Button();
 	public Button writeToExcelButtonTab3 = new Button();
 	public Button discardButton = new Button();
+	public Button aboutButton = new Button();
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
@@ -919,6 +920,16 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 		stage.showAndWait();
 		updateTables();
 		//updateTableTab3();
+	}
+	
+	public void clickedAboutButton() throws IOException {
+		Image image = new Image("/icons/background.png");
+		ImageView mv = new ImageView(image);
+		Parent root = FXMLLoader.load(getClass().getResource("AboutWindow.fxml"));
+		Stage stage = new Stage();
+		stage.setTitle("Information");
+		stage.setScene(new Scene(root));
+		stage.showAndWait();
 	}
 
 }
