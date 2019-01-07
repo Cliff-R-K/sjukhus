@@ -16,192 +16,334 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1290.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.NuclearAppController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0"
+	prefWidth="1290.0" tabClosingPolicy="UNAVAILABLE"
+	xmlns="http://javafx.com/javafx/10.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="gui.NuclearAppController">
 
 
 
-  <tabs>
-    <Tab text="Ankomstregistrering">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="897.0">
-               <children>
-                  <DatePicker fx:id="ankomstdatum" layoutX="35.0" layoutY="75.0" prefHeight="25.0" prefWidth="123.0" />
-                  <Label layoutX="49.0" layoutY="44.0" text="Ankomstdatum" />
-                  <ComboBox fx:id="combobox_suppliers" layoutX="179.0" layoutY="75.0" prefWidth="150.0" />
-                  <Label layoutX="207.0" layoutY="44.0" text="Leverantör" />
-                  <ComboBox fx:id="combobox_radio" layoutX="370.0" layoutY="75.0" prefWidth="150.0" />
-                  <Label layoutX="417.0" layoutY="44.0" text="Produkt" />
-                  <Button fx:id="saveButton" layoutX="777.0" layoutY="260.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="Spara" />
-                  <CheckBox fx:id="check_kontamineringskontroll" layoutX="557.0" layoutY="178.0" mnemonicParsing="false" text="Kontamineringskontroll" />
-                  <TextField fx:id="text_kommentar" layoutX="740.0" layoutY="175.0" />
-                  <Label layoutX="782.0" layoutY="140.0" text="Kommentar" />
-                  <Label fx:id="label_rad_substance" layoutX="557.0" layoutY="73.0" prefHeight="30.0" prefWidth="82.0" textAlignment="CENTER" />
-                  <Label fx:id="label_halftime" layoutX="672.0" layoutY="73.0" prefHeight="30.0" prefWidth="70.0" />
-                  <Label layoutX="550.0" layoutY="44.0" prefHeight="18.0" prefWidth="54.0" text="Ämne" textAlignment="CENTER" />
-                  <Label layoutX="672.0" layoutY="44.0" text="Halveringstid" />
-                  <DatePicker fx:id="kalibreringsdatum" layoutX="200.0" layoutY="174.0" prefHeight="25.0" prefWidth="123.0" />
-                  <Label layoutX="207.0" layoutY="140.0" text="Kalibreringsdatum" />
-                  <Label layoutX="28.0" layoutY="140.0" text="Kalibreringsaktivitet [MBq]" />
-                  <TextField fx:id="text_kalibreringsaktivitet" layoutX="35.0" layoutY="175.0" prefHeight="27.0" prefWidth="90.0" />
-                  <TextField fx:id="text_kalibreringstid" layoutX="336.0" layoutY="174.0" prefHeight="28.0" prefWidth="60.0" />
-                  <Label layoutX="358.0" layoutY="140.0" text="Tid" />
-                  <TextField fx:id="text_batchnr" layoutX="466.0" layoutY="174.0" prefHeight="28.0" prefWidth="60.0" />
-                  <Label layoutX="456.0" layoutY="140.0" prefHeight="18.0" prefWidth="80.0" text="Batchnummer" />
-                  <Label layoutX="49.0" layoutY="245.0" text="Förvaringsrum" />
-                  <ComboBox fx:id="combobox_room" layoutX="21.0" layoutY="273.0" prefWidth="150.0" />
-                  <TextField layoutX="228.0" layoutY="273.0" />
-                  <Label fx:id="signatur" layoutX="843.0" layoutY="80.0" prefHeight="17.0" prefWidth="76.0" />
-                  <Label layoutX="843.0" layoutY="45.0" text="Signatur" />
-  
-                  <Label layoutX="278.0" layoutY="245.0" text="Streckkod" />
-                  <Separator layoutX="-1.0" layoutY="321.0" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="1571.0" />
-                  <VBox layoutX="-29.0" layoutY="497.0" maxWidth="1.7976931348623157E308" prefHeight="364.0" prefWidth="1040.0">
-                     <children>
-                        <VBox prefHeight="364.0" prefWidth="1181.0" />
-                     </children>
-                  </VBox>
-                  <Button fx:id="logOutButtonTab1" layoutX="1073.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
-                  <TableView fx:id="tableview" layoutX="301.0" layoutY="325.0" prefHeight="357.0" prefWidth="1571.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="325.0">
-                    <columns>
-                      	<TableColumn fx:id="columnAnkomstdatumTab1" prefWidth="75.0" text="AnkomstDatum" />
-                      	<TableColumn fx:id="columnSupplierTab1" prefWidth="106.00003051757812" text="Leverantör" />
-                        <TableColumn fx:id="columnRadiopharmaceuticalTab1" prefWidth="182.0" text="Produkt" />
-                        <TableColumn fx:id="columnActivityTab1" prefWidth="75.0" text="Aktivitet" />
-                        <TableColumn fx:id="columnCalibrationdateTab1" prefWidth="75.0" text="Kalibreringsdatum" />
-                        <TableColumn fx:id="columnBatchNumberTab1" prefWidth="75.0" text="Batchnr" />
-                        <TableColumn fx:id="columnContaminationControlTab1" prefWidth="75.0" text="Kontamineringskontroll" />
-                        <TableColumn fx:id="columnRoomTab1" prefWidth="75.0" text="Rum" />
-                        <TableColumn fx:id="columnUserTab1" prefWidth="75.0" text="Signatur" />
+	<tabs>
+		<Tab text="Ankomstregistrering">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0"
+					prefHeight="598.0" prefWidth="897.0">
+					<children>
+						<DatePicker fx:id="ankomstdatum" layoutX="35.0"
+							layoutY="75.0" prefHeight="25.0" prefWidth="123.0" />
+						<Label layoutX="49.0" layoutY="44.0" text="Ankomstdatum" />
+						<ComboBox fx:id="combobox_suppliers" layoutX="179.0"
+							layoutY="75.0" prefWidth="150.0" />
+						<Label layoutX="207.0" layoutY="44.0" text="Leverantör" />
+						<ComboBox fx:id="combobox_radio" layoutX="370.0"
+							layoutY="75.0" prefWidth="150.0" />
+						<Label layoutX="417.0" layoutY="44.0" text="Produkt" />
+						<Button fx:id="saveButton" layoutX="777.0" layoutY="260.0"
+							mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0"
+							text="Spara" />
+						<CheckBox fx:id="check_kontamineringskontroll"
+							layoutX="557.0" layoutY="178.0" mnemonicParsing="false"
+							text="Kontamineringskontroll" />
+						<TextField fx:id="text_kommentar" layoutX="740.0"
+							layoutY="175.0" />
+						<Label layoutX="782.0" layoutY="140.0" text="Kommentar" />
+						<Label fx:id="label_rad_substance" layoutX="557.0"
+							layoutY="73.0" prefHeight="30.0" prefWidth="82.0"
+							textAlignment="CENTER" />
+						<Label fx:id="label_halftime" layoutX="672.0" layoutY="73.0"
+							prefHeight="30.0" prefWidth="70.0" />
+						<Label layoutX="550.0" layoutY="44.0" prefHeight="18.0"
+							prefWidth="54.0" text="Ämne" textAlignment="CENTER" />
+						<Label layoutX="672.0" layoutY="44.0" text="Halveringstid" />
+						<DatePicker fx:id="kalibreringsdatum" layoutX="200.0"
+							layoutY="174.0" prefHeight="25.0" prefWidth="123.0" />
+						<Label layoutX="207.0" layoutY="140.0"
+							text="Kalibreringsdatum" />
+						<Label layoutX="28.0" layoutY="140.0"
+							text="Kalibreringsaktivitet [MBq]" />
+						<TextField fx:id="text_kalibreringsaktivitet"
+							layoutX="35.0" layoutY="175.0" prefHeight="27.0" prefWidth="90.0" />
+						<TextField fx:id="text_kalibreringstid" layoutX="336.0"
+							layoutY="174.0" prefHeight="28.0" prefWidth="60.0" />
+						<Label layoutX="358.0" layoutY="140.0" text="Tid" />
+						<TextField fx:id="text_batchnr" layoutX="466.0"
+							layoutY="174.0" prefHeight="28.0" prefWidth="60.0" />
+						<Label layoutX="456.0" layoutY="140.0" prefHeight="18.0"
+							prefWidth="80.0" text="Batchnummer" />
+						<Label layoutX="49.0" layoutY="245.0" text="Förvaringsrum" />
+						<ComboBox fx:id="combobox_room" layoutX="21.0"
+							layoutY="273.0" prefWidth="150.0" />
+						<TextField layoutX="228.0" layoutY="273.0" />
+						<Label fx:id="signatur" layoutX="843.0" layoutY="80.0"
+							prefHeight="17.0" prefWidth="76.0" />
+						<Label layoutX="843.0" layoutY="45.0" text="Signatur" />
 
-                    </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                  </TableView>
-                  
-               </children></AnchorPane>
-      </content>
-    </Tab>
-    
-    <Tab text="Förvaring">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="678.0" prefWidth="1311.0">
-               <children>
-                  <Pane layoutX="7.0" layoutY="12.0" prefHeight="156.0" prefWidth="1137.0">
-                     <children>
-                        <Pane layoutX="8.0" layoutY="12.0" prefHeight="133.0" prefWidth="409.0">
-                           <children>
-                              <DatePicker fx:id="startSortDateTab2" layoutX="14.0" layoutY="86.0" promptText="startdatum" />
-                              <DatePicker fx:id="endSortDateTab2" layoutX="205.0" layoutY="86.0" promptText="slutdatum" />
-                              <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="162.0" text="Datumsökning">
-                                 <font>
-                                    <Font size="21.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="14.0" layoutY="58.0" prefHeight="17.0" prefWidth="78.0" text="Startdatum" />
-                              <Label layoutX="205.0" layoutY="58.0" text="Slutdatum" />
-                           </children>
-                        </Pane>
-                        <Pane layoutX="456.0" layoutY="11.0" prefHeight="134.0" prefWidth="555.0">
-                           <children>
-                              <Label layoutX="14.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök typ" />
-                              <ComboBox fx:id="combobox_radio_tab_two" layoutX="14.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
-                              <Label layoutX="14.0" layoutY="14.0" prefHeight="35.0" prefWidth="216.0" text="Filtrerad sökning">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="203.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök lagring" />
-                              <ComboBox fx:id="combobox_room_tab_two" layoutX="203.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
-                              <Label layoutX="391.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök användare" />
-                              <ComboBox fx:id="combobox_user_tab_two" layoutX="391.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
-                           </children>
-                        </Pane>
-                        <Button fx:id="searchButtonTab2" layoutX="1032.0" layoutY="103.0" mnemonicParsing="false" onAction="#searchButtonTab2Action" text="Sök" />
-                        <Button fx:id="clearButtonTab2" layoutX="1086.0" layoutY="103.0" mnemonicParsing="false" onAction="#clearButtonTab2" text="Clear" />
-                     </children>
-                  </Pane>
-                  <Button fx:id="logOutButtonTab2" layoutX="1209.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
-                  <Button fx:id="editButtonTab2" layoutX="1160.0" layoutY="115.0" mnemonicParsing="false" onAction="#clickedActivityButton" text="Aktivitetskontroll" />
-                  <Button fx:id="writeToExcelButtonTab2" layoutX="1160.0" layoutY="168.0" mnemonicParsing="false" onMousePressed="#writeTableViewToExcelTab2" prefHeight="25.0" prefWidth="107.0" text="Export to excel" />
-                  <Button fx:id="discardButton" layoutX="282.0" layoutY="57.0" mnemonicParsing="false" onMouseReleased="#clickedDiscardButton" prefHeight="25.0" prefWidth="106.0" text="Kassera" />
-                 <TableView fx:id="searchRadioViewTab2" layoutX="301.0" layoutY="198.0" onMouseClicked="#clickedSearchScrollPaneTab2" prefHeight="480.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="198.0">
-                    <columns>
-                    	<TableColumn fx:id="columnIDTab2" prefWidth="75.0" text="ID" />	
-                      	<TableColumn fx:id="columnAnkomstdatumTab2" prefWidth="75.0" text="AnkomstDatum" />
-                      	<TableColumn fx:id="columnSupplierTab2" prefWidth="106.00003051757812" text="Leverantör" />
-                        <TableColumn fx:id="columnRadiopharmaceuticalTab2" prefWidth="182.0" text="Produkt" />
-                        <TableColumn fx:id="columnActivityTab2" prefWidth="75.0" text="Aktivitet" />
-                        <TableColumn fx:id="columnCalibrationdateTab2" prefWidth="75.0" text="Kalibreringsdatum" />
-                        <TableColumn fx:id="columnBatchNumberTab2" prefWidth="126.0" text="Batchnr" />
-                        <TableColumn fx:id="columnContaminationControlTab2" prefWidth="113.0" text="Kontamineringskontroll" />
-                        <TableColumn fx:id="columnCalibrationInfoTab2" minWidth="0.0" prefWidth="146.0" text="Aktivitetsmätning" />
-                        <TableColumn fx:id="columnRoomTab2" prefWidth="88.0" text="Rum" />
-                        <TableColumn fx:id="columnUserTab2" minWidth="0.0" prefWidth="70.0" text="Signatur" />
-                        
+						<Label layoutX="278.0" layoutY="245.0" text="Streckkod" />
+						<Separator layoutX="-1.0" layoutY="321.0"
+							maxWidth="1.7976931348623157E308" prefHeight="0.0"
+							prefWidth="1571.0" />
+						<VBox layoutX="-29.0" layoutY="497.0"
+							maxWidth="1.7976931348623157E308" prefHeight="364.0"
+							prefWidth="1040.0">
+							<children>
+								<VBox prefHeight="364.0" prefWidth="1181.0" />
+							</children>
+						</VBox>
+						<Button fx:id="logOutButtonTab1" layoutX="1073.0"
+							layoutY="14.0" mnemonicParsing="false"
+							onAction="#logOutButtonAction" text="Logga ut" />
+						<TableView fx:id="tableview" layoutX="301.0"
+							layoutY="325.0" prefHeight="357.0" prefWidth="1571.0"
+							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="325.0">
+							<columns>
+								<TableColumn fx:id="columnAnkomstdatumTab1"
+									prefWidth="75.0" text="AnkomstDatum" />
+								<TableColumn fx:id="columnSupplierTab1"
+									prefWidth="106.00003051757812" text="Leverantör" />
+								<TableColumn fx:id="columnRadiopharmaceuticalTab1"
+									prefWidth="182.0" text="Produkt" />
+								<TableColumn fx:id="columnActivityTab1"
+									prefWidth="75.0" text="Aktivitet" />
+								<TableColumn fx:id="columnCalibrationdateTab1"
+									prefWidth="75.0" text="Kalibreringsdatum" />
+								<TableColumn fx:id="columnBatchNumberTab1"
+									prefWidth="75.0" text="Batchnr" />
+								<TableColumn fx:id="columnContaminationControlTab1"
+									prefWidth="75.0" text="Kontamineringskontroll" />
+								<TableColumn fx:id="columnRoomTab1" prefWidth="75.0"
+									text="Rum" />
+								<TableColumn fx:id="columnUserTab1" prefWidth="75.0"
+									text="Signatur" />
 
-                    </columns>
-                       </TableView>
-               </children></AnchorPane>
-      </content>
-</Tab>
-    <Tab text="Kassering">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="678.0" prefWidth="1559.0">
-               <children>
-                  <Pane layoutX="7.0" layoutY="12.0" prefHeight="156.0" prefWidth="1137.0">
-                     <children>
-                        <Pane layoutX="14.0" layoutY="14.0" prefHeight="133.0" prefWidth="409.0">
-                           <children>
-                              <DatePicker fx:id="startSortDateTab3" layoutX="14.0" layoutY="86.0" promptText="startdatum" />
-                              <DatePicker fx:id="endSortDateTab3" layoutX="205.0" layoutY="86.0" promptText="slutdatum" />
-                              <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="162.0" text="Datumsökning">
-                                 <font>
-                                    <Font size="21.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="14.0" layoutY="58.0" prefHeight="17.0" prefWidth="78.0" text="Startdatum" />
-                              <Label layoutX="205.0" layoutY="58.0" text="Slutdatum" />
-                           </children>
-                        </Pane>
-                        <Pane layoutX="456.0" layoutY="11.0" prefHeight="134.0" prefWidth="555.0">
-                           <children>
-                              <Label layoutX="14.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök typ" />
-                              <ComboBox fx:id="combobox_radio_tab_three" layoutX="14.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
-                              <Label layoutX="14.0" layoutY="14.0" prefHeight="35.0" prefWidth="216.0" text="Filtrerad sökning">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="203.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök lagring" />
-                              <ComboBox fx:id="combobox_room_tab_three" layoutX="203.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
-                              <Label layoutX="391.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök användare" />
-                              <ComboBox fx:id="combobox_user_tab_three" layoutX="391.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
-                           </children>
-                        </Pane>
-                        <Button fx:id="searchButtonTab3" layoutX="1032.0" layoutY="103.0" mnemonicParsing="false" onAction="#searchButtonTab3Action" text="Sök" />
-                        <Button fx:id="clearButtonTab3" layoutX="1086.0" layoutY="103.0" mnemonicParsing="false" onAction="#clearButtonTab3" text="Clear" />
-                     </children>
-                  </Pane>
-                  <Button fx:id="logOutButtonTab3" layoutX="1209.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
-                  <Button fx:id="writeToExcelButtonTab3" layoutX="1160.0" layoutY="168.0" mnemonicParsing="false" onMousePressed="#writeTableViewToExcelTab3" prefHeight="25.0" prefWidth="107.0" text="Export to excel" />
-                  <TableView fx:id="searchRadioViewTab3" layoutX="301.0" layoutY="197.0" onMouseClicked="#clickedSearchScrollPaneTab3" prefHeight="481.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="197.0">
-                    <columns>
-                    	<TableColumn fx:id="columnIDTab3" prefWidth="75.0" text="ID" />	
-                      	<TableColumn fx:id="columnAnkomstdatumTab3" prefWidth="75.0" text="AnkomstDatum" />
-                      	<TableColumn fx:id="columnSupplierTab3" prefWidth="106.00003051757812" text="Leverantör" />
-                        <TableColumn fx:id="columnRadiopharmaceuticalTab3" prefWidth="182.0" text="Produkt" />
-                        <TableColumn fx:id="columnActivityTab3" prefWidth="75.0" text="Aktivitet" />
-                        <TableColumn fx:id="columnCalibrationdateTab3" prefWidth="75.0" text="Kalibreringsdatum" />
-                        <TableColumn fx:id="columnBatchNumberTab3" prefWidth="75.0" text="Batchnr" />
-                        <TableColumn fx:id="columnContaminationControlTab3" prefWidth="75.0" text="Kontamineringskontroll" />
-                        <TableColumn fx:id="columnCalibrationInfoTab3" minWidth="0.0" prefWidth="146.0" text="Aktivitetsmätning" />
-                        <TableColumn fx:id="columnRoomTab3" prefWidth="75.0" text="Rum" />
-                        <TableColumn fx:id="columnUserTab3" prefWidth="75.0" text="Signatur" />
-                    </columns>
-                        </TableView>
-             </children>  </AnchorPane>
-      </content>
-</Tab>
-  </tabs>
+							</columns>
+							<columnResizePolicy>
+								<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+							</columnResizePolicy>
+						</TableView>
+
+					</children>
+				</AnchorPane>
+			</content>
+		</Tab>
+
+		<Tab text="Förvaring">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0"
+					prefHeight="678.0" prefWidth="1311.0">
+					<children>
+						<Pane layoutX="7.0" layoutY="12.0" prefHeight="156.0"
+							prefWidth="1137.0">
+							<children>
+								<Pane layoutX="8.0" layoutY="12.0" prefHeight="133.0"
+									prefWidth="409.0">
+									<children>
+										<DatePicker fx:id="startSortDateTab2"
+											layoutX="14.0" layoutY="86.0" promptText="startdatum" />
+										<DatePicker fx:id="endSortDateTab2" layoutX="205.0"
+											layoutY="86.0" promptText="slutdatum" />
+										<Label layoutX="14.0" layoutY="14.0" prefHeight="17.0"
+											prefWidth="162.0" text="Datumsökning">
+											<font>
+												<Font size="21.0" />
+											</font>
+										</Label>
+										<Label layoutX="14.0" layoutY="58.0" prefHeight="17.0"
+											prefWidth="78.0" text="Startdatum" />
+										<Label layoutX="205.0" layoutY="58.0" text="Slutdatum" />
+									</children>
+								</Pane>
+								<Pane layoutX="456.0" layoutY="11.0" prefHeight="134.0"
+									prefWidth="555.0">
+									<children>
+										<Label layoutX="14.0" layoutY="67.0" prefHeight="17.0"
+											prefWidth="146.0" text="Sök typ" />
+										<ComboBox fx:id="combobox_radio_tab_two"
+											layoutX="14.0" layoutY="92.0" prefWidth="150.0"
+											promptText="Välj typ" />
+										<Label layoutX="14.0" layoutY="14.0" prefHeight="35.0"
+											prefWidth="216.0" text="Filtrerad sökning">
+											<font>
+												<Font size="24.0" />
+											</font>
+										</Label>
+										<Label layoutX="203.0" layoutY="67.0" prefHeight="17.0"
+											prefWidth="146.0" text="Sök lagring" />
+										<ComboBox fx:id="combobox_room_tab_two"
+											layoutX="203.0" layoutY="92.0" prefWidth="150.0"
+											promptText="Välj typ" />
+										<Label layoutX="391.0" layoutY="67.0" prefHeight="17.0"
+											prefWidth="146.0" text="Sök användare" />
+										<ComboBox fx:id="combobox_user_tab_two"
+											layoutX="391.0" layoutY="92.0" prefWidth="150.0"
+											promptText="Välj typ" />
+									</children>
+								</Pane>
+								<Button fx:id="searchButtonTab2" layoutX="1032.0"
+									layoutY="103.0" mnemonicParsing="false"
+									onAction="#searchButtonTab2Action" text="Sök" />
+								<Button fx:id="clearButtonTab2" layoutX="1086.0"
+									layoutY="103.0" mnemonicParsing="false"
+									onAction="#clearButtonTab2" text="Clear" />
+							</children>
+						</Pane>
+						<Button fx:id="logOutButtonTab2" layoutX="1209.0"
+							layoutY="14.0" mnemonicParsing="false"
+							onAction="#logOutButtonAction" text="Logga ut" />
+						<Button fx:id="editButtonTab2" layoutX="1160.0"
+							layoutY="115.0" mnemonicParsing="false"
+							onAction="#clickedActivityButton" text="Aktivitetskontroll" />
+						<Button fx:id="writeToExcelButtonTab2" layoutX="1160.0"
+							layoutY="168.0" mnemonicParsing="false"
+							onMousePressed="#writeTableViewToExcelTab2" prefHeight="25.0"
+							prefWidth="107.0" text="Export to excel" />
+						<Button fx:id="discardButton" layoutX="282.0"
+							layoutY="57.0" mnemonicParsing="false"
+							onMouseReleased="#clickedDiscardButton" prefHeight="25.0"
+							prefWidth="106.0" text="Kassera" />
+						<TableView fx:id="searchRadioViewTab2" layoutX="301.0"
+							layoutY="198.0" onMouseClicked="#clickedSearchScrollPaneTab2"
+							prefHeight="480.0" prefWidth="1290.0"
+							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="198.0">
+							<columns>
+								<TableColumn fx:id="columnIDTab2" prefWidth="75.0"
+									text="ID" />
+								<TableColumn fx:id="columnAnkomstdatumTab2"
+									prefWidth="75.0" text="AnkomstDatum" />
+								<TableColumn fx:id="columnSupplierTab2"
+									prefWidth="106.00003051757812" text="Leverantör" />
+								<TableColumn fx:id="columnRadiopharmaceuticalTab2"
+									prefWidth="182.0" text="Produkt" />
+								<TableColumn fx:id="columnActivityTab2"
+									prefWidth="75.0" text="Aktivitet" />
+								<TableColumn fx:id="columnCalibrationdateTab2"
+									prefWidth="75.0" text="Kalibreringsdatum" />
+								<TableColumn fx:id="columnBatchNumberTab2"
+									prefWidth="126.0" text="Batchnr" />
+								<TableColumn fx:id="columnContaminationControlTab2"
+									prefWidth="113.0" text="Kontamineringskontroll" />
+								<TableColumn fx:id="columnCalibrationInfoTab2"
+									minWidth="0.0" prefWidth="146.0" text="Aktivitetsmätning" />
+								<TableColumn fx:id="columnRoomTab2" prefWidth="88.0"
+									text="Rum" />
+								<TableColumn fx:id="columnUserTab2" minWidth="0.0"
+									prefWidth="70.0" text="Signatur" />
+
+
+							</columns>
+						</TableView>
+					</children>
+				</AnchorPane>
+			</content>
+		</Tab>
+		<Tab text="Kassering">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0"
+					prefHeight="678.0" prefWidth="1559.0">
+					<children>
+						<Pane layoutX="7.0" layoutY="12.0" prefHeight="156.0"
+							prefWidth="1137.0">
+							<children>
+								<Pane layoutX="14.0" layoutY="14.0" prefHeight="133.0"
+									prefWidth="409.0">
+									<children>
+										<DatePicker fx:id="startSortDateTab3"
+											layoutX="14.0" layoutY="86.0" promptText="startdatum" />
+										<DatePicker fx:id="endSortDateTab3" layoutX="205.0"
+											layoutY="86.0" promptText="slutdatum" />
+										<Label layoutX="14.0" layoutY="14.0" prefHeight="17.0"
+											prefWidth="162.0" text="Datumsökning">
+											<font>
+												<Font size="21.0" />
+											</font>
+										</Label>
+										<Label layoutX="14.0" layoutY="58.0" prefHeight="17.0"
+											prefWidth="78.0" text="Startdatum" />
+										<Label layoutX="205.0" layoutY="58.0" text="Slutdatum" />
+									</children>
+								</Pane>
+								<Pane layoutX="456.0" layoutY="11.0" prefHeight="134.0"
+									prefWidth="555.0">
+									<children>
+										<Label layoutX="14.0" layoutY="67.0" prefHeight="17.0"
+											prefWidth="146.0" text="Sök typ" />
+										<ComboBox fx:id="combobox_radio_tab_three"
+											layoutX="14.0" layoutY="92.0" prefWidth="150.0"
+											promptText="Välj typ" />
+										<Label layoutX="14.0" layoutY="14.0" prefHeight="35.0"
+											prefWidth="216.0" text="Filtrerad sökning">
+											<font>
+												<Font size="24.0" />
+											</font>
+										</Label>
+										<Label layoutX="203.0" layoutY="67.0" prefHeight="17.0"
+											prefWidth="146.0" text="Sök lagring" />
+										<ComboBox fx:id="combobox_room_tab_three"
+											layoutX="203.0" layoutY="92.0" prefWidth="150.0"
+											promptText="Välj typ" />
+										<Label layoutX="391.0" layoutY="67.0" prefHeight="17.0"
+											prefWidth="146.0" text="Sök användare" />
+										<ComboBox fx:id="combobox_user_tab_three"
+											layoutX="391.0" layoutY="92.0" prefWidth="150.0"
+											promptText="Välj typ" />
+									</children>
+								</Pane>
+								<Button fx:id="searchButtonTab3" layoutX="1032.0"
+									layoutY="103.0" mnemonicParsing="false"
+									onAction="#searchButtonTab3Action" text="Sök" />
+								<Button fx:id="clearButtonTab3" layoutX="1086.0"
+									layoutY="103.0" mnemonicParsing="false"
+									onAction="#clearButtonTab3" text="Clear" />
+							</children>
+						</Pane>
+						<Button fx:id="logOutButtonTab3" layoutX="1209.0"
+							layoutY="14.0" mnemonicParsing="false"
+							onAction="#logOutButtonAction" text="Logga ut" />
+						<Button fx:id="writeToExcelButtonTab3" layoutX="1160.0"
+							layoutY="168.0" mnemonicParsing="false"
+							onMousePressed="#writeTableViewToExcelTab3" prefHeight="25.0"
+							prefWidth="107.0" text="Export to excel" />
+						<TableView fx:id="searchRadioViewTab3" layoutX="301.0"
+							layoutY="197.0" onMouseClicked="#clickedSearchScrollPaneTab3"
+							prefHeight="481.0" prefWidth="1290.0"
+							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="197.0">
+							<columns>
+								<TableColumn fx:id="columnIDTab3" prefWidth="75.0"
+									text="ID" />
+								<TableColumn fx:id="columnAnkomstdatumTab3"
+									prefWidth="75.0" text="AnkomstDatum" />
+								<TableColumn fx:id="columnSupplierTab3"
+									prefWidth="106.00003051757812" text="Leverantör" />
+								<TableColumn fx:id="columnRadiopharmaceuticalTab3"
+									prefWidth="182.0" text="Produkt" />
+								<TableColumn fx:id="columnActivityTab3"
+									prefWidth="75.0" text="Aktivitet" />
+								<TableColumn fx:id="columnCalibrationdateTab3"
+									prefWidth="75.0" text="Kalibreringsdatum" />
+								<TableColumn fx:id="columnBatchNumberTab3"
+									prefWidth="75.0" text="Batchnr" />
+								<TableColumn fx:id="columnContaminationControlTab3"
+									prefWidth="75.0" text="Kontamineringskontroll" />
+								<TableColumn fx:id="columnCalibrationInfoTab3"
+									minWidth="0.0" prefWidth="146.0" text="Aktivitetsmätning" />
+								<TableColumn fx:id="columnRoomTab3" prefWidth="75.0"
+									text="Rum" />
+								<TableColumn fx:id="columnUserTab3" prefWidth="75.0"
+									text="Signatur" />
+							</columns>
+						</TableView>
+					</children>
+				</AnchorPane>
+			</content>
+		</Tab>
+		<Tab text="Skapa ny">
+			<content>
+				<fx:include source="CreationTab.fxml" />
+			</content>
+		</Tab>
+	</tabs>
 </TabPane>
