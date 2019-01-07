@@ -339,7 +339,7 @@ HBox buttons;
 		combobox_radio_tab_two.getSelectionModel().clearSelection();
 		combobox_user_tab_two.getSelectionModel().clearSelection();
 		endSortDateTab2.setValue(LocalDate.now());
-		startSortDateTab2.setValue(LocalDate.of(1900, 01, 01));
+		startSortDateTab2.setValue(getFirstDateFromDatabase().toLocalDate());
 		editButtonTab2.setDisable(true);
 		searchRegRadioListTab2.clear();
 		populateListFromDatabase();
@@ -353,17 +353,16 @@ HBox buttons;
 		combobox_radio_tab_three.getSelectionModel().clearSelection();
 		combobox_user_tab_three.getSelectionModel().clearSelection();
 		endSortDateTab3.setValue(LocalDate.now());
-		startSortDateTab3.setValue(LocalDate.of(1900, 01, 01));
+		startSortDateTab3.setValue(getFirstDateFromDatabase().toLocalDate());
 		searchRegRadioListTab3.clear();
 		populateTab3ListFromDatabase();
 		searchRadioViewTab3.setItems(searchRegRadioListTab3);
 		searchRadioViewTab3.refresh();
 	}
 
-	public String getCurrentDate() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		return dateFormat.format(date);
+	public LocalDateTime getFirstDateFromDatabase() {
+		LocalDateTime date = new RegRadioDao().getFirstDate();
+		return date;
 	}
 
 	@Override
@@ -383,9 +382,9 @@ HBox buttons;
 		signatur.setText(user.getSignature());
 		ankomstdatum.setValue(LocalDate.now());
 		endSortDateTab2.setValue(LocalDate.now());
-		startSortDateTab2.setValue(LocalDate.of(1900, 01, 01));
+		startSortDateTab2.setValue(getFirstDateFromDatabase().toLocalDate());
 		endSortDateTab3.setValue(LocalDate.now());
-		startSortDateTab3.setValue(LocalDate.of(1900, 01, 01));
+		startSortDateTab3.setValue(getFirstDateFromDatabase().toLocalDate());
 		combobox_radio.setDisable(true);
 		discardButton.setDisable(true);
 
@@ -544,21 +543,7 @@ HBox buttons;
 		LocalDateTime dateTime = LocalDateTime.of(date, time);
 		return dateTime;
 	}
-/*
-	public void setUpTableView() {
-		columnAnkomstdatumTab1.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
-		columnSupplierTab1.setCellValueFactory(new PropertyValueFactory<>("supplier"));
-		columnRadiopharmaceuticalTab1.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
-		columnActivityTab1.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
-		columnCalibrationdateTab1.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-		columnBatchNumberTab1.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
-		columnContaminationControlTab1.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
-		columnRoomTab1.setCellValueFactory(new PropertyValueFactory<>("room"));
-		columnUserTab1.setCellValueFactory(new PropertyValueFactory<>("user"));
 
-		columnSupplierTab1.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));	
-	}
-  */
 	public void setUpTableViewTabTwo() {
 		columnIDTab2.setCellValueFactory(new PropertyValueFactory<>("id"));
 		columnSupplierTab2.setCellValueFactory(new PropertyValueFactory<>("supplier"));
