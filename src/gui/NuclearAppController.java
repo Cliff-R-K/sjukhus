@@ -64,6 +64,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -98,13 +99,13 @@ public class NuclearAppController implements Initializable {
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
-	private ObservableList<Radiopharmaceutical> radioUpdatedList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> searchRegRadioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> searchRegRadioListTab2 = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> searchRegRadioListTab3 = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioListTabTwo = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioListTabThree = FXCollections.observableArrayList();
+	private ObservableList<Room> roomList = FXCollections.observableArrayList();
 
 
 	private List<RegRadio> sortedList;
@@ -188,7 +189,7 @@ public class NuclearAppController implements Initializable {
 	@FXML
 	TableColumn<RegRadio, User> columnUserTab1;
 	@FXML
-	TableColumn<RegRadio, Integer> columnUId = new TableColumn<>();
+	TableColumn<RegRadio, Integer> columnIdTab1;
 	TableColumn<RegRadio, String> editColumn = new TableColumn<>();
 	private RegRadio radioToEdit;
 	int currentRowIndex;
@@ -495,22 +496,26 @@ HBox buttons;
 			public void run() {
 				RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(),
 						text_batchnr.getText(), getContaminationControl(), combobox_radio.getValue(),
-
 						combobox_room.getValue(), user, combobox_suppliers.getValue());
-
-				columnAnkomstdatumTab1.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
-				columnSupplierTab1.setCellValueFactory(new PropertyValueFactory<>("supplier"));
-				columnRadiopharmaceuticalTab1.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
-				columnActivityTab1.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
-				columnCalibrationdateTab1.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-				columnBatchNumberTab1.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
-				columnContaminationControlTab1.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
-				columnRoomTab1.setCellValueFactory(new PropertyValueFactory<>("room"));
-				columnUserTab1.setCellValueFactory(new PropertyValueFactory<>("user"));
-				regRadioList.add(0, rr);
-				searchRegRadioListTab2.add(0, rr);
-				tableview.setItems(regRadioList);
+				
+//				columnIdTab1.setCellValueFactory(new PropertyValueFactory<>("id"));
+//				columnAnkomstdatumTab1.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
+//				columnSupplierTab1.setCellValueFactory(new PropertyValueFactory<>("supplier"));
+//				columnRadiopharmaceuticalTab1.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
+//				columnActivityTab1.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
+//				columnCalibrationdateTab1.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+//				columnBatchNumberTab1.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
+//				columnContaminationControlTab1.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
+//				columnRoomTab1.setCellValueFactory(new PropertyValueFactory<>("room"));
+//				columnUserTab1.setCellValueFactory(new PropertyValueFactory<>("user"));
+//				regRadioList.add(0, rr);
 				new RegRadioDao().save(rr);
+				populateListFromDatabase();
+				//searchRegRadioListTab2.add(0, rr);
+				tableview.getItems().clear();
+				tableview.setItems(regRadioList);
+				
+				tableview.refresh();
 			}
 		}.start();
 	}
@@ -530,6 +535,7 @@ HBox buttons;
 		else {
 			regRadioList = searchRegRadioListTab2;
 		}
+		tableview.getItems().clear();
 		tableview.getItems().addAll(regRadioList);
 	}
 
@@ -596,6 +602,9 @@ HBox buttons;
 	
 	
 	public void setUpTableView() {
+		roomList = FXCollections.observableArrayList(new RoomDao().getAll());
+		
+		columnIdTab1.setCellValueFactory(new PropertyValueFactory<>("id"));
 		columnAnkomstdatumTab1.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
 		columnSupplierTab1.setCellValueFactory(new PropertyValueFactory<>("supplier"));
 		columnRadiopharmaceuticalTab1.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
@@ -616,22 +625,45 @@ HBox buttons;
 		columnSupplierTab1.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));
 		columnSupplierTab1.setOnEditCommit(t -> {
 			ArrayList<Radiopharmaceutical> radioListfromSupplier = new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(t.getNewValue().getSupplierName());
-			radioUpdatedList.clear();
-			radioUpdatedList = FXCollections.observableArrayList(radioListfromSupplier);
+			radioList.clear();
+			radioList = FXCollections.observableArrayList(radioListfromSupplier);
 			t.getRowValue().setSupplier(t.getNewValue());
-			columnRadiopharmaceutical.setCellFactory(ComboBoxTableCell.forTableColumn(radioUpdatedList));
+			columnRadiopharmaceuticalTab1.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
+			
 			tableview.getSelectionModel().select(currentRowIndex);
-
 			tableview.requestFocus();
 		});
 
 		columnRadiopharmaceuticalTab1.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
 		columnRadiopharmaceuticalTab1.setOnEditCommit(t ->{
       tableview.getSelectionModel().select(currentRowIndex);
+      tableview.requestFocus();
 			t.getRowValue().setRadiopharmaceutical(t.getNewValue());
-			
-			
 		});
+		
+		columnRoomTab1.setCellFactory(ComboBoxTableCell.forTableColumn(roomList));
+		columnRoomTab1.setOnEditCommit(t ->{
+      tableview.getSelectionModel().select(currentRowIndex);
+      tableview.requestFocus();
+			t.getRowValue().setRoom(t.getNewValue());
+		});
+		
+		columnBatchNumberTab1.setCellFactory(TextFieldTableCell.forTableColumn());
+		columnBatchNumberTab1.setOnEditCommit(t -> {
+			 t.getRowValue().setBatchNumber(t.getNewValue());  
+			tableview.getSelectionModel().select(currentRowIndex);
+		      tableview.requestFocus();
+		     
+		});
+		
+		columnContaminationControlTab1.setCellFactory(TextFieldTableCell.forTableColumn());
+		columnContaminationControlTab1.setOnEditCommit(t -> {
+			 t.getRowValue().setContaminationControll(t.getNewValue());  
+			tableview.getSelectionModel().select(currentRowIndex);
+		      tableview.requestFocus();
+		     
+		});
+		
 		
 		tableview.setOnMouseClicked(t ->{
 			currentRowIndex = tableview.getSelectionModel().getSelectedIndex();
@@ -654,26 +686,22 @@ HBox buttons;
 			radioList = FXCollections.observableArrayList(radioListfromSupplier);
 			columnRadiopharmaceuticalTab1.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
 			addTableCellButton();
-//			tableview.refresh();
+			
         	}
         });
 		
 tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	if(newValue) {
-		System.out.println("focus");
-		System.out.println(tableview.getFocusModel().getFocusedItem().getRadiopharmaceutical().getSupplier());
-	
-
-		columnSupplierTab1.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));	
+//		System.out.println("focus");
+//		System.out.println(tableview.getFocusModel().getFocusedItem().getRadiopharmaceutical().getSupplier());
+//		columnSupplierTab1.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));	
 	}
 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					
 	
 	else {
-		System.out.println("lost focus");
+		if(obs.equals(tableview))
+//		System.out.println("lost focus");
 		tableview.getSelectionModel().clearSelection();
-		
-//		buttons.setVisible(false);
-//		addTableCellButton();
 	}
 });
 
@@ -684,6 +712,20 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	    int selectedRowIndex = tableview.getSelectionModel().getSelectedIndex();
 	    System.out.println("selectedrowindex: " + selectedRowIndex + " Something fishy here!!");
 	   
+	    
+	    Callback<TableColumn<RegRadio, Date>, TableCell<RegRadio, Date>> cellDateFactory = new Callback<TableColumn<RegRadio, Date>,TableCell<RegRadio, Date>>() {
+
+			@Override
+			public TableCell<RegRadio, Date> call(TableColumn<RegRadio, Date> param) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
+	    
+	    
+	    
+	    
+	    
 	    
 	    Callback<TableColumn<RegRadio,String>,TableCell<RegRadio,String>> cellFactory = 
 	            new Callback<TableColumn<RegRadio,String>,TableCell<RegRadio,String>>() {
@@ -713,13 +755,8 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	                        			System.out.println("lost focus2");
 	                        			 setGraphic(null);
 			                                setText(null);  
-//	                        			buttons.setVisible(false);
-//	                        			addTableCellButton();
 	                        		}
 	                        	});
-	                        	
-	                        	
-	                        	
 	                        	
 	                        	
 	                        	  System.out.println("getIndex: " + getIndex());
@@ -735,22 +772,24 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	                                	getTableView().refresh();
 	                                	RegRadio rr = getTableView().getItems().get(getIndex());
 	                                	System.out.println(getTableRow().getItem().toString());
-	                                    System.out.printf("Supplier, ID: %s, Radiopharma-name: %s%n",
-	                                            rr.getSupplier(),
-	                                            rr.getRadiopharmaceutical());
+	                                 
 	                                    new RegRadioDao().updateAndReplace(rr, rr);
-		                                radioView.refresh();
+		                                searchRadioViewTab2.refresh();
 	                                    
 	                                    setGraphic(null);
 		                                setText(null);  
+		                                
 	                                });
 	                                
 	                                btnAbort.setOnAction(event -> {
+//	                                	tableview.getColumns().clear();
+	                                	tableview.getItems().addAll(regRadioList);
+	                                	
+	                                	getTableView().refresh();
 	                                	System.out.println("Abort");
 	                                    setGraphic(null);
 		                                setText(null);  
-		                                tableview.getColumns().get(0).setVisible(false);
-		                                tableview.getColumns().get(0).setVisible(true);
+		                              
 		                                
 	                                });
 	                                btnDelete.setOnAction(event -> {
@@ -761,7 +800,7 @@ tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
 	                                tableview.getItems().remove(selectedRow);
 	                                new RegRadioDao().delete(selectedRow);
 	                                searchRegRadioList.remove(selectedRow);
-	                                radioView.refresh();
+	                                searchRadioViewTab2.refresh();
 	                                
 	                                setGraphic(null);
 		                                setText(null);  
