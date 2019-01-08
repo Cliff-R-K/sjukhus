@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1290.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.NuclearAppController">
   <tabs>
     <Tab text="Ankomstregistrering">
@@ -75,7 +76,7 @@
                      </font>
                   </Button>
                   <Button fx:id="helpButtonTab1" layoutX="1209.0" layoutY="49.0" mnemonicParsing="false" onAction="#clickedHelpButton" text="Hjälp" />
-                  
+
                </children></AnchorPane>
       </content>
     </Tab>
@@ -140,6 +141,7 @@
                     </columns>
                        </TableView>
                   <Button fx:id="helpButtonTab2" layoutX="1209.0" layoutY="49.0" mnemonicParsing="false" onAction="#clickedHelpButton" text="Hjälp" />
+
                </children></AnchorPane>
       </content>
 </Tab>
@@ -202,5 +204,11 @@
              </children>  </AnchorPane>
       </content>
 </Tab>
-  </tabs>
+<Tab text="Skapa ny">
+			<content>
+				<fx:include source="CreationTab.fxml" />
+			</content>
+		</Tab>
+	</tabs>
+
 </TabPane>
