@@ -796,101 +796,109 @@ public class NuclearAppController implements Initializable {
 
 
 	private void addTableCellButton() {
-
-		int selectedRowIndex = tableview.getSelectionModel().getSelectedIndex();
-		System.out.println("selectedrowindex: " + selectedRowIndex);
-		System.out.println();
-
-
-		Callback<TableColumn<RegRadio,String>,TableCell<RegRadio,String>> cellFactory = 
-				new Callback<TableColumn<RegRadio,String>,TableCell<RegRadio,String>>() {
-			@Override
-			public TableCell<RegRadio, String> call(TableColumn<RegRadio, String> param) {
-				TableCell<RegRadio, String> cell = new TableCell<RegRadio, String>() {
-
-					//	                        	Image saveIcon = new Image(getClass().getResourceAsStream("/sjukhusdigitalisering/res/Save-icon.png"));
-					//	                			final Button btnSave = new Button("",new ImageView(saveIcon));
-					final Button btnSave = new Button("Save");
-					final Button btnAbort = new Button("Avbryt");
-					final Button btnDelete = new Button("Radera");
-					HBox buttons =new HBox(btnSave, btnAbort, btnDelete);
-
-
-					@Override
-					public void updateItem(String item, boolean empty) {
-
-
-						tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
-							if(newValue) {
-								System.out.println("focus2");
-								//	                        			System.out.println(tableview.getFocusModel().getFocusedItem().getRadiopharmaceutical().getSupplier());
-							}
-							else {
-								System.out.println("lost focus2");
-								setGraphic(null);
-								setText(null);  
-								//	                        			buttons.setVisible(false);
-								//	                        			addTableCellButton();
-							}
-						});
-
-
-
-
-
-
-						System.out.println("getIndex: " + getIndex());
-						super.updateItem(item, empty);
-						if (empty || getIndex() == -1 ||  getIndex() != selectedRowIndex ||!tableview.isFocused() ) { 
-							setGraphic(null);
-							setText(null);                                  
-						} else {
-
-							// Do update here
-							btnSave.setOnAction(event -> {
-								System.out.println(item);
-
-								getTableView().refresh();
-								RegRadio rr = getTableView().getItems().get(getIndex());
-								System.out.println(getTableRow().getItem().toString());
-								System.out.printf("Supplier, ID: %s, Radiopharma-name: %s%n",
-										rr.getSupplier(),
-										rr.getRadiopharmaceutical());
-								new RegRadioDao().updateAndReplace(rr, rr);
-								setGraphic(null);
-								setText(null);  
-							});
-
-							btnAbort.setOnAction(event -> {
-
-
-								System.out.println("Abort");
-								setGraphic(null);
-								setText(null);  
-
-							});
-							btnDelete.setOnAction(event -> {
-								System.out.println("Delete");
-								RegRadio selectedRow = tableview.getSelectionModel().getSelectedItem();
-								tableview.getItems().remove(selectedRow);
-								new RegRadioDao().delete(selectedRow);
-
-								setGraphic(null);
-								setText(null);  
-
-							});
-							setGraphic(buttons);
-							setText(null);
-						}
-					}
-				};
-
-				return cell;
-			}
-
-		};
-
-		editColumn.setCellFactory(cellFactory);
+	    int selectedRowIndex = tableview.getSelectionModel().getSelectedIndex();
+	    System.out.println("selectedrowindex: " + selectedRowIndex + " Something fishy here!!");
+	   
+	    
+//	    Callback<TableColumn<RegRadio, Date>, TableCell<RegRadio, Date>> cellDateFactory = new Callback<TableColumn<RegRadio, Date>,TableCell<RegRadio, Date>>() {
+//
+//			@Override
+//			public TableCell<RegRadio, Date> call(TableColumn<RegRadio, Date> param) {
+//				// TODO Auto-generated method stub
+//				return null;
+//			}
+//		};
+	    
+	    
+	    
+	    
+	    
+	    
+	    Callback<TableColumn<RegRadio,String>,TableCell<RegRadio,String>> cellFactory = 
+	            new Callback<TableColumn<RegRadio,String>,TableCell<RegRadio,String>>() {
+	                @Override
+	                public TableCell<RegRadio, String> call(TableColumn<RegRadio, String> param) {
+	                	TableCell<RegRadio, String> cell = new TableCell<RegRadio, String>() {
+	                		
+	                        	Image saveIcon = new Image(getClass().getResourceAsStream("/icons/Save-icon.png"),16,16,true,true);
+	                        	Image cancelIcon = new Image(getClass().getResourceAsStream("/icons/icons8-delete.png"),16,16,true,true);
+	                        	Image deleteIcon = new Image(getClass().getResourceAsStream("/icons/icons8-trash.png"),16,16,true,true);
+	                			
+	                        	
+	                        	final Button btnSave = new Button("",new ImageView(saveIcon));
+	                			final Button btnAbort = new Button("",new ImageView(cancelIcon));
+	                			final Button btnDelete = new Button("",new ImageView(deleteIcon));
+	                			HBox buttons =new HBox(btnSave, btnAbort, btnDelete);
+	                        
+	                         
+	                        @Override
+	                        public void updateItem(String item, boolean empty) {
+	                        	setOnMouseClicked(t -> {
+	                        	
+	                        	});
+//	                        	
+//	                        	
+//	                        	
+	                        	  System.out.println("getIndex: " + getIndex());
+	                        	super.updateItem(item, empty);
+	                            if (empty || getIndex() == -1 ||  getIndex() != selectedRowIndex  ) {
+	                            	//|| !tableview.isFocused()
+	                            	setGraphic(null);
+	                                //setText(null);                                  
+	                            } else {
+	                                // Do update here
+	                                btnSave.setOnAction(event -> {
+	                                	System.out.println(item);
+	                                	
+	                                	getTableView().refresh();
+	                                	RegRadio rr = getTableView().getItems().get(getIndex());
+	                                	System.out.println(getTableRow().getItem().toString());
+	                                 
+	                                    new RegRadioDao().updateAndReplace(rr, rr);
+		                                searchRadioViewTab2.refresh();
+	                                    
+	                                    setGraphic(null);
+		                                setText(null);  
+		                                
+	                                });
+	                                
+	                                btnAbort.setOnAction(event -> {
+//	                                	tableview.getColumns().clear();
+//	                                	tableview.getItems().addAll(regRadioList);
+//	                                	
+//	                                	getTableView().refresh();
+	                                	System.out.println("Abort");
+	                                    setGraphic(null);
+		                                setText(null);  
+		                              
+		                                
+	                                });
+	                                btnDelete.setOnAction(event -> {
+	                                System.out.println("Delete");
+	                                
+	                                RegRadio selectedRow = tableview.getItems().get(currentRowIndex);
+	                                System.out.println(selectedRow);
+	                                tableview.getItems().remove(selectedRow);
+	                                new RegRadioDao().delete(selectedRow);
+	                                searchRegRadioList.remove(selectedRow);
+	                                searchRadioViewTab2.refresh();
+	                                
+	                                setGraphic(null);
+		                                setText(null);  
+		                                
+	                                });
+	                                setGraphic(buttons);
+	                                setText(null);
+	                            }
+	                        }
+	                    };
+	 
+	                    return cell;
+	                }
+	         
+	    };
+	     
+	    editColumn.setCellFactory(cellFactory);
 	}
 
 
