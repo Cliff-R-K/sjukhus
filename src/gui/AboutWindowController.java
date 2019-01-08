@@ -1,22 +1,22 @@
 package gui;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class AboutWindowController implements Initializable{
-	@FXML ImageView imageView;
+	public Button closeButton = new Button();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		closeButton.setVisible(true);
+	}
+	public void clickedAbortButton() {
+			Stage stage = (Stage) closeButton.getScene().getWindow();
+			stage.close();
 	}
 }
+
