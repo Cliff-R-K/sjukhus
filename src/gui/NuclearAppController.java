@@ -97,10 +97,10 @@ public class NuclearAppController implements Initializable {
 	public Button writeToExcelButtonTab3 = new Button();
 	public Button discardButton = new Button();
 
-    @FXML public Tab creationTab;
-    // Inject controller
-    @FXML public CreationTabController creationTabController;
-	
+	//    @FXML public Tab creationTab;
+	//    // Inject controller
+	//    @FXML public CreationTabController creationTabController;
+
 
 	public Button aboutButton = new Button();
 
@@ -114,6 +114,7 @@ public class NuclearAppController implements Initializable {
 	private ObservableList<RegRadio> searchRegRadioListTab3 = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioListTabTwo = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioListTabThree = FXCollections.observableArrayList();
+	
 
 
 	private List<RegRadio> sortedList;
@@ -140,6 +141,8 @@ public class NuclearAppController implements Initializable {
 	public ComboBox<Radiopharmaceutical> combobox_radio_tab_three = new ComboBox<>();
 	public ComboBox<Room> combobox_room_tab_three = new ComboBox<>();
 
+	
+
 	public Label label_rad_substance = new Label();
 	public Label label_halftime = new Label();
 	public Label signatur = new Label();
@@ -149,12 +152,40 @@ public class NuclearAppController implements Initializable {
 	public TextField text_batchnr = new TextField();
 	public TextField text_kommentar = new TextField();
 	public ListView<String> listView = new ListView<String>();
+	
+
+	
 
 	public CheckBox check_kontamineringskontroll = new CheckBox();
 
 	///////////////////////////////////////////////////////////
 	public TableView searchRadioViewTab2 = new TableView<RegRadio>();
 	public TableView searchRadioViewTab3 = new TableView<RegRadio>();
+	
+	
+	////////TAB4//////////////////
+	
+	
+	public ComboBox<String> typeComboBoxTabFour = new ComboBox<>();
+	public ComboBox<Supplier> selectSupplierComboBoxTabFour = new ComboBox<>();
+	public ComboBox<Supplier> selectSubstanceComboBoxTabFour = new ComboBox<>();
+	public ComboBox<String> secondComboBoxAttributeTabFour = new ComboBox<>();
+	
+	public TextField setUserTextFieldTabFour = new TextField();
+	public TextField setHalfLifeTextFieldTabFour = new TextField();
+	
+	public Button saveButtonTabFour = new Button();
+	public Button cancelButtonTabFour = new Button();
+	
+	public ArrayList<String> listOfTypesTabFour = new ArrayList<String>();
+	
+	public Label firstComboBoxAttributeLabelTabFour = new Label();
+	public Label secondComboBoxAttributeLabelTabFour = new Label();
+	public Label firstTextFieldAttributeLabelTabFour = new Label();
+	public Label secondTextFieldAttributeLabelTabFour = new Label();
+	
+	
+	///////////TAB4//////////////////
 
 
 	private User user;
@@ -269,7 +300,7 @@ public class NuclearAppController implements Initializable {
 	private int aktivt;
 
 	private int inaktivt;
-	
+
 
 	public void addProductsTabThree() {
 		radioListTabThree.clear();
@@ -497,6 +528,51 @@ public class NuclearAppController implements Initializable {
 				user_tab_three = null;
 			}
 		});
+
+		saveButton.setVisible(true);
+
+
+		listOfTypesTabFour.add("Användare");
+		listOfTypesTabFour.add("Leverantör");
+		listOfTypesTabFour.add("Ämne");
+		listOfTypesTabFour.add("RadioFarmaka");
+
+		typeComboBoxTabFour.getItems().addAll(listOfTypesTabFour);
+
+
+		typeComboBoxTabFour.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+
+			System.out.println("clicked"+ typeComboBoxTabFour.getSelectionModel().getSelectedIndex());
+			//			combobox_radio.getItems().clear();
+			//			combobox_radio.getItems().addAll(FXCollections.observableArrayList(
+			//					new RadiopharmaceuticalDao().getRadiopharmaceuticalsBySupplierName(newValue.toString())));
+			//			combobox_radio.setDisable(false);
+			//			combobox_radio.getSelectionModel().selectFirst();
+
+
+			switch(typeComboBoxTabFour.getSelectionModel().getSelectedIndex()) {
+			case 0:
+				viewUserSettings();
+				break;
+			case 1:
+				viewSupplierSettings();
+				break;
+			case 2:
+				viewSubstanceSettings();
+				break;
+			case 3:
+				viewProductSettings();
+				break;
+			default:
+				System.out.println("nothing chosen");
+				break;
+
+			}
+		});	
+
+
+
+
 	}
 
 	private void saveProductButton() {
@@ -625,20 +701,20 @@ public class NuclearAppController implements Initializable {
 
 		columnRadiopharmaceuticalTab1.setCellFactory(ComboBoxTableCell.forTableColumn(radioList));
 		columnRadiopharmaceuticalTab1.setOnEditCommit(t ->{
-      tableview.getSelectionModel().select(currentRowIndex);
+			tableview.getSelectionModel().select(currentRowIndex);
 			t.getRowValue().setRadiopharmaceutical(t.getNewValue());
 
 			//			columnSupplier.getTableView().requestFocus();
 			//			addTableCellButton();
 			tableview.requestFocus();
 		});
-		
+
 		tableview.setOnMouseClicked(t ->{
 
 			currentRowIndex = tableview.getSelectionModel().getSelectedIndex();
 			if(currentRowIndex != -1) {
-			RegRadio lastRegradio = tableview.getItems().get(currentRowIndex);
-			System.out.println(tableview.getItems().get(currentRowIndex).toString());
+				RegRadio lastRegradio = tableview.getItems().get(currentRowIndex);
+				System.out.println(tableview.getItems().get(currentRowIndex).toString());
 			}
 		});
 
@@ -679,22 +755,10 @@ public class NuclearAppController implements Initializable {
 			}
 		});
 
-
-		columnSupplierTab1.setCellFactory(ComboBoxTableCell.forTableColumn(supplierList));	
 	}
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					
-	
-	else {
-		System.out.println("lost focus");
-		tableview.getSelectionModel().clearSelection();
-		
-//		buttons.setVisible(false);
-//		addTableCellButton();
-	}
-});
 
 
-	}	
+
 
 	private void addTableCellButton() {
 
@@ -792,105 +856,6 @@ public class NuclearAppController implements Initializable {
 		};
 
 		editColumn.setCellFactory(cellFactory);
-
-	    int selectedRowIndex = tableview.getSelectionModel().getSelectedIndex();
-	    System.out.println("selectedrowindex: " + selectedRowIndex + " Something fishy here!!");
-	   
-	    
-	    Callback<TableColumn<RegRadio,String>,TableCell<RegRadio,String>> cellFactory = 
-	            new Callback<TableColumn<RegRadio,String>,TableCell<RegRadio,String>>() {
-	                @Override
-	                public TableCell<RegRadio, String> call(TableColumn<RegRadio, String> param) {
-	                	TableCell<RegRadio, String> cell = new TableCell<RegRadio, String>() {
-	                		
-	                        	Image saveIcon = new Image(getClass().getResourceAsStream("/icons/Save-icon.png"),16,16,true,true);
-	                        	Image cancelIcon = new Image(getClass().getResourceAsStream("/icons/icons8-delete.png"),16,16,true,true);
-	                        	Image deleteIcon = new Image(getClass().getResourceAsStream("/icons/icons8-trash.png"),16,16,true,true);
-	                			
-	                        	
-	                        	final Button btnSave = new Button("",new ImageView(saveIcon));
-	                			final Button btnAbort = new Button("",new ImageView(cancelIcon));
-	                			final Button btnDelete = new Button("",new ImageView(deleteIcon));
-	                			HBox buttons =new HBox(btnSave, btnAbort, btnDelete);
-	                        
-	                         
-	                        @Override
-	                        public void updateItem(String item, boolean empty) {
-	                        	
-	                        	tableview.focusedProperty().addListener((obs, oldValue, newValue) ->{
-	                        		if(newValue) {
-	                        			System.out.println("focus2");
-	                        		}
-	                        		else {
-	                        			System.out.println("lost focus2");
-	                        			 setGraphic(null);
-			                                setText(null);  
-//	                        			buttons.setVisible(false);
-//	                        			addTableCellButton();
-	                        		}
-	                        	});
-	                        	
-	                        	
-	                        	
-	                        	
-	                        	
-	                        	  System.out.println("getIndex: " + getIndex());
-	                        	super.updateItem(item, empty);
-	                            if (empty || getIndex() == -1 ||  getIndex() != selectedRowIndex ||!tableview.isFocused() ) { 
-	                            	setGraphic(null);
-	                                //setText(null);                                  
-	                            } else {
-	                                // Do update here
-	                                btnSave.setOnAction(event -> {
-	                                	System.out.println(item);
-	                                	
-	                                	getTableView().refresh();
-	                                	RegRadio rr = getTableView().getItems().get(getIndex());
-	                                	System.out.println(getTableRow().getItem().toString());
-	                                    System.out.printf("Supplier, ID: %s, Radiopharma-name: %s%n",
-	                                            rr.getSupplier(),
-	                                            rr.getRadiopharmaceutical());
-	                                    new RegRadioDao().updateAndReplace(rr, rr);
-		                                searchRadioViewTab2.refresh();
-	                                    
-	                                    setGraphic(null);
-		                                setText(null);  
-	                                });
-	                                
-	                                btnAbort.setOnAction(event -> {
-	                                	System.out.println("Abort");
-	                                    setGraphic(null);
-		                                setText(null);  
-		                                tableview.getColumns().get(0).setVisible(false);
-		                                tableview.getColumns().get(0).setVisible(true);
-		                                
-	                                });
-	                                btnDelete.setOnAction(event -> {
-	                                System.out.println("Delete");
-	                                
-	                                RegRadio selectedRow = tableview.getItems().get(currentRowIndex);
-	                                System.out.println(selectedRow);
-	                                tableview.getItems().remove(selectedRow);
-	                                new RegRadioDao().delete(selectedRow);
-	                                searchRegRadioList.remove(selectedRow);
-	                                searchRadioViewTab2.refresh();
-	                                
-	                                setGraphic(null);
-		                                setText(null);  
-		                                
-	                                });
-	                                setGraphic(buttons);
-	                                setText(null);
-	                            }
-	                        }
-	                    };
-	 
-	                    return cell;
-	                }
-	         
-	    };
-	     
-	    editColumn.setCellFactory(cellFactory);
 
 	}
 
@@ -1047,7 +1012,7 @@ public class NuclearAppController implements Initializable {
 		updateTables();
 		//updateTableTab3();
 	}
-	
+
 	public void clickedAboutButton() throws IOException {
 		Image image = new Image("/icons/background.png");
 		ImageView mv = new ImageView(image);
@@ -1057,5 +1022,58 @@ public class NuclearAppController implements Initializable {
 		stage.setScene(new Scene(root));
 		stage.showAndWait();
 	}
+	public void viewUserSettings() {
+		
+		resetTabFour();
+		firstTextFieldAttributeLabelTabFour.setVisible(true);
 
+		System.out.println("0");
+		
+		firstTextFieldAttributeLabelTabFour.setText("Användarens Signatur");
+		
+		setUserTextFieldTabFour.setVisible(true);
+		firstTextFieldAttributeLabelTabFour.setVisible(true);
+
+	}
+	public void viewSupplierSettings() {
+		resetTabFour();
+		System.out.println("1");
+		System.out.println("storlek "+supplierList.size());
+		selectSupplierComboBoxTabFour.getItems().addAll(supplierList);
+		
+		selectSupplierComboBoxTabFour.setVisible(true);
+		firstComboBoxAttributeLabelTabFour.setVisible(true);
+		
+
+	}
+	public void viewSubstanceSettings() {
+		resetTabFour();
+		System.out.println("2");
+
+	}
+	public void viewProductSettings() {
+		resetTabFour();
+		System.out.println("3");
+
+	}
+	private void resetTabFour() {
+		
+		System.out.println("reset");
+		
+		selectSupplierComboBoxTabFour.getSelectionModel().clearSelection();
+		selectSubstanceComboBoxTabFour.getSelectionModel().clearSelection();
+		setUserTextFieldTabFour.setText("");
+		setHalfLifeTextFieldTabFour.setText("");
+		
+		selectSupplierComboBoxTabFour.setVisible(false);
+		selectSubstanceComboBoxTabFour.setVisible(false);
+		setUserTextFieldTabFour.setVisible(false);
+		setHalfLifeTextFieldTabFour.setVisible(false);
+		
+		firstComboBoxAttributeLabelTabFour.setVisible(false);
+		secondComboBoxAttributeLabelTabFour.setVisible(false);
+		firstTextFieldAttributeLabelTabFour.setVisible(false);
+		secondTextFieldAttributeLabelTabFour.setVisible(false);
+		
+	}
 }
