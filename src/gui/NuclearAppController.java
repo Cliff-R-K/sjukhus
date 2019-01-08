@@ -159,7 +159,7 @@ public class NuclearAppController implements Initializable {
 	private Room room_tab_three = null;
 	private User user_tab_two;
 	private User user_tab_three;
-	private int tabOneNumberOfRows = 30;
+	private int tabOneNumberOfRows = 10;
 	private ActionEvent event;
 
 	private ArrayList<String> columnHeaderList = new ArrayList<>();
@@ -497,25 +497,14 @@ HBox buttons;
 				RegRadio rr = new RegRadio(getActivity(), getCalibrationDate(), getArrivalDate(),
 						text_batchnr.getText(), getContaminationControl(), combobox_radio.getValue(),
 						combobox_room.getValue(), user, combobox_suppliers.getValue());
-				
-//				columnIdTab1.setCellValueFactory(new PropertyValueFactory<>("id"));
-//				columnAnkomstdatumTab1.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
-//				columnSupplierTab1.setCellValueFactory(new PropertyValueFactory<>("supplier"));
-//				columnRadiopharmaceuticalTab1.setCellValueFactory(new PropertyValueFactory<>("radiopharmaceutical"));
-//				columnActivityTab1.setCellValueFactory(new PropertyValueFactory<>("startActivity"));
-//				columnCalibrationdateTab1.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-//				columnBatchNumberTab1.setCellValueFactory(new PropertyValueFactory<>("batchNumber"));
-//				columnContaminationControlTab1.setCellValueFactory(new PropertyValueFactory<>("contaminationControll"));
-//				columnRoomTab1.setCellValueFactory(new PropertyValueFactory<>("room"));
-//				columnUserTab1.setCellValueFactory(new PropertyValueFactory<>("user"));
-//				regRadioList.add(0, rr);
 				new RegRadioDao().save(rr);
-				populateListFromDatabase();
-				//searchRegRadioListTab2.add(0, rr);
+				System.out.println(getArrivalDate());
+				regRadioList.clear();
+				regRadioList.addAll(new RegRadioDao().getAll());
+				regRadioList = FXCollections.observableArrayList(regRadioList.subList(0, tabOneNumberOfRows)); 
 				tableview.getItems().clear();
-				tableview.setItems(regRadioList);
-				
-				tableview.refresh();
+				tableview.getItems().addAll(regRadioList);
+				updateTableTab2();
 			}
 		}.start();
 	}
