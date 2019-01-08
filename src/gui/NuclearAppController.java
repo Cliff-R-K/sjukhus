@@ -522,15 +522,18 @@ HBox buttons;
 	}
 
 	public void populateListFromDatabase() {
+		searchRegRadioListTab2.clear();
 		searchRegRadioListTab2.addAll(new RegRadioDao().getAll());
 		populateTabOneTablelist();
 	}
 	
 	public void populateTab3ListFromDatabase() {
+		searchRegRadioListTab3.clear();
 		searchRegRadioListTab3.addAll(new RegRadioDao().getTrash());
 	}
 
 	public void populateTabOneTablelist() {
+		regRadioList.clear();
 		if(searchRegRadioListTab2.size() > tabOneNumberOfRows)
 			regRadioList = FXCollections.observableArrayList(searchRegRadioListTab2.subList(0, tabOneNumberOfRows)); 
 		else {
