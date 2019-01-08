@@ -48,7 +48,6 @@ public class ChooseDiscardGuiController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		chosenRadio = DataHolder.getSavedRadio();
 		System.out.println(chosenRadio);
 		roomList= new RoomDao().getTrash();
@@ -79,12 +78,6 @@ public class ChooseDiscardGuiController implements Initializable {
 
 	public void clickedAbortButton() {
 		System.out.println("abort");
-//		Alert saveAlert = new Alert(AlertType.CONFIRMATION);
-//		saveAlert.setHeaderText(null);
-//		saveAlert.setTitle("Avbryt");
-//		saveAlert.setContentText("Vill du avbryta kassering?");
-//		Optional<ButtonType> result = saveAlert.showAndWait();
-//		if (result.get() == ButtonType.OK) {
 			Stage stage = (Stage) abortButton.getScene().getWindow();
 			stage.close();
 //		}

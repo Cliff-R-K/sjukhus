@@ -318,7 +318,6 @@ public class RegRadioDao implements IDao<RegRadio> {
 			ps.setDouble(1, t.getStartActivity());
 			ps.setTimestamp(2, java.sql.Timestamp.valueOf(t.getStartDate()));
 			ps.setString(3, t.getArrivalDate().toString());
-			System.out.println(t.getArrivalDate());
 			ps.setString(4, t.getBatchNumber());
 			ps.setString(5, t.getContaminationControll());
 			ps.setInt(6, t.getRadiopharmaceutical().getId());
@@ -379,7 +378,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 			ps = conn.prepareStatement(sqlQuery);
 			ps.setDouble(1, rg.getStartActivity());
 			ps.setTimestamp(2, java.sql.Timestamp.valueOf(t.getStartDate()));
-			ps.setDate(3, new java.sql.Date(t.getArrivalDate().getTime()));
+			ps.setString(3, t.getArrivalDate().toString());
 			ps.setString(4, rg.getBatchNumber());
 			ps.setString(5, rg.getContaminationControll());
 			ps.setInt(6, rg.getRadiopharmaceutical().getId());
@@ -412,7 +411,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 			ps = conn.prepareStatement(sqlQuery);
 			ps.setDouble(1, newValue.getStartActivity());
 			ps.setObject(2, newValue.getStartDate());
-			ps.setDate(3, (java.sql.Date) newValue.getArrivalDate());
+			ps.setString(3, newValue.getArrivalDate().toString());
 			ps.setString(4, newValue.getBatchNumber());
 			ps.setString(5, newValue.getContaminationControll());
 			ps.setInt(6, newValue.getRadiopharmaceutical().getId());
