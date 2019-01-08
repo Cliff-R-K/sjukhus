@@ -315,7 +315,8 @@ public class RegRadioDao implements IDao<RegRadio> {
 			ps = conn.prepareStatement(queryString);
 			ps.setDouble(1, t.getStartActivity());
 			ps.setTimestamp(2, java.sql.Timestamp.valueOf(t.getStartDate()));
-			ps.setDate(3, new java.sql.Date(t.getArrivalDate().getTime()));
+			ps.setDate(3, (java.sql.Date) t.getArrivalDate());
+			System.out.println(t.getArrivalDate());
 			ps.setString(4, t.getBatchNumber());
 			ps.setString(5, t.getContaminationControll());
 			ps.setInt(6, t.getRadiopharmaceutical().getId());
