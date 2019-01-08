@@ -526,12 +526,13 @@ public class NuclearAppController implements Initializable {
 //				columnUserTab1.setCellValueFactory(new PropertyValueFactory<>("user"));
 //				regRadioList.add(0, rr);
 				new RegRadioDao().save(rr);
+				populateTabOneTablelist();
 				populateListFromDatabase();
 				//searchRegRadioListTab2.add(0, rr);
-				tableview.getItems().clear();
-				tableview.setItems(regRadioList);
+				//tableview.getItems().clear();
+				//tableview.setItems(regRadioList);
 				
-				tableview.refresh();
+				//tableview.refresh();
 			}
 		}.start();
 	}
