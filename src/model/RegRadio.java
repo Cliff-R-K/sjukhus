@@ -1,6 +1,8 @@
 package model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class RegRadio {
@@ -223,14 +225,15 @@ public class RegRadio {
 		this.supplier = supplier;
 	}
 	public String getCalibrationInfo() {
-		LocalDateTime tempDate = getCalibrationDate();
-		String date;
-		if(tempDate == null ) {
+		LocalDate tempDate;
+		String dateString;
+		if(getCalibrationDate() == null ) {
 			return "";
 		} else {
-			date = tempDate.getYear()+"-"+tempDate.getMonthValue()+"-"+tempDate.getDayOfMonth();
+			tempDate = getCalibrationDate().toLocalDate();
+			dateString = tempDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		}
-		return "MBq: "+getCalibrationActivity()+", "+date;
+		return "MBq: "+getCalibrationActivity()+", "+dateString;
 	}
 @Override
 public String toString() {
