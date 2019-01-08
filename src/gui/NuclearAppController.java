@@ -103,6 +103,9 @@ public class NuclearAppController implements Initializable {
 	
 
 	public Button aboutButton = new Button();
+	public Button helpButtonTab1 = new Button();
+	public Button helpButtonTab2 = new Button();
+	public Button helpButtonTab3 = new Button();
 
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
@@ -171,6 +174,7 @@ public class NuclearAppController implements Initializable {
 	private ActionEvent event;
 
 	private ArrayList<String> columnHeaderList = new ArrayList<>();
+	public Image aboutIcon = new Image(getClass().getResourceAsStream("/icons/icons8-trash.png"),16,16,true,true);
 
 
 	//////////////////////////////////////////////////////////
@@ -398,6 +402,7 @@ public class NuclearAppController implements Initializable {
 		startSortDateTab3.setValue(getFirstDateFromDatabase().toLocalDate());
 		combobox_radio.setDisable(true);
 		discardButton.setDisable(true);
+		aboutButton = new Button("",new ImageView(aboutIcon));
 
 
 
@@ -1049,13 +1054,18 @@ public class NuclearAppController implements Initializable {
 	}
 	
 	public void clickedAboutButton() throws IOException {
-		Image image = new Image("/icons/background.png");
-		ImageView mv = new ImageView(image);
 		Parent root = FXMLLoader.load(getClass().getResource("AboutWindow.fxml"));
 		Stage stage = new Stage();
 		stage.setTitle("Information");
 		stage.setScene(new Scene(root));
 		stage.showAndWait();
 	}
-
+	
+	public void clickedHelpButton() throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("HelpGUI.fxml"));
+		Stage stage = new Stage();
+		stage.setTitle("Hjälp");
+		stage.setScene(new Scene(root));
+		stage.showAndWait();
+	}
 }
