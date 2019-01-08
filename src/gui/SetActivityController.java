@@ -167,7 +167,6 @@ public class SetActivityController implements Initializable {
 	public String getCalibrationDate() {
 		LocalDate date = chosenRegRadio.getCalibrationDate().toLocalDate();
 		String dateString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		//Kalle
 		return dateString;
 	}
 
