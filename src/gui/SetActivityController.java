@@ -4,6 +4,9 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -111,7 +114,7 @@ public class SetActivityController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		DecimalFormat df = new DecimalFormat("#.00");
+		DecimalFormat df = new DecimalFormat("#.000");
 		chosenRegRadio = DataHolder.getSavedRadio();
 		regRadioInfo.setText(getRegRadioInfo());
 		calibrationText.setText(getCurrentDate());
@@ -162,9 +165,9 @@ public class SetActivityController implements Initializable {
 	}
 
 	public String getCalibrationDate() {
-		String date = chosenRegRadio.getCalibrationDate().getYear() +"-"
-		+chosenRegRadio.getCalibrationDate().getMonthValue()+"-"+chosenRegRadio.getCalibrationDate().getDayOfMonth();
-		return date;
+		LocalDate date = chosenRegRadio.getCalibrationDate().toLocalDate();
+		String dateString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		return dateString;
 	}
 
 	public Date getArrivalDate() {
