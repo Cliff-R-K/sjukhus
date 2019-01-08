@@ -15,7 +15,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1290.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.NuclearAppController">
   <tabs>
     <Tab text="Ankomstregistrering">
@@ -207,7 +206,26 @@
 </Tab>
 <Tab text="Skapa ny">
 			<content>
-				<fx:include source="CreationTab.fxml" />
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="678.0" prefWidth="1559.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+					<children>
+						<Pane layoutX="32.0" layoutY="31.0" prefHeight="319.0" prefWidth="1244.0">
+							<children>
+								<ComboBox fx:id="typeComboBoxTabFour" layoutX="18.0" layoutY="44.0" prefHeight="25.0" prefWidth="196.0" promptText="Välj typ" />
+								<Label layoutX="18.0" layoutY="16.0" prefHeight="17.0" prefWidth="74.0" text="Välj typ" />
+								<ComboBox fx:id="selectSupplierComboBoxTabFour" layoutX="491.0" layoutY="44.0" prefHeight="25.0" prefWidth="289.0" promptText="Välj Attribut 1" />
+								<ComboBox fx:id="selectSubstanceComboBoxTabFour" layoutX="491.0" layoutY="93.0" prefHeight="25.0" prefWidth="289.0" promptText="Välj Attribut 2" />
+								<TextField fx:id="setUserTextFieldTabFour" layoutX="491.0" layoutY="141.0" prefHeight="25.0" prefWidth="289.0" promptText="Skriv Attribut" />
+								<TextField fx:id="setHalfLifeTextFieldTabFour" layoutX="491.0" layoutY="190.0" prefHeight="25.0" prefWidth="289.0" promptText="Skriv Attribut 2" />
+								<Button fx:id="cancelButtonTabFour" layoutX="537.0" layoutY="270.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Avbryt" />
+								<Button fx:id="saveButtonTabFour" layoutX="669.0" layoutY="270.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Spara" />
+								<Label fx:id="firstComboBoxAttributeLabelTabFour" layoutX="319.0" layoutY="51.0" prefHeight="17.0" prefWidth="74.0" text="Label1" />
+								<Label fx:id="secondComboBoxAttributeLabelTabFour" layoutX="319.0" layoutY="100.0" prefHeight="17.0" prefWidth="74.0" text="Label2" />
+								<Label fx:id="firstTextFieldAttributeLabelTabFour" layoutX="319.0" layoutY="148.0" prefHeight="17.0" prefWidth="74.0" text="Label3" />
+								<Label fx:id="secondTextFieldAttributeLabelTabFour" layoutX="319.0" layoutY="197.0" prefHeight="17.0" prefWidth="74.0" text="Label3" />
+							</children>
+						</Pane>
+					</children>
+				</AnchorPane>
 			</content>
 		</Tab>
 	</tabs>
