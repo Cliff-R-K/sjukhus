@@ -13,17 +13,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1290.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.NuclearAppController">
-
-
-
   <tabs>
     <Tab text="Ankomstregistrering">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="897.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="678.0" prefWidth="1297.0">
                <children>
                   <DatePicker fx:id="ankomstdatum" layoutX="35.0" layoutY="75.0" prefHeight="25.0" prefWidth="123.0" />
                   <Label layoutX="49.0" layoutY="44.0" text="Ankomstdatum" />
@@ -46,7 +43,7 @@
                   <TextField fx:id="text_kalibreringstid" layoutX="336.0" layoutY="174.0" prefHeight="28.0" prefWidth="60.0" />
                   <Label layoutX="358.0" layoutY="140.0" text="Tid" />
                   <TextField fx:id="text_batchnr" layoutX="466.0" layoutY="174.0" prefHeight="28.0" prefWidth="60.0" />
-                  <Label layoutX="456.0" layoutY="140.0" prefHeight="18.0" prefWidth="80.0" text="Batchnummer" />
+                  <Label layoutX="444.0" layoutY="140.0" prefHeight="18.0" prefWidth="92.0" text="Batchnummer" />
                   <Label layoutX="49.0" layoutY="245.0" text="Förvaringsrum" />
                   <ComboBox fx:id="combobox_room" layoutX="21.0" layoutY="273.0" prefWidth="150.0" />
                   <TextField layoutX="228.0" layoutY="273.0" />
@@ -55,12 +52,7 @@
   
                   <Label layoutX="278.0" layoutY="245.0" text="Streckkod" />
                   <Separator layoutX="-1.0" layoutY="321.0" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="1571.0" />
-                  <VBox layoutX="-29.0" layoutY="497.0" maxWidth="1.7976931348623157E308" prefHeight="364.0" prefWidth="1040.0">
-                     <children>
-                        <VBox prefHeight="364.0" prefWidth="1181.0" />
-                     </children>
-                  </VBox>
-                  <Button fx:id="logOutButtonTab1" layoutX="1073.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
+                  <Button fx:id="logOutButtonTab1" layoutX="1209.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
                   <TableView fx:id="tableview" layoutX="301.0" layoutY="325.0" prefHeight="357.0" prefWidth="1571.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="325.0">
                     <columns>
                       	<TableColumn fx:id="columnIdTab1" prefWidth="75.0" text="ID" />
@@ -79,7 +71,13 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  
+                  <Button fx:id="aboutButton" layoutX="1209.0" layoutY="92.0" mnemonicParsing="false" onAction="#clickedAboutButton" prefHeight="23.0" prefWidth="55.0" text="about">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="helpButtonTab1" layoutX="1209.0" layoutY="49.0" mnemonicParsing="false" onAction="#clickedHelpButton" text="Hjälp" />
+
                </children></AnchorPane>
       </content>
     </Tab>
@@ -105,17 +103,17 @@
                         </Pane>
                         <Pane layoutX="456.0" layoutY="11.0" prefHeight="134.0" prefWidth="555.0">
                            <children>
-                              <Label layoutX="14.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök typ" />
-                              <ComboBox fx:id="combobox_radio_tab_two" layoutX="14.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
+                              <Label layoutX="14.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök läkemedelstyp" />
+                              <ComboBox fx:id="combobox_radio_tab_two" layoutX="14.0" layoutY="92.0" prefWidth="150.0" promptText="Välj..." />
                               <Label layoutX="14.0" layoutY="14.0" prefHeight="35.0" prefWidth="216.0" text="Filtrerad sökning">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="203.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök lagring" />
-                              <ComboBox fx:id="combobox_room_tab_two" layoutX="203.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
+                              <Label layoutX="203.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök lagringsrum" />
+                              <ComboBox fx:id="combobox_room_tab_two" layoutX="203.0" layoutY="92.0" prefWidth="150.0" promptText="Välj..." />
                               <Label layoutX="391.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök användare" />
-                              <ComboBox fx:id="combobox_user_tab_two" layoutX="391.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
+                              <ComboBox fx:id="combobox_user_tab_two" layoutX="391.0" layoutY="92.0" prefWidth="150.0" promptText="Välj..." />
                            </children>
                         </Pane>
                         <Button fx:id="searchButtonTab2" layoutX="1032.0" layoutY="103.0" mnemonicParsing="false" onAction="#searchButtonTab2Action" text="Sök" />
@@ -124,7 +122,7 @@
                   </Pane>
                   <Button fx:id="logOutButtonTab2" layoutX="1209.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
                   <Button fx:id="editButtonTab2" layoutX="1160.0" layoutY="115.0" mnemonicParsing="false" onAction="#clickedActivityButton" text="Aktivitetskontroll" />
-                  <Button fx:id="writeToExcelButtonTab2" layoutX="1160.0" layoutY="168.0" mnemonicParsing="false" onMousePressed="#writeTableViewToExcelTab2" prefHeight="25.0" prefWidth="107.0" text="Export to excel" />
+                  <Button fx:id="writeToExcelButtonTab2" layoutX="1155.0" layoutY="168.0" mnemonicParsing="false" onMousePressed="#writeTableViewToExcelTab2" prefHeight="27.0" prefWidth="112.0" text="Export to excel" />
                   <Button fx:id="discardButton" layoutX="282.0" layoutY="57.0" mnemonicParsing="false" onMouseReleased="#clickedDiscardButton" prefHeight="25.0" prefWidth="106.0" text="Kassera" />
                  <TableView fx:id="searchRadioViewTab2" layoutX="301.0" layoutY="198.0" onMouseClicked="#clickedSearchScrollPaneTab2" prefHeight="480.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="198.0">
                     <columns>
@@ -143,6 +141,8 @@
 
                     </columns>
                        </TableView>
+                  <Button fx:id="helpButtonTab2" layoutX="1209.0" layoutY="49.0" mnemonicParsing="false" onAction="#clickedHelpButton" text="Hjälp" />
+
                </children></AnchorPane>
       </content>
 </Tab>
@@ -167,17 +167,17 @@
                         </Pane>
                         <Pane layoutX="456.0" layoutY="11.0" prefHeight="134.0" prefWidth="555.0">
                            <children>
-                              <Label layoutX="14.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök typ" />
-                              <ComboBox fx:id="combobox_radio_tab_three" layoutX="14.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
+                              <Label layoutX="14.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök läkemedelstyp" />
+                              <ComboBox fx:id="combobox_radio_tab_three" layoutX="14.0" layoutY="92.0" prefWidth="150.0" promptText="Välj..." />
                               <Label layoutX="14.0" layoutY="14.0" prefHeight="35.0" prefWidth="216.0" text="Filtrerad sökning">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="203.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök lagring" />
-                              <ComboBox fx:id="combobox_room_tab_three" layoutX="203.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
+                              <Label layoutX="203.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök kasseringssätt" />
+                              <ComboBox fx:id="combobox_room_tab_three" layoutX="203.0" layoutY="92.0" prefWidth="150.0" promptText="Välj..." />
                               <Label layoutX="391.0" layoutY="67.0" prefHeight="17.0" prefWidth="146.0" text="Sök användare" />
-                              <ComboBox fx:id="combobox_user_tab_three" layoutX="391.0" layoutY="92.0" prefWidth="150.0" promptText="Välj typ" />
+                              <ComboBox fx:id="combobox_user_tab_three" layoutX="391.0" layoutY="92.0" prefWidth="150.0" promptText="Välj..." />
                            </children>
                         </Pane>
                         <Button fx:id="searchButtonTab3" layoutX="1032.0" layoutY="103.0" mnemonicParsing="false" onAction="#searchButtonTab3Action" text="Sök" />
@@ -185,7 +185,7 @@
                      </children>
                   </Pane>
                   <Button fx:id="logOutButtonTab3" layoutX="1209.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Logga ut" />
-                  <Button fx:id="writeToExcelButtonTab3" layoutX="1160.0" layoutY="168.0" mnemonicParsing="false" onMousePressed="#writeTableViewToExcelTab3" prefHeight="25.0" prefWidth="107.0" text="Export to excel" />
+                  <Button fx:id="writeToExcelButtonTab3" layoutX="1156.0" layoutY="168.0" mnemonicParsing="false" onMousePressed="#writeTableViewToExcelTab3" prefHeight="27.0" prefWidth="111.0" text="Export to excel" />
                   <TableView fx:id="searchRadioViewTab3" layoutX="301.0" layoutY="197.0" onMouseClicked="#clickedSearchScrollPaneTab3" prefHeight="481.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="197.0">
                     <columns>
                     	<TableColumn fx:id="columnIDTab3" prefWidth="75.0" text="ID" />	
@@ -201,8 +201,15 @@
                         <TableColumn fx:id="columnUserTab3" prefWidth="75.0" text="Signatur" />
                     </columns>
                         </TableView>
+                  <Button fx:id="helpButtonTab3" layoutX="1209.0" layoutY="49.0" mnemonicParsing="false" onAction="#clickedHelpButton" text="Hjälp" />
              </children>  </AnchorPane>
       </content>
 </Tab>
-  </tabs>
+<Tab text="Skapa ny">
+			<content>
+				<fx:include source="CreationTab.fxml" />
+			</content>
+		</Tab>
+	</tabs>
+
 </TabPane>
