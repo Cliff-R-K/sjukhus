@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="262.0" prefWidth="469.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.HelpGUIController">
+	<tabs>
+		<Tab text="Hjälp flik 1">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="231.0" prefWidth="472.0">
+					<children>
+						<TextArea editable="false" layoutX="-2.0" prefHeight="178.0" prefWidth="472.0" text="Här går det att registrera inkommande läkemedel. &#10;Välj ankomstdatum, leverantör (krävs för att visa produkter),&#10;ange kalibreringsaktivitet, kalibreringsdatum-tid, batchnummer,&#10;kontamineringskontroll, förvaringsrum.&#10;Tryck spara för att spara till databasen. För att ändra det som precis blivit&#10;sparat, tryck på raden för att ändra det som blev fel och tryck sedan på&#10;spara-ikonen. För att ta bort hela raden, tryck på soptunnan för att ta &#10;radera från databasen." />
+                  <Button fx:id="closeButtonTab1" layoutX="205.0" layoutY="188.0" mnemonicParsing="false" onAction="#clickedAbortButton" text="Stäng" />
+					</children>
+				</AnchorPane>
+			</content>
+		</Tab>
+		<Tab text="Hjälp flik 2">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="472.0">
+					<children>
+						<TextArea editable="false" layoutX="-2.0" prefHeight="100.0" prefWidth="472.0" text="Här går det att söka fram valda läkemedel som finns kvar på sjukhuset. &#10;Det går att sortera på datum, läkemedelstyp, lagringsrum och &#10;användare. &#10;Det går även att exportera den filtrerade listan till excel med hjälp av &#10;knappen &quot;Export to excel&quot;." />
+                  <Button fx:id="closeButtonTab2" layoutX="205.0" layoutY="188.0" mnemonicParsing="false" onAction="#clickedAbortButton" text="Stäng" />
+					</children>
+				</AnchorPane>
+			</content>
+		</Tab>
+		<Tab text="Hjälp flik 3">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="472.0">
+					<children>
+						<TextArea editable="false" layoutX="-2.0" prefHeight="100.0" prefWidth="472.0" text="Här går det att söka fram valda läkemedel som har blivit kasserade. &#10;Det går att sortera på datum, läkemedelstyp, kasseringssätt och &#10;användare. &#10;Det går även att exportera den filtrerade listan till excel med hjälp av &#10;knappen &quot;Export to excel&quot;." />
+                  <Button fx:id="closeButtonTab3" layoutX="205.0" layoutY="188.0" mnemonicParsing="false" onAction="#clickedAbortButton" text="Stäng" />
+					</children>
+				</AnchorPane>
+			</content>
+		</Tab>
+	</tabs>
+</TabPane>
