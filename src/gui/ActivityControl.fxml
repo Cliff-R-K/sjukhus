@@ -16,5 +16,6 @@
       <Button fx:id="calibrationButton" layoutX="204.0" layoutY="135.0" mnemonicParsing="false" text="Sätt aktivitet" />
       <Button fx:id="closeButton" layoutX="488.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" text="Avbryt" />
       <Label fx:id="label_show_activity" layoutX="25.0" layoutY="65.0" prefHeight="27.0" prefWidth="357.0" text="Visa aktivitetsInfo" />
+      <Button fx:id="helpButton" layoutX="586.0" layoutY="15.0" mnemonicParsing="false" onAction="#clickedHelpButton" text="Hjälp" />
    </children>
 </AnchorPane>

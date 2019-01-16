@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +15,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import db.DbConnectionManager;
-import model.Calibration;
 import model.Radiopharmaceutical;
 import model.RegRadio;
 import model.Room;
@@ -25,6 +26,8 @@ import model.User;
  */
 public class RegRadioDao implements IDao<RegRadio> {
 	DbConnectionManager conn = null;
+	ResultSet rs = null;
+	PreparedStatement ps = null;
 	LocalDateTime ldt;
 	LocalDateTime firstDate;
 	private int aktiv;
@@ -145,7 +148,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 						+ startDate + "\"" + " AND " + "\"" + endDate + "\""+" AND aktivt =" + aktiv 
 						+ " AND rooms_idroom = idroom";
 			}
-			ResultSet rs = conn.excecuteQuery(sqlString);
+			rs = conn.excecuteQuery(sqlString);
 			while (rs.next()) {
 				Radiopharmaceutical radiopharmaceutical2 = new RadiopharmaceuticalDao().get(rs.getInt(7));
 				Room room2 = new RoomDao().get(rs.getInt(8));
@@ -165,7 +168,21 @@ public class RegRadioDao implements IDao<RegRadio> {
 			conn.close();
 		} catch (SQLException e) {
 			System.err.println("Ingen registrerade Läkemedel  mellan " + startDate + " "+ endDate + " hittades!");
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {}
+			}
+			if (conn != null) {
+				conn.close();
 		}
+	}
 		return searchedList;
 	}
 
@@ -267,7 +284,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 
 		try {
 			String sqlQuary = "SELECT * FROM regradios LIMIT " + number;
-			ResultSet rs = conn.excecuteQuery(sqlQuary);
+			rs = conn.excecuteQuery(sqlQuary);
 			while (rs.next()) {
 				Radiopharmaceutical radiopharmaceutical = new RadiopharmaceuticalDao().get(rs.getInt(7));
 				Room room = new RoomDao().get(rs.getInt(8));
@@ -294,7 +311,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 		firstDate = null;
 		try {
 			String sqlQuary = "Select min(start_date) From regradios";
-			ResultSet rs = conn.excecuteQuery(sqlQuary);
+			rs = conn.excecuteQuery(sqlQuary);
 			while (rs.next()) {
 				firstDate = rs.getTimestamp(1).toLocalDateTime();
 			}
@@ -307,7 +324,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 
 	@Override
 	public boolean save(RegRadio t) {
-		PreparedStatement ps = null;
+		ps = null;
 		boolean saveSucess = false;
 		try {
 			String queryString;
@@ -315,7 +332,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 			ps = conn.prepareStatement(queryString);
 			ps.setDouble(1, t.getStartActivity());
 			ps.setTimestamp(2, java.sql.Timestamp.valueOf(t.getStartDate()));
-			ps.setDate(3, new java.sql.Date(t.getArrivalDate().getTime()));
+			ps.setString(3, t.getArrivalDate().toString());
 			ps.setString(4, t.getBatchNumber());
 			ps.setString(5, t.getContaminationControll());
 			ps.setInt(6, t.getRadiopharmaceutical().getId());
@@ -344,7 +361,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 
 	@Override
 	public void update(RegRadio t, String[] params) {
-		PreparedStatement ps = null;
+		ps = null;
 		RegRadio rg = get(t.getId());
 
 		for (String p : params) {
@@ -376,7 +393,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 			ps = conn.prepareStatement(sqlQuery);
 			ps.setDouble(1, rg.getStartActivity());
 			ps.setTimestamp(2, java.sql.Timestamp.valueOf(t.getStartDate()));
-			ps.setDate(3, new java.sql.Date(t.getArrivalDate().getTime()));
+			ps.setString(3, t.getArrivalDate().toString());
 			ps.setString(4, rg.getBatchNumber());
 			ps.setString(5, rg.getContaminationControll());
 			ps.setInt(6, rg.getRadiopharmaceutical().getId());
@@ -400,7 +417,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 
 	
 	public void updateAndReplace(RegRadio oldValue, RegRadio newValue) {
-		PreparedStatement ps = null;
+		ps = null;
 	
 
 		try {
@@ -409,7 +426,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 			ps = conn.prepareStatement(sqlQuery);
 			ps.setDouble(1, newValue.getStartActivity());
 			ps.setObject(2, newValue.getStartDate());
-			ps.setDate(3, (java.sql.Date) newValue.getArrivalDate());
+			ps.setString(3, newValue.getArrivalDate().toString());
 			ps.setString(4, newValue.getBatchNumber());
 			ps.setString(5, newValue.getContaminationControll());
 			ps.setInt(6, newValue.getRadiopharmaceutical().getId());
@@ -431,7 +448,7 @@ public class RegRadioDao implements IDao<RegRadio> {
 	@Override
 	public void delete(RegRadio t) {
 		String sqlString = "DELETE FROM regradios WHERE idregradio=?";
-		PreparedStatement ps = null;
+		ps = null;
 		try {
 			ps = conn.prepareStatement(sqlString);
 			ps.setInt(1, t.getId());

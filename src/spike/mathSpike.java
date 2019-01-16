@@ -19,7 +19,7 @@ public class mathSpike {
 	public static void main(String[] args) throws ParseException {
 		// TODO Auto-generated method stub
 		final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd HH mm");
-		LocalDateTime startDate = LocalDateTime.parse("2018 12 14 19 30",formatter);
+		LocalDateTime startDate = LocalDateTime.parse("2019 01 08 10 20",formatter);
 		String pattern = "yyyy-MM-dd HH:mm";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		Date arrivalDate = simpleDateFormat.parse("2018-12-17 10:26");

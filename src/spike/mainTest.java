@@ -26,7 +26,7 @@ public class mainTest {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		Date startdate = simpleDateFormat.parse("2018-10-30 20:26");
 		Date enddate = simpleDateFormat.parse("2019-10-30 20:26");
-		Date arrivalDate = simpleDateFormat.parse("2019-11-02 10:26");
+		//Date arrivalDate = simpleDateFormat.parse("2019-01-08");
 		String[] params = new String[1];
 		params[0]="Knark";
 		List<RegRadio> hej = new ArrayList<>();
@@ -41,18 +41,13 @@ public class mainTest {
 		//mm.getRadiopharmaceutical(8);
 		//mm.getCalibration(1);
 		//mm.getRoom(1);
-//		mm.addRegRadio(1000.0, startdate, arrivalDate, "hittat", "OK", new RadiopharmaceuticalDao().get(2), new RoomDao().get(1),new UserDao().get(1),new CalibrationDao().get(1)); 
+		//mm.addRegRadio(1000.0, startdate, arrivalDate, "hittat", "OK", new RadiopharmaceuticalDao().get(2), new RoomDao().get(1),new UserDao().get(1)); 
 //				new RoomDao().get(1), new UserDao().get(1), new CalibrationDao().get(1));
 //		mm.getAllRegRadio();
 //		mm.getRegRadio(4).getSupplier().print();
-		hej = new RegRadioDao().getAll();
-		for(RegRadio h : hej) {
-			h.print();
-		}
-		System.out.println("trash");
-		kalle = new RegRadioDao().getTrash();
-		for(RegRadio h : kalle) {
-			h.print();
-		}
+		//mm.addRegRadio();
+
+//System.out.println(mm.getRegRadio(45).getArrivalDate());
+//System.out.println(LocalDate.now());
 	}
 }

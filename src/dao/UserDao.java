@@ -30,7 +30,7 @@ public class UserDao implements IDao<User> {
 	public UserDao() {
 		conn = DbConnectionManager.getInstance();
 	}
-
+	
 	@Override
 	public User get(int id) throws NoSuchElementException {
 		User user = null;

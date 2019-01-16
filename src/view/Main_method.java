@@ -1,20 +1,12 @@
 package view;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
 import dao.RoomDao;
 import dao.SubstanceDao;
 import dao.UserDao;
-import model.Calibration;
 import model.Radiopharmaceutical;
 import model.RegRadio;
 import model.Room;

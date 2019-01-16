@@ -67,7 +67,7 @@ public class RadiopharmaceuticalDao implements IDao<Radiopharmaceutical> {
 	
 	
 	@Override
-	public Radiopharmaceutical get(int id) throws NoSuchElementException {
+	public Radiopharmaceutical get(int id)  {
 		Radiopharmaceutical radiopharmaceutical = null;
 		try {
 			String sqlString = "SELECT * FROM radiopharmaceuticals WHERE idradio=" + id;
