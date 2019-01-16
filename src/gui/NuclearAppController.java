@@ -868,12 +868,7 @@ public class NuclearAppController implements Initializable {
 //	                                	
 //	                                	getTableView().refresh();
 	                                	System.out.println("Abort");
-	                                	regRadioList.clear();
-	                    				regRadioList.addAll(new RegRadioDao().getAll());
-	                    				regRadioList = FXCollections.observableArrayList(regRadioList.subList(0, tabOneNumberOfRows)); 
-	                    				tableview.getItems().clear();
-	                    				tableview.getItems().addAll(regRadioList);
-	                    				updateTables();
+
 	                                    setGraphic(null);
 		                                setText(null);  
 		                              
