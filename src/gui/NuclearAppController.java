@@ -868,6 +868,7 @@ public class NuclearAppController implements Initializable {
 //	                                	
 //	                                	getTableView().refresh();
 	                                	System.out.println("Abort");
+
 	                                    setGraphic(null);
 		                                setText(null);  
 		                              
