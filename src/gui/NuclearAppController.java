@@ -30,6 +30,7 @@ import controller.WriteToExcelController;
 import dao.RadiopharmaceuticalDao;
 import dao.RegRadioDao;
 import dao.RoomDao;
+import dao.SubstanceDao;
 import dao.SupplierDao;
 import dao.UserDao;
 import dataholder.DataHolder;
@@ -61,6 +62,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableColumnBase;
 
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.ComboBoxTableCell;
@@ -76,6 +78,7 @@ import javafx.util.Callback;
 import model.Radiopharmaceutical;
 import model.RegRadio;
 import model.Room;
+import model.Substance;
 import model.Supplier;
 import model.User;
 
@@ -110,6 +113,7 @@ public class NuclearAppController implements Initializable {
 
 
 	private ObservableList<Supplier> supplierList = FXCollections.observableArrayList();
+	private ObservableList<Substance> substanceList = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> regRadioList = FXCollections.observableArrayList();
 	private ObservableList<RegRadio> searchRegRadioList = FXCollections.observableArrayList();
@@ -117,7 +121,8 @@ public class NuclearAppController implements Initializable {
 	private ObservableList<RegRadio> searchRegRadioListTab3 = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioListTabTwo = FXCollections.observableArrayList();
 	private ObservableList<Radiopharmaceutical> radioListTabThree = FXCollections.observableArrayList();
-
+	private ObservableList<String> formList = FXCollections.observableArrayList();
+	private ObservableList<String> roomActivityList = FXCollections.observableArrayList();
 	private ObservableList<Room> roomList = FXCollections.observableArrayList();
 
 
@@ -173,11 +178,11 @@ public class NuclearAppController implements Initializable {
 
 	public ComboBox<String> typeComboBoxTabFour = new ComboBox<>();
 	public ComboBox<Supplier> selectSupplierComboBoxTabFour = new ComboBox<>();
-	public ComboBox<Supplier> selectSubstanceComboBoxTabFour = new ComboBox<>();
-	public ComboBox<String> secondComboBoxAttributeTabFour = new ComboBox<>();
+	public ComboBox<Substance> selectSubstanceComboBoxTabFour = new ComboBox<>();
+	public ComboBox<String> thirdComboBox = new ComboBox<>();
 
-	public TextField setUserTextFieldTabFour = new TextField();
-	public TextField setHalfLifeTextFieldTabFour = new TextField();
+	public TextField firstTextFieldTabFour = new TextField();
+	public TextField secondTextFieldTabFour = new TextField();
 
 	public Button saveButtonTabFour = new Button();
 	public Button cancelButtonTabFour = new Button();
@@ -188,6 +193,10 @@ public class NuclearAppController implements Initializable {
 	public Label secondComboBoxAttributeLabelTabFour = new Label();
 	public Label firstTextFieldAttributeLabelTabFour = new Label();
 	public Label secondTextFieldAttributeLabelTabFour = new Label();
+	public Label thirdTextFieldAttributeLabelTabFour = new Label();
+	public Label thirdComboBoxAttributeLabelTabFour = new Label();
+
+	public TextArea feedBackTextAreaTabFour = new TextArea();
 
 
 	///////////TAB4//////////////////
@@ -332,9 +341,14 @@ public class NuclearAppController implements Initializable {
 	private int i;
 
 
+
+
 	public void addSuppliers() {
 		supplierList.addAll(new SupplierDao().getAll());
 		combobox_suppliers.getItems().addAll(supplierList);
+	}
+	public void addSubstances() {
+		substanceList.addAll(new SubstanceDao().getAll());
 	}
 
 	public void addRooms() {
@@ -436,7 +450,7 @@ public class NuclearAppController implements Initializable {
 		combobox_radio.setDisable(true);
 		discardButton.setDisable(true);
 		aboutButton = new Button("",new ImageView(aboutIcon));
-
+		feedBackTextAreaTabFour.setVisible(true);
 
 
 		setUpTableView();
@@ -445,6 +459,14 @@ public class NuclearAppController implements Initializable {
 		//new Thread(() -> populateListFromDatabase()).start();
 		populateListFromDatabase();
 		populateTab3ListFromDatabase();
+		resetTabFour();
+
+		formList.add("Övrigt");
+		formList.add("Kapsel");
+		formList.add("Lösning");
+
+		roomActivityList.add("Ja");
+		roomActivityList.add("Nej");
 
 
 		////////////////////////////////////////////////
@@ -543,6 +565,7 @@ public class NuclearAppController implements Initializable {
 		listOfTypesTabFour.add("Leverantör");
 		listOfTypesTabFour.add("Ämne");
 		listOfTypesTabFour.add("RadioFarmaka");
+		listOfTypesTabFour.add("Rum");
 
 		typeComboBoxTabFour.getItems().addAll(listOfTypesTabFour);
 
@@ -570,6 +593,9 @@ public class NuclearAppController implements Initializable {
 			case 3:
 				viewProductSettings();
 				break;
+			case 4:
+				viewRoomSettings();
+				break;
 			default:
 				System.out.println("nothing chosen");
 				break;
@@ -581,6 +607,8 @@ public class NuclearAppController implements Initializable {
 
 
 	}
+
+
 
 	private void saveProductButton() {
 
@@ -1010,6 +1038,7 @@ public class NuclearAppController implements Initializable {
 	}
 
 	public void writeTableViewToExcelTab3() {
+
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showSaveDialog(null);
 
@@ -1059,24 +1088,20 @@ public class NuclearAppController implements Initializable {
 	public void viewUserSettings() {
 
 		resetTabFour();
-		firstTextFieldAttributeLabelTabFour.setVisible(true);
-
 		System.out.println("0");
-
 		firstTextFieldAttributeLabelTabFour.setText("Användarens Signatur");
-
-		setUserTextFieldTabFour.setVisible(true);
+		firstTextFieldAttributeLabelTabFour.setVisible(true);
+		firstTextFieldTabFour.setVisible(true);
 		firstTextFieldAttributeLabelTabFour.setVisible(true);
 
 	}
 	public void viewSupplierSettings() {
 		resetTabFour();
 		System.out.println("1");
-		System.out.println("storlek "+supplierList.size());
-		selectSupplierComboBoxTabFour.getItems().addAll(supplierList);
-
-		selectSupplierComboBoxTabFour.setVisible(true);
-		firstComboBoxAttributeLabelTabFour.setVisible(true);
+		firstTextFieldAttributeLabelTabFour.setText("Leverantörens namn");
+		firstTextFieldAttributeLabelTabFour.setVisible(true);
+		firstTextFieldTabFour.setVisible(true);
+		firstTextFieldAttributeLabelTabFour.setVisible(true);
 
 
 	}
@@ -1084,31 +1109,89 @@ public class NuclearAppController implements Initializable {
 		resetTabFour();
 		System.out.println("2");
 
+		firstTextFieldAttributeLabelTabFour.setText("Ämnets namn");
+		firstTextFieldAttributeLabelTabFour.setVisible(true);
+		firstTextFieldTabFour.setVisible(true);
+
+		secondTextFieldAttributeLabelTabFour.setText("Halveringstid");
+		secondTextFieldAttributeLabelTabFour.setVisible(true);
+		secondTextFieldTabFour.setVisible(true);
+
 	}
 	public void viewProductSettings() {
 		resetTabFour();
 		System.out.println("3");
+		System.out.println("storlek "+supplierList.size());
+		addSubstances();
+		thirdComboBox.getItems().addAll(formList);
+
+		selectSupplierComboBoxTabFour.getItems().addAll(supplierList);
+		selectSubstanceComboBoxTabFour.getItems().addAll(substanceList);
+
+		firstComboBoxAttributeLabelTabFour.setText("Leverantör");
+		secondComboBoxAttributeLabelTabFour.setText("Ämne");
+		firstTextFieldAttributeLabelTabFour.setText("Produktens namn");
+		thirdComboBoxAttributeLabelTabFour.setText("Form");
+
+		selectSupplierComboBoxTabFour.setVisible(true);
+		firstComboBoxAttributeLabelTabFour.setVisible(true);
+
+		selectSubstanceComboBoxTabFour.setVisible(true);
+		secondComboBoxAttributeLabelTabFour.setVisible(true);
+
+		thirdComboBox.setVisible(true);
+		thirdComboBoxAttributeLabelTabFour.setVisible(true);
+
+
+
+		firstTextFieldAttributeLabelTabFour.setVisible(true);
+		firstTextFieldTabFour.setVisible(true);
+
+	}
+	private void viewRoomSettings() {
+		resetTabFour();
+		System.out.println("4");
+		thirdComboBox.getItems().addAll(roomActivityList);
+
+		firstTextFieldAttributeLabelTabFour.setText("Rumsbeskrivning");
+		firstTextFieldAttributeLabelTabFour.setVisible(true);
+		firstTextFieldTabFour.setVisible(true);
+
+		secondTextFieldAttributeLabelTabFour.setText("Rumkod");
+		secondTextFieldAttributeLabelTabFour.setVisible(true);
+		secondTextFieldTabFour.setVisible(true);
+
+		thirdComboBoxAttributeLabelTabFour.setText("Är rummet ett kasseringsrum?");
+		thirdComboBoxAttributeLabelTabFour.setVisible(true);
+		thirdComboBox.setVisible(true);
+
 
 	}
 	private void resetTabFour() {
-
+		
+		selectSubstanceComboBoxTabFour.getItems().clear();
+		selectSupplierComboBoxTabFour.getItems().clear();
+		thirdComboBox.getItems().clear();
 		System.out.println("reset");
 
 		selectSupplierComboBoxTabFour.getSelectionModel().clearSelection();
 		selectSubstanceComboBoxTabFour.getSelectionModel().clearSelection();
-		setUserTextFieldTabFour.setText("");
-		setHalfLifeTextFieldTabFour.setText("");
+		firstTextFieldTabFour.setText(null);
+		secondTextFieldTabFour.setText(null);
+		thirdComboBoxAttributeLabelTabFour.setText(null);
 
 		selectSupplierComboBoxTabFour.setVisible(false);
 		selectSubstanceComboBoxTabFour.setVisible(false);
-		setUserTextFieldTabFour.setVisible(false);
-		setHalfLifeTextFieldTabFour.setVisible(false);
+		firstTextFieldTabFour.setVisible(false);
+		secondTextFieldTabFour.setVisible(false);
 
 		firstComboBoxAttributeLabelTabFour.setVisible(false);
 		secondComboBoxAttributeLabelTabFour.setVisible(false);
 		firstTextFieldAttributeLabelTabFour.setVisible(false);
 		secondTextFieldAttributeLabelTabFour.setVisible(false);
-
+		//		feedBackTextAreaTabFour.setVisible(false);
+		thirdComboBox.setVisible(false);
+		thirdComboBoxAttributeLabelTabFour.setVisible(false);
 
 	}
 	public void clickedHelpButton() throws IOException {
@@ -1119,4 +1202,117 @@ public class NuclearAppController implements Initializable {
 		stage.showAndWait();
 
 	}
+	public void clickedSaveButtonTabFour() {
+
+		try {
+
+			switch(typeComboBoxTabFour.getSelectionModel().getSelectedIndex()) {
+			case 0:
+
+				User newUser = new User(firstTextFieldTabFour.getText());
+				UserDao uDao = new UserDao();
+				if(uDao.save(newUser))
+				{
+					feedBackTextAreaTabFour.setText("Sparade ny profil \n signatur: "+newUser.getSignature()
+					+"\n lösenord: "+newUser.getPassword());
+					System.out.println("a");
+
+				}
+				else
+				{
+					feedBackTextAreaTabFour.setText("Misslyckades med att spara profil");
+				}
+
+
+				break;
+
+			case 1:
+
+				Supplier newSupplier = new Supplier(firstTextFieldTabFour.getText());
+				SupplierDao sDao = new SupplierDao();
+
+				if(sDao.save(newSupplier))
+				{
+					feedBackTextAreaTabFour.setText("Sparade ny leverantör \n namn: "+newSupplier.getSupplierName());
+
+				}
+				else
+				{
+					feedBackTextAreaTabFour.setText("Misslyckades med att spara leverantör");
+				}
+
+				break;
+			case 2:
+
+				Substance newSubstance = new Substance(firstTextFieldTabFour.getText(),Double.parseDouble(secondTextFieldTabFour.getText()));
+				SubstanceDao suDao = new SubstanceDao();
+				if(suDao.save(newSubstance))
+				{
+					feedBackTextAreaTabFour.setText("Sparade nytt ämne: \n namn: "+
+							newSubstance.getName()+"\n halveringstid: "+newSubstance.getHalfLife());
+				}
+				else
+				{
+					feedBackTextAreaTabFour.setText("Misslyckades med att spara ämne");
+				}
+
+				break;
+			case 3:
+
+				Radiopharmaceutical newRadioPharma = new Radiopharmaceutical(firstTextFieldTabFour.getText(),
+						thirdComboBox.getSelectionModel().getSelectedItem(),
+						selectSubstanceComboBoxTabFour.getSelectionModel().getSelectedItem(),
+						selectSupplierComboBoxTabFour.getSelectionModel().getSelectedItem());
+				RadiopharmaceuticalDao rDao = new RadiopharmaceuticalDao();
+
+				if(rDao.save(newRadioPharma))
+				{
+					feedBackTextAreaTabFour.setText("Sparade nytt radiofarmaka. \n Namn: "+newRadioPharma.getRadiopharmaceuticalName()+"\n form: "+newRadioPharma.getForm()
+					+"\n leverantör: "+newRadioPharma.getSupplier()+"\n ämne: "+newRadioPharma.getSubstance());
+				}
+				else
+				{
+					feedBackTextAreaTabFour.setText("Misslyckades med att spara radiofarmaka");
+				}
+
+				break;
+
+			case 4:
+
+				Boolean isActive;
+				if(thirdComboBox.getSelectionModel().getSelectedItem().equals("Ja"))
+				{
+					isActive=false;
+				}
+				else
+				{
+					isActive=true;
+				}
+				Room newRoom = new Room(firstTextFieldTabFour.getText(),secondTextFieldTabFour.getText(),isActive);
+				RoomDao roomDao = new RoomDao();
+
+				if(roomDao.save(newRoom))
+				{
+					feedBackTextAreaTabFour.setText("Sparade nytt rum. \n rumskod: "
+							+newRoom.getRoomCode()+"\n beksrivning: "+newRoom.getDescription());
+				}
+				else
+				{
+					feedBackTextAreaTabFour.setText("Misslyckades med att spara nytt rum");
+				}
+
+
+				break;
+			default:
+				feedBackTextAreaTabFour.setText("Något blev fel, inget har sparats till databasen");
+				break;
+
+			}
+		}catch(Exception e) {
+			feedBackTextAreaTabFour.setText("Något blev fel, inget har sparats till databasen");
+			System.out.println("error");
+		}
+	}
+
+
 }

@@ -9,6 +9,7 @@ public class Radiopharmaceutical {
 	private Substance substance;
 	private Supplier supplier;
 	private int id;
+	
 
 	public Radiopharmaceutical(String name, String form, Substance substance, Supplier supplier) {
 		super();
@@ -20,12 +21,14 @@ public class Radiopharmaceutical {
 	}
   
 	public Radiopharmaceutical(int id, String name, String form, Substance substance, Supplier supplier) {
+		
 		super();
 		this.id=id;
 		radiopharmaceuticalName = name;
 		this.form = form;
 		this.substance = substance;
 		this.supplier = supplier;
+		
 
 	}
 	public int getId() {
