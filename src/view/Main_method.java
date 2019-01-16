@@ -71,7 +71,7 @@ public class Main_method {
 
 	//------------------------------Room-------------------------------------------------------------------------
 	public void addRoom(String id, String info) {
-		roomdao.save(new Room(id, info));
+		roomdao.save(new Room(id, info,true));
 	}
 
 	public void getRoom(int id) {

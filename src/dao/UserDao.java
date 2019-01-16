@@ -68,19 +68,22 @@ public class UserDao implements IDao<User> {
 	}
 
 	@Override
-	 	public boolean save(User t) {
+	public boolean save(User t) {
 		PreparedStatement ps = null;
 		boolean saveSucess = false;
 		try {
-			String queryString = "INSERT INTO users (signature) " + "VALUES (?)";
+			String queryString = "INSERT INTO users (signature,password) " + "VALUES (?,?)";
 			ps = conn.prepareStatement(queryString);
 			ps.setString(1, t.getSignature());
+			ps.setString(2, t.getPassword());
 			if(ps.executeUpdate() == 1)
 				saveSucess = true;
-			} catch (Exception e) {
-				System.err.println("Could not save");
+			System.out.println("Save Sucess");
+		} catch (Exception e) {
+			System.err.println("Could not save");
+			e.printStackTrace();
 		}
-		System.out.println("Save Sucess");
+
 		return saveSucess;
 	}
 
@@ -100,7 +103,7 @@ public class UserDao implements IDao<User> {
 				if(preparedStatement.executeUpdate() == 1) {
 					System.out.println("Uppdateringen lyckades");
 				}
-				
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -115,8 +118,8 @@ public class UserDao implements IDao<User> {
 			preparedStatement = conn.prepareStatement(sqlString);
 			preparedStatement.setInt(1, t.getId());
 			if (preparedStatement.executeUpdate() == 1) {
-			System.out.println("Deletion success");
-			preparedStatement.close();
+				System.out.println("Deletion success");
+				preparedStatement.close();
 			}
 		} catch (SQLException e) {
 			System.err.println("Delete failed");
@@ -138,8 +141,8 @@ public class UserDao implements IDao<User> {
 		}
 		return sqlStringchange1;	
 	}
-	*/
-	
+	 */
+
 	public String updateCurrentUser(String t) {
 		PreparedStatement preparedStatement = null;
 		String sqlStringChange1 = "UPDATE users SET current=0 Where current=1";
@@ -160,7 +163,7 @@ public class UserDao implements IDao<User> {
 		}
 		return t;	
 	}
-	
+
 	public User getUserByName(String name) {
 		User user = null;
 		try {
@@ -177,7 +180,7 @@ public class UserDao implements IDao<User> {
 
 		return user;
 	}
-  
+
 	public User getCurrent(int id) throws NoSuchElementException {
 		User user = null;
 		try {

@@ -72,17 +72,18 @@ public RoomDao() {
 		boolean saveSuccess = false;
 		
 		try {
-			String queryString = "INSERT INTO rooms (room_code, description) VALUES(?,?)";
+			String queryString = "INSERT INTO rooms (room_code,description,aktivt) VALUES(?,?,?)";
 			ps = conn.prepareStatement(queryString);
 			ps.setString(1, t.getRoomCode());
 			ps.setString(2, t.getDescription());
+			ps.setBoolean(3, t.getIsActive());
 			if(ps.executeUpdate() == 1)
 				saveSuccess = true;
+			System.out.println("Save Success");
 		} catch (Exception e) {
 			System.err.println("Could not save");
 		}
 		
-		System.out.println("Save Success");
 		return saveSuccess;
 	}
 
