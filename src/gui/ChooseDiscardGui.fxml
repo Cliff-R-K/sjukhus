@@ -18,6 +18,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
+            <Button fx:id="helpButton" layoutX="295.0" layoutY="17.0" mnemonicParsing="false" onAction="#clickedHelpButton" text="Hjälp" />
          </children>
       </AnchorPane>
    </children>

@@ -17,4 +17,7 @@ public class HelpGUIController {
 		Stage stage = (Stage) source.getScene().getWindow();
 		stage.close();
 }
+	
 }
+//Välj på vilket sätt läkemedlet kastas på i listan och tryck sedan på spara.
+//Ditt val kommer inte gå att ångra efter att du tryckt på spara.

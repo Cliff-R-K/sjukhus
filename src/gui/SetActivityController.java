@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -15,7 +16,10 @@ import dao.RegRadioDao;
 import dao.UserDao;
 import dataholder.DataHolder;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -33,6 +37,7 @@ public class SetActivityController implements Initializable {
 	public Button logOutButton = new Button();
 	public Button calibrationButton = new Button();
 	public Button closeButton = new Button();
+	public Button helpButton = new Button();
 
 	public DatePicker arrivalDatePicker = new DatePicker();
 	public DatePicker calibrationDatePicker = new DatePicker();
@@ -196,6 +201,14 @@ public class SetActivityController implements Initializable {
 	public double getMbQActivity() {
 		System.out.println(calculatedActivity);
 		return calculatedActivity;
+	}
+	
+	public void clickedHelpButton() throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("HelpActivityGUI.fxml"));
+		Stage stage = new Stage();
+		stage.setTitle("Hjälp");
+		stage.setScene(new Scene(root));
+		stage.showAndWait();
 	}
 }
 
